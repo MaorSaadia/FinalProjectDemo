@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View } from "react-native"
-import { Button } from "react-native-paper"
-import { Color } from "../constants/colors"
+import { StyleSheet, Text, View } from "react-native";
+import { Button } from "react-native-paper";
+import { Color } from "../constants/colors";
 
 function SignInScreen({ navigation }) {
   return (
@@ -14,10 +14,10 @@ function SignInScreen({ navigation }) {
         Sign Up
       </Button>
     </View>
-  )
+  );
 }
 
-export default SignInScreen
+export default SignInScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -25,9 +25,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  text: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-})
+});
