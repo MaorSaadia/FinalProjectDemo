@@ -1,13 +1,17 @@
-import { Button, StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
+import { Button } from "react-native-paper"
 
 function SignInScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>SignIn Screen</Text>
       <Button
-        title="Go To SignUp Screen"
+        icon="login"
+        buttonColor="#6495ED"
+        mode="contained"
         onPress={() => navigation.navigate("SignUpScreen")}
-      />
+      >
+        Sign Up
+      </Button>
     </View>
   )
 }
@@ -23,6 +27,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 20,
   },
 })
