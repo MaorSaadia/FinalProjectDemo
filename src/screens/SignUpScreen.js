@@ -2,10 +2,11 @@ import * as React from "react";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { ScrollView } from "react-native-virtualized-view";
-
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
+
 import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
+import { academicList } from "../../backend/data/academic";
 
 function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -16,6 +17,11 @@ function SignUpScreen({ navigation }) {
   const [checked, setChecked] = React.useState("male");
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
+
+  const list = academicList.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
 
   return (
     <ScrollView
@@ -53,7 +59,7 @@ function SignUpScreen({ navigation }) {
       </View>
       <View>
         <DropDown
-          list={[{ label: "סמי שמעון", value: "סמישמעון" }]}
+          list={list}
           label="מוסד אקדמאי"
           listMode="MODAL"
           searchable={true}
