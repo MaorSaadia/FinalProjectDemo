@@ -1,7 +1,10 @@
 import * as React from "react";
 import { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-virtualized-view";
+
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
+import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
 
 function SignUpScreen({ navigation }) {
@@ -13,8 +16,6 @@ function SignUpScreen({ navigation }) {
   const [checked, setChecked] = React.useState("male");
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
-
-  const year = ["מכינה", "שנה א", "שנה ב", "שנה ג", "שנה ד"];
 
   return (
     <ScrollView
@@ -51,16 +52,11 @@ function SignUpScreen({ navigation }) {
         />
       </View>
       <View>
-        <TextInput
-          style={styles.textInput}
+        <DropDown
+          list={[{ label: "סמי שמעון", value: "סמישמעון" }]}
           label="מוסד אקדמאי"
-          selectionColor={Color.Yellow200}
-          underlineColor={Color.Blue400}
-          outlineColor={Color.Yellow100}
-          activeOutlineColor={Color.Yellow400}
-          mode="outlined"
-          value={academic}
-          onChangeText={(academic) => setAcademic(academic)}
+          listMode="MODAL"
+          searchable={true}
         />
       </View>
       <View style={styles.inputsRow}>
@@ -75,18 +71,18 @@ function SignUpScreen({ navigation }) {
           value={department}
           onChangeText={(department) => setDepartment(department)}
         />
-        <TextInput
-          style={styles.textInput}
+
+        <DropDown
+          list={[
+            { label: "מכינה", value: "pre" },
+            { label: "שנה א'", value: "1" },
+            { label: "שנה ב'", value: "2" },
+            { label: "שנה ג'", value: "3" },
+            { label: "שנה ד'", value: "4" },
+          ]}
           label="שנתון"
-          selectionColor={Color.Yellow200}
-          underlineColor={Color.Blue400}
-          outlineColor={Color.Yellow100}
-          activeOutlineColor={Color.Yellow400}
-          value={yearbook}
-          mode="outlined"
-          maxLength={2}
-          keyboardType="decimal-pad"
-          onChangeText={(yearbook) => setYearbook(yearbook)}
+          searchable={false}
+          listMode="SCROLLVIEW"
         />
       </View>
       <Text style={styles.title} variant="titleMedium">

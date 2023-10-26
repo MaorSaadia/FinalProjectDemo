@@ -7,4 +7,4 @@ export const Color = {
   Yellow200: "#EEE0C9",
   Yellow300: "#c9b698",
   Yellow400: "#c2ae8f",
-}
+};
