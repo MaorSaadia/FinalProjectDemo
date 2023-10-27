@@ -3,7 +3,15 @@ import { TextInput } from "react-native-paper";
 import { Color } from "../constants/colors";
 import { useState } from "react";
 
-function Input({ label, mode, keyboardType, onValueChange, style, error }) {
+function Input({
+  label,
+  mode,
+  keyboardType,
+  maxLength,
+  onValueChange,
+  style,
+  error,
+}) {
   const [value, setValue] = useState();
 
   const handleValueChange = (selectedValue) => {
@@ -14,6 +22,7 @@ function Input({ label, mode, keyboardType, onValueChange, style, error }) {
   return (
     <View style={style}>
       <TextInput
+        maxLength={maxLength ? maxLength : null}
         label={label}
         style={{ backgroundColor: "#fff" }}
         selectionColor={Color.Yellow200}

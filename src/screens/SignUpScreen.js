@@ -14,9 +14,10 @@ function SignUpScreen({ navigation }) {
   const [academic, setAcademic] = useState();
   const [department, setDepartment] = useState();
   const [yearbook, setYearbook] = useState();
-  const [checked, setChecked] = React.useState("male");
+  const [checked, setChecked] = React.useState("זכר");
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
+  const [isSecure, setIsSecure] = useState(true);
 
   const listAcademic = academicList.map((item) => ({
     label: item.name,
@@ -31,30 +32,6 @@ function SignUpScreen({ navigation }) {
     { label: "שנה ד'", value: "שנה ד'" },
   ];
 
-  const handleNameChange = (selectedName) => {
-    setName(selectedName);
-  };
-
-  const handleAgeChange = (selectedAge) => {
-    setAge(selectedAge);
-  };
-
-  const handleAcademicChange = (selectedAcademic) => {
-    setAcademic(selectedAcademic);
-  };
-
-  const handleDepartmentChange = (selectedDepartment) => {
-    setDepartment(selectedDepartment);
-  };
-
-  const handleYearbookChange = (selectedYearbook) => {
-    setYearbook(selectedYearbook);
-  };
-
-  const handleMailChange = (selectedMail) => {
-    setMail(selectedMail);
-  };
-
   return (
     <ScrollView>
       <View style={{ ...styles.container, ...styles.inputsRow }}>
@@ -62,7 +39,7 @@ function SignUpScreen({ navigation }) {
           style={styles.textInput}
           label="שם מלא"
           mode="outlined"
-          onValueChange={handleNameChange}
+          onValueChange={(selectedName) => setName(selectedName)}
         />
 
         <Input
@@ -70,7 +47,8 @@ function SignUpScreen({ navigation }) {
           label="גיל"
           mode="outlined"
           keyboardType="decimal-pad"
-          onValueChange={handleAgeChange}
+          maxLength={2}
+          onValueChange={(selectedAge) => setAge(selectedAge)}
         />
       </View>
 
@@ -80,7 +58,7 @@ function SignUpScreen({ navigation }) {
           label="מוסד אקדמאי"
           listMode="MODAL"
           searchable={true}
-          onValueChange={handleAcademicChange}
+          onValueChange={(selectedAcademic) => setAcademic(selectedAcademic)}
         />
       </View>
 
@@ -90,15 +68,16 @@ function SignUpScreen({ navigation }) {
             style={styles.textInput}
             label="מחלקה"
             mode="outlined"
-            onValueChange={handleDepartmentChange}
+            onValueChange={(selectedDepartment) =>
+              setDepartment(selectedDepartment)
+            }
           />
-
           <DropDown
             list={listYear}
             label="שנתון"
             searchable={false}
             listMode="SCROLLVIEW"
-            onValueChange={handleYearbookChange}
+            onValueChange={(selectedYearbook) => setYearbook(selectedYearbook)}
           />
         </View>
       </View>
@@ -109,35 +88,44 @@ function SignUpScreen({ navigation }) {
 
       <View style={styles.radioButtom}>
         <RadioButton
-          value="male"
+          value="זכר"
           color={Color.Yellow400}
-          status={checked === "male" ? "checked" : "unchecked"}
-          onPress={() => setChecked("male")}
+          status={checked === "זכר" ? "checked" : "unchecked"}
+          onPress={() => setChecked("זכר")}
         />
         <Text style={styles.textRadio}>זכר</Text>
       </View>
       <View style={styles.radioButtom}>
         <RadioButton
-          value="female"
+          value="נקבה"
           color={Color.Yellow400}
-          status={checked === "female" ? "checked" : "unchecked"}
-          onPress={() => setChecked("female")}
+          status={checked === "נקבה" ? "checked" : "unchecked"}
+          onPress={() => setChecked("נקבה")}
         />
         <Text style={styles.textRadio}>נקבה</Text>
       </View>
 
       <View style={styles.textInput}>
-        <Input label="מייל" mode="outlined" onValueChange={handleMailChange} />
+        <Input
+          label="מייל"
+          mode="outlined"
+          onValueChange={(selectedMail) => setMail(selectedMail)}
+        />
         <TextInput
           label="סיסמה"
           style={{ backgroundColor: "#fff" }}
-          secureTextEntry
-          right={<TextInput.Icon icon="eye" />}
+          right={
+            <TextInput.Icon
+              icon={isSecure ? "eye" : "eye-off"}
+              onPress={() => setIsSecure(!isSecure)}
+            />
+          }
           selectionColor={Color.Yellow200}
           outlineColor={Color.Yellow100}
           activeOutlineColor={Color.Yellow400}
           mode="outlined"
           onChangeText={(password) => setPassword(password)}
+          secureTextEntry={isSecure}
         />
 
         <Button
@@ -173,6 +161,7 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingHorizontal: 20,
+    fontWeight: "bold",
   },
   radioButtom: {
     paddingHorizontal: 20,
