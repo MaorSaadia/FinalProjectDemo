@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-function DropDown({ list, label, searchable, listMode }) {
+function DropDown({ list, label, searchable, listMode, onValueChange }) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState(list);
+
+  // Add a callback function to handle value changes
+  const handleValueChange = (selectedValue) => {
+    setValue(selectedValue);
+    // Pass the selected value to the parent component using the onValueChange callback
+    onValueChange(selectedValue);
+  };
 
   return (
     <View style={styles.container}>
@@ -15,7 +22,7 @@ function DropDown({ list, label, searchable, listMode }) {
           value={value}
           items={items}
           setOpen={setOpen}
-          setValue={setValue}
+          setValue={handleValueChange}
           setItems={setItems}
           searchable={searchable}
           placeholder={label}

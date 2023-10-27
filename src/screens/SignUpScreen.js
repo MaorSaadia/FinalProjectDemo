@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { ScrollView } from "react-native-virtualized-view";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
 
 import DropDown from "../components/DropDown";
@@ -23,98 +22,109 @@ function SignUpScreen({ navigation }) {
     value: item.id,
   }));
 
+  const handleAcademicChange = (selectedAcademic) => {
+    setAcademic(selectedAcademic);
+  };
+
+  const handleYearbookChange = (selectedYearbook) => {
+    setYearbook(selectedYearbook);
+  };
+
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1,
-        justifyContent: "center",
-        paddingHorizontal: 12,
-      }}
-    >
-      <View style={styles.inputsRow}>
-        <TextInput
-          style={styles.textInput}
-          label="שם מלא"
-          selectionColor={Color.Yellow200}
-          underlineColor={Color.Blue400}
-          outlineColor={Color.Yellow100}
-          activeOutlineColor={Color.Yellow400}
-          mode="outlined"
-          value={name}
-          onChangeText={(name) => setName(name)}
-        />
-        <TextInput
-          style={styles.textInput}
-          label="גיל"
-          selectionColor={Color.Yellow200}
-          underlineColor={Color.Blue400}
-          outlineColor={Color.Yellow100}
-          activeOutlineColor={Color.Yellow400}
-          value={age}
-          mode="outlined"
-          maxLength={2}
-          keyboardType="decimal-pad"
-          onChangeText={(age) => setAge(age)}
-        />
+    <>
+      <View style={styles.container}>
+        <View style={styles.inputsRow}>
+          <TextInput
+            style={styles.textInput}
+            label="שם מלא"
+            selectionColor={Color.Yellow200}
+            underlineColor={Color.Blue400}
+            outlineColor={Color.Yellow100}
+            activeOutlineColor={Color.Yellow400}
+            mode="outlined"
+            value={name}
+            onChangeText={(name) => setName(name)}
+          />
+          <TextInput
+            style={styles.textInput}
+            label="גיל"
+            selectionColor={Color.Yellow200}
+            underlineColor={Color.Blue400}
+            outlineColor={Color.Yellow100}
+            activeOutlineColor={Color.Yellow400}
+            value={age}
+            mode="outlined"
+            maxLength={2}
+            keyboardType="decimal-pad"
+            onChangeText={(age) => setAge(age)}
+          />
+        </View>
       </View>
-      <View>
+      <View style={{ paddingHorizontal: 6, paddingBottom: 6 }}>
         <DropDown
           list={list}
           label="מוסד אקדמאי"
           listMode="MODAL"
           searchable={true}
+          onValueChange={handleAcademicChange}
         />
       </View>
-      <View style={styles.inputsRow}>
-        <TextInput
-          style={styles.textInput}
-          label="מחלקה"
-          selectionColor={Color.Yellow200}
-          underlineColor={Color.Blue400}
-          outlineColor={Color.Yellow100}
-          activeOutlineColor={Color.Yellow400}
-          mode="outlined"
-          value={department}
-          onChangeText={(department) => setDepartment(department)}
-        />
 
-        <DropDown
-          list={[
-            { label: "מכינה", value: "pre" },
-            { label: "שנה א'", value: "1" },
-            { label: "שנה ב'", value: "2" },
-            { label: "שנה ג'", value: "3" },
-            { label: "שנה ד'", value: "4" },
-          ]}
-          label="שנתון"
-          searchable={false}
-          listMode="SCROLLVIEW"
-        />
+      <View style={{ paddingTop: 50 }}>
+        <View style={styles.inputsRow}>
+          <TextInput
+            style={styles.textInput}
+            label="מחלקה"
+            selectionColor={Color.Yellow200}
+            underlineColor={Color.Blue400}
+            outlineColor={Color.Yellow100}
+            activeOutlineColor={Color.Yellow400}
+            mode="outlined"
+            value={department}
+            onChangeText={(department) => setDepartment(department)}
+          />
+
+          <DropDown
+            list={[
+              { label: "מכינה", value: "מכינה" },
+              { label: "שנה א'", value: "שנה א'" },
+              { label: "שנה ב'", value: "שנה ב'" },
+              { label: "שנה ג'", value: "שנה ג'" },
+              { label: "שנה ד'", value: "שנה ד'" },
+            ]}
+            label="שנתון"
+            searchable={false}
+            listMode="SCROLLVIEW"
+            onValueChange={handleYearbookChange}
+          />
+        </View>
       </View>
       <Text style={styles.title} variant="titleMedium">
         מגדר:
       </Text>
-      <View>
-        <View style={styles.radioButtom}>
-          <RadioButton
-            value="male"
-            color={Color.Yellow400}
-            status={checked === "male" ? "checked" : "unchecked"}
-            onPress={() => setChecked("male")}
-          />
-          <Text style={styles.textRadio}>זכר</Text>
-        </View>
-        <View style={styles.radioButtom}>
-          <RadioButton
-            value="female"
-            color={Color.Yellow400}
-            status={checked === "female" ? "checked" : "unchecked"}
-            onPress={() => setChecked("female")}
-          />
-          <Text style={styles.textRadio}>נקבה</Text>
-        </View>
+
+      <View style={styles.radioButtom}>
+        <RadioButton
+          value="male"
+          color={Color.Yellow400}
+          status={checked === "male" ? "checked" : "unchecked"}
+          onPress={() => setChecked("male")}
+        />
+        <Text style={styles.textRadio}>זכר</Text>
+      </View>
+
+      <View style={styles.radioButtom}>
+        <RadioButton
+          value="female"
+          color={Color.Yellow400}
+          status={checked === "female" ? "checked" : "unchecked"}
+          onPress={() => setChecked("female")}
+        />
+        <Text style={styles.textRadio}>נקבה</Text>
+      </View>
+
+      <View style={styles.textInput}>
         <TextInput
-          style={styles.textInput}
           label="מייל"
           selectionColor={Color.Yellow200}
           underlineColor={Color.Blue400}
@@ -125,7 +135,6 @@ function SignUpScreen({ navigation }) {
           onChangeText={(mail) => setMail(mail)}
         />
         <TextInput
-          style={styles.textInput}
           label="סיסמה"
           secureTextEntry
           right={<TextInput.Icon icon="eye" />}
@@ -137,25 +146,33 @@ function SignUpScreen({ navigation }) {
           mode="outlined"
           onChangeText={(password) => setPassword(password)}
         />
+
+        <Button
+          style={{
+            marginTop: 10,
+          }}
+          icon="login"
+          buttonColor={Color.Blue300}
+          mode="contained"
+          onPress={() => navigation.navigate("SignInScreen")}
+        >
+          Sign Up
+        </Button>
       </View>
-      <Button
-        icon="login"
-        buttonColor={Color.Blue300}
-        mode="contained"
-        onPress={() => navigation.navigate("SignInScreen")}
-      >
-        Sign In
-      </Button>
-    </ScrollView>
+    </>
   );
 }
 
 export default SignUpScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: 40,
+  },
   inputsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    margin: 6,
   },
   textInput: {
     flex: 1,
