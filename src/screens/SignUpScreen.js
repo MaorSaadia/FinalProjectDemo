@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
 
 import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
+import Input from "../components/Input";
 
 function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -17,52 +18,65 @@ function SignUpScreen({ navigation }) {
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
 
-  const list = academicList.map((item) => ({
+  const listAcademic = academicList.map((item) => ({
     label: item.name,
     value: item.id,
   }));
 
+  const listYear = [
+    { label: "מכינה", value: "מכינה" },
+    { label: "שנה א'", value: "שנה א'" },
+    { label: "שנה ב'", value: "שנה ב'" },
+    { label: "שנה ג'", value: "שנה ג'" },
+    { label: "שנה ד'", value: "שנה ד'" },
+  ];
+
+  const handleNameChange = (selectedName) => {
+    setName(selectedName);
+  };
+
+  const handleAgeChange = (selectedAge) => {
+    setAge(selectedAge);
+  };
+
   const handleAcademicChange = (selectedAcademic) => {
     setAcademic(selectedAcademic);
+  };
+
+  const handleDepartmentChange = (selectedDepartment) => {
+    setDepartment(selectedDepartment);
   };
 
   const handleYearbookChange = (selectedYearbook) => {
     setYearbook(selectedYearbook);
   };
 
+  const handleMailChange = (selectedMail) => {
+    setMail(selectedMail);
+  };
+
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.inputsRow}>
-          <TextInput
-            style={styles.textInput}
-            label="שם מלא"
-            selectionColor={Color.Yellow200}
-            underlineColor={Color.Blue400}
-            outlineColor={Color.Yellow100}
-            activeOutlineColor={Color.Yellow400}
-            mode="outlined"
-            value={name}
-            onChangeText={(name) => setName(name)}
-          />
-          <TextInput
-            style={styles.textInput}
-            label="גיל"
-            selectionColor={Color.Yellow200}
-            underlineColor={Color.Blue400}
-            outlineColor={Color.Yellow100}
-            activeOutlineColor={Color.Yellow400}
-            value={age}
-            mode="outlined"
-            maxLength={2}
-            keyboardType="decimal-pad"
-            onChangeText={(age) => setAge(age)}
-          />
-        </View>
+    <ScrollView>
+      <View style={{ ...styles.container, ...styles.inputsRow }}>
+        <Input
+          style={styles.textInput}
+          label="שם מלא"
+          mode="outlined"
+          onValueChange={handleNameChange}
+        />
+
+        <Input
+          style={styles.textInput}
+          label="גיל"
+          mode="outlined"
+          keyboardType="decimal-pad"
+          onValueChange={handleAgeChange}
+        />
       </View>
-      <View style={{ paddingHorizontal: 6, paddingBottom: 6 }}>
+
+      <View style={{ paddingHorizontal: 6 }}>
         <DropDown
-          list={list}
+          list={listAcademic}
           label="מוסד אקדמאי"
           listMode="MODAL"
           searchable={true}
@@ -70,28 +84,17 @@ function SignUpScreen({ navigation }) {
         />
       </View>
 
-      <View style={{ paddingTop: 50 }}>
+      <View>
         <View style={styles.inputsRow}>
-          <TextInput
+          <Input
             style={styles.textInput}
             label="מחלקה"
-            selectionColor={Color.Yellow200}
-            underlineColor={Color.Blue400}
-            outlineColor={Color.Yellow100}
-            activeOutlineColor={Color.Yellow400}
             mode="outlined"
-            value={department}
-            onChangeText={(department) => setDepartment(department)}
+            onValueChange={handleDepartmentChange}
           />
 
           <DropDown
-            list={[
-              { label: "מכינה", value: "מכינה" },
-              { label: "שנה א'", value: "שנה א'" },
-              { label: "שנה ב'", value: "שנה ב'" },
-              { label: "שנה ג'", value: "שנה ג'" },
-              { label: "שנה ד'", value: "שנה ד'" },
-            ]}
+            list={listYear}
             label="שנתון"
             searchable={false}
             listMode="SCROLLVIEW"
@@ -99,6 +102,7 @@ function SignUpScreen({ navigation }) {
           />
         </View>
       </View>
+
       <Text style={styles.title} variant="titleMedium">
         מגדר:
       </Text>
@@ -112,7 +116,6 @@ function SignUpScreen({ navigation }) {
         />
         <Text style={styles.textRadio}>זכר</Text>
       </View>
-
       <View style={styles.radioButtom}>
         <RadioButton
           value="female"
@@ -124,25 +127,15 @@ function SignUpScreen({ navigation }) {
       </View>
 
       <View style={styles.textInput}>
-        <TextInput
-          label="מייל"
-          selectionColor={Color.Yellow200}
-          underlineColor={Color.Blue400}
-          outlineColor={Color.Yellow100}
-          activeOutlineColor={Color.Yellow400}
-          value={mail}
-          mode="outlined"
-          onChangeText={(mail) => setMail(mail)}
-        />
+        <Input label="מייל" mode="outlined" onValueChange={handleMailChange} />
         <TextInput
           label="סיסמה"
+          style={{ backgroundColor: "#fff" }}
           secureTextEntry
           right={<TextInput.Icon icon="eye" />}
           selectionColor={Color.Yellow200}
-          underlineColor={Color.Blue400}
           outlineColor={Color.Yellow100}
           activeOutlineColor={Color.Yellow400}
-          value={password}
           mode="outlined"
           onChangeText={(password) => setPassword(password)}
         />
@@ -159,7 +152,7 @@ function SignUpScreen({ navigation }) {
           Sign Up
         </Button>
       </View>
-    </>
+    </ScrollView>
   );
 }
 
@@ -167,7 +160,7 @@ export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    paddingTop: 75,
   },
   inputsRow: {
     flexDirection: "row",
