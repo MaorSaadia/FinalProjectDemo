@@ -16,7 +16,7 @@ function HomeScreen({ navigation }) {
       <View style={styles.text}>
         <Text
           variant="displaySmall"
-          style={{ color: Color.Blue400, marginTop: 15 }}
+          style={{ color: Color.Blue700, marginTop: 15 }}
         >
           ── ברוכים הבאים ──
         </Text>
@@ -25,8 +25,8 @@ function HomeScreen({ navigation }) {
       <View style={styles.container}>
         <Button
           style={styles.button}
-          buttonColor={Color.Blue300}
-          textColor="#fff"
+          buttonColor={Color.Blue600}
+          textColor={Color.white}
           icon="school"
           mode="elevated"
           onPress={() => navigation.navigate("SignInScreen")}
@@ -35,8 +35,8 @@ function HomeScreen({ navigation }) {
         </Button>
         <Button
           style={styles.button}
-          buttonColor={Color.Blue300}
-          textColor="#fff"
+          buttonColor={Color.Blue600}
+          textColor={Color.white}
           icon="home-account"
           onPress={() => navigation.navigate("SignInScreen")}
           mode="elevated"
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    margin: 10,
+    marginHorizontal: 100,
   },
   image: {
     flex: 1,

@@ -1,20 +1,24 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 
-function SignInScreen({ navigation }) {
+function SignInScreen() {
   const [isSecure, setIsSecure] = useState(true);
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
 
   return (
-    <>
+    <ImageBackground
+      source={require("../../assets/images/Zinc.jpg")}
+      resizeMode="cover"
+      style={styles.image}
+    >
       <View style={styles.container}>
         <View style={styles.text}>
-          <Text variant="displaySmall" style={{ color: Color.Blue400 }}>
+          <Text variant="displaySmall" style={{ color: Color.Blue800 }}>
             ─── התחברות ───
           </Text>
         </View>
@@ -32,27 +36,27 @@ function SignInScreen({ navigation }) {
               onPress={() => setIsSecure(!isSecure)}
             />
           }
-          selectionColor={Color.Yellow200}
-          outlineColor={Color.Yellow100}
-          activeOutlineColor={Color.Yellow400}
+          selectionColor={Color.Blue700}
+          outlineColor={Color.Blue200}
+          activeOutlineColor={Color.Blue800}
           mode="outlined"
           onChangeText={(password) => setPassword(password)}
           secureTextEntry={isSecure}
         />
         <NavLink
           text="אין לך חשבון? לחץ כאן להירשם במקום"
-          routeName="SignUpScreen"
+          routeName="StudentsSignUpScreen"
         />
         <Button
           icon="login"
-          buttonColor={Color.Blue300}
+          buttonColor={Color.Blue800}
           mode="contained"
           onPress={() => console.log("Ok")}
         >
           התחבר
         </Button>
       </View>
-    </>
+    </ImageBackground>
   );
 }
 
@@ -64,8 +68,10 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: "center",
   },
+  image: {
+    flex: 1,
+  },
   text: {
     alignItems: "center",
-    marginBottom: 10,
   },
 });

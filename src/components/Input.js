@@ -26,9 +26,9 @@ function Input({
         maxLength={maxLength ? maxLength : null}
         label={label}
         style={{ backgroundColor: "#fff" }}
-        selectionColor={Color.Yellow200}
-        outlineColor={Color.Yellow100}
-        activeOutlineColor={Color.Yellow400}
+        selectionColor={Color.Blue700}
+        outlineColor={Color.Blue200}
+        activeOutlineColor={Color.Blue800}
         mode={mode}
         value={value}
         error={error}
