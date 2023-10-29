@@ -4,11 +4,11 @@ import Spacer from "./ui/Spacer";
 import { useNavigation } from "@react-navigation/native";
 import { Color } from "../constants/colors";
 
-const NavLink = ({ text, routeName }) => {
+const NavLink = ({ text, routeName, props }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
+    <TouchableOpacity onPress={() => navigation.navigate(routeName, { props })}>
       <Spacer>
         <Text style={styles.link}>{text}</Text>
       </Spacer>

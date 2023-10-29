@@ -143,6 +143,7 @@ function StudentsSignUpScreen() {
           <NavLink
             text="כבר יש לך חשבון? היכנס במקום זאת"
             routeName="SignInScreen"
+            props="student"
           />
           <Button
             buttonColor={Color.Blue800}
