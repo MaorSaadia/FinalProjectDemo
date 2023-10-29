@@ -29,7 +29,9 @@ function HomeScreen({ navigation }) {
           textColor={Color.white}
           icon="school"
           mode="elevated"
-          onPress={() => navigation.navigate("SignInScreen")}
+          onPress={() =>
+            navigation.navigate("SignInScreen", { userType: "student" })
+          }
         >
           סטודנט
         </Button>
@@ -38,7 +40,9 @@ function HomeScreen({ navigation }) {
           buttonColor={Color.Blue600}
           textColor={Color.white}
           icon="home-account"
-          onPress={() => navigation.navigate("SignInScreen")}
+          onPress={() =>
+            navigation.navigate("SignInScreen", { userType: "landlord" })
+          }
           mode="elevated"
         >
           משכיר

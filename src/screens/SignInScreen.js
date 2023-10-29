@@ -5,7 +5,9 @@ import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 
-function SignInScreen() {
+function SignInScreen({ route }) {
+  const { userType } = route.params;
+
   const [isSecure, setIsSecure] = useState(true);
   const [mail, setMail] = useState();
   const [password, setPassword] = useState();
@@ -43,10 +45,17 @@ function SignInScreen() {
           onChangeText={(password) => setPassword(password)}
           secureTextEntry={isSecure}
         />
-        <NavLink
-          text="אין לך חשבון? לחץ כאן להירשם במקום"
-          routeName="StudentsSignUpScreen"
-        />
+        {userType === "student" ? (
+          <NavLink
+            text="אין לך חשבון? לחץ כאן להירשם במקום"
+            routeName="StudentsSignUpScreen"
+          />
+        ) : (
+          <NavLink
+            text="אין לך חשבון? לחץ כאן להירשם במקום"
+            routeName="LandlordSignUpScreen"
+          />
+        )}
         <Button
           icon="login"
           buttonColor={Color.Blue800}
