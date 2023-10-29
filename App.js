@@ -17,7 +17,7 @@ export default function App() {
           name="HomeScreen"
           component={HomeScreen}
           options={{
-            title: "",
+            headerShown: false,
             presentation: "modal",
             animation: "fade_from_bottom",
           }}

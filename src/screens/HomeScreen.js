@@ -1,25 +1,27 @@
 import { ImageBackground, StyleSheet } from "react-native";
+import * as NavigationBar from "expo-navigation-bar";
 import { View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { Color } from "../constants/colors";
 
 function HomeScreen({ navigation }) {
-  return (
-    <>
-      {/* <ImageBackground
-        source={require("../../assets/housing-garden.jpg")}
-        resizeMode="cover"
-        style={styles.image}
-      ></ImageBackground> */}
+  NavigationBar.setVisibilityAsync("hidden");
 
+  return (
+    <ImageBackground
+      source={require("../../assets/images/home-background.jpg")}
+      resizeMode="cover"
+      style={styles.image}
+    >
       <View style={styles.text}>
         <Text
           variant="displaySmall"
           style={{ color: Color.Blue400, marginTop: 15 }}
         >
-          ─── ברוכים הבאים ───
+          ── ברוכים הבאים ──
         </Text>
       </View>
+
       <View style={styles.container}>
         <Button
           style={styles.button}
@@ -42,7 +44,7 @@ function HomeScreen({ navigation }) {
           משכיר
         </Button>
       </View>
-    </>
+    </ImageBackground>
   );
 }
 
@@ -56,11 +58,10 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    justifyContent: "center",
   },
   text: {
     alignItems: "center",
-    marginBottom: 10,
+    marginTop: 30,
   },
   button: {
     margin: 10,

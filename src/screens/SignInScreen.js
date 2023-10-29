@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { Color } from "../constants/colors";
 import Input from "../components/Input";
+import NavLink from "../components/NavLink";
 
 function SignInScreen({ navigation }) {
   const [isSecure, setIsSecure] = useState(true);
@@ -14,7 +15,7 @@ function SignInScreen({ navigation }) {
       <View style={styles.container}>
         <View style={styles.text}>
           <Text variant="displaySmall" style={{ color: Color.Blue400 }}>
-            ──── התחברות ────
+            ─── התחברות ───
           </Text>
         </View>
         <Input
@@ -38,13 +39,15 @@ function SignInScreen({ navigation }) {
           onChangeText={(password) => setPassword(password)}
           secureTextEntry={isSecure}
         />
-
+        <NavLink
+          text="אין לך חשבון? לחץ כאן להירשם במקום"
+          routeName="SignUpScreen"
+        />
         <Button
-          style={styles.button}
           icon="login"
           buttonColor={Color.Blue300}
           mode="contained"
-          onPress={() => navigation.navigate("SignUpScreen")}
+          onPress={() => console.log("Ok")}
         >
           התחבר
         </Button>
@@ -64,8 +67,5 @@ const styles = StyleSheet.create({
   text: {
     alignItems: "center",
     marginBottom: 10,
-  },
-  button: {
-    marginTop: 15,
   },
 });

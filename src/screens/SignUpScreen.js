@@ -7,6 +7,7 @@ import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
 import Input from "../components/Input";
+import NavLink from "../components/NavLink";
 
 function SignUpScreen({ navigation }) {
   const [name, setName] = useState("");
@@ -36,7 +37,7 @@ function SignUpScreen({ navigation }) {
     <ScrollView>
       <View style={{ ...styles.container, ...styles.text }}>
         <Text variant="displaySmall" style={{ color: Color.Blue400 }}>
-          ───── הרשם ─────
+          ──── הרשם ────
         </Text>
       </View>
       <View style={styles.inputsRow}>
@@ -132,17 +133,16 @@ function SignUpScreen({ navigation }) {
           onChangeText={(password) => setPassword(password)}
           secureTextEntry={isSecure}
         />
-
+        <NavLink
+          text="כבר יש לך חשבון? היכנס במקום זאת"
+          routeName="SignInScreen"
+        />
         <Button
-          style={{
-            marginTop: 10,
-          }}
-          icon="login"
           buttonColor={Color.Blue300}
           mode="contained"
-          onPress={() => navigation.navigate("SignInScreen")}
+          onPress={() => console.log("Ok")}
         >
-          Sign Up
+          הרשם
         </Button>
       </View>
     </ScrollView>
@@ -153,7 +153,7 @@ export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 125,
+    paddingTop: 80,
   },
   text: {
     alignItems: "center",
