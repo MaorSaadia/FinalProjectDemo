@@ -11,6 +11,7 @@ function Input({
   onValueChange,
   style,
   error,
+  right,
 }) {
   const [value, setValue] = useState();
 
@@ -31,6 +32,7 @@ function Input({
         mode={mode}
         value={value}
         error={error}
+        right={right}
         onChangeText={(value) => handleValueChange(value)}
         keyboardType={keyboardType ? keyboardType : null}
       />

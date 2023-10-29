@@ -34,7 +34,12 @@ function SignUpScreen({ navigation }) {
 
   return (
     <ScrollView>
-      <View style={{ ...styles.container, ...styles.inputsRow }}>
+      <View style={{ ...styles.container, ...styles.text }}>
+        <Text variant="displaySmall" style={{ color: Color.Blue400 }}>
+          ───── הרשם ─────
+        </Text>
+      </View>
+      <View style={styles.inputsRow}>
         <Input
           style={styles.textInput}
           label="שם מלא"
@@ -148,7 +153,10 @@ export default SignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 75,
+    paddingTop: 125,
+  },
+  text: {
+    alignItems: "center",
   },
   inputsRow: {
     flexDirection: "row",
