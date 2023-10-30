@@ -34,7 +34,7 @@ export default function App() {
         <Stack.Screen
           name="StudentsSignUpScreen"
           component={StudentsSignUpScreen}
-          options={{ title: "", animation: "simple_push" }}
+          options={{ headerShown: false, animation: "simple_push" }}
         />
         <Stack.Screen
           name="LandlordSignUpScreen"

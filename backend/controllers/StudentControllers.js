@@ -1,32 +1,32 @@
-exports.getAllStudents = (req, res) => {
+export const getAllStudents = (req, res) => {
   res.status(500).json({
     status: "error",
     message: "This route is not yet defined!",
   });
 };
 
-exports.getStudent = (req, res) => {
+export const getStudent = (req, res) => {
   res.status(500).json({
     status: "error",
     message: "This route is not yet defined!",
   });
 };
 
-exports.createStudent = (req, res) => {
+export const createStudent = (req, res) => {
   res.status(500).json({
     status: "error",
     message: "This route is not yet defined!",
   });
 };
 
-exports.updateStudent = (req, res) => {
+export const updateStudent = (req, res) => {
   res.status(500).json({
     status: "error",
     message: "This route is not yet defined!",
   });
 };
 
-exports.deleteStudent = (req, res) => {
+export const deleteStudent = (req, res) => {
   res.status(500).json({
     status: "error",
     message: "This route is not yet defined!",

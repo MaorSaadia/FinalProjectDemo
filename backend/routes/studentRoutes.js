@@ -1,5 +1,11 @@
-const express = require("express");
-const studentController = require("./../controllers/StudentControllers");
+import express from "express";
+import {
+  getAllStudents,
+  getStudent,
+  createStudent,
+  updateStudent,
+  deleteStudent,
+} from "./../controllers/StudentControllers.js";
 
 const router = express.Router();
 
@@ -7,14 +13,7 @@ router.param("id", (req, res, next, val) => {
   next();
 });
 
-router
-  .route("/")
-  .get(studentController.getAllStudents)
-  .post(studentController.createStudent);
-router
-  .route("/:id")
-  .get(studentController.getStudent)
-  .patch(studentController.updateStudent)
-  .delete(studentController.deleteStudent);
+router.route("/").get(getAllStudents).post(createStudent);
+router.route("/:id").get(getStudent).patch(updateStudent).delete(deleteStudent);
 
-module.exports = router;
+export default router;

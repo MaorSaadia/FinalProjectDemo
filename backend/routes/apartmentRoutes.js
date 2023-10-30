@@ -1,11 +1,11 @@
-const express = require("express");
-const apartmentController = require("./../controllers/apartmentControllers");
+import express from "express";
+import {
+  getAllApartments,
+  createApartment,
+} from "./../controllers/apartmentControllers.js";
 
 const router = express.Router();
 
-router
-  .route("/")
-  .get(apartmentController.getAllApartments)
-  .post(apartmentController.createApartment);
+router.route("/").get(getAllApartments).post(createApartment);
 
-module.exports = router;
+export default router;
