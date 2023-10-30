@@ -1,11 +1,5 @@
-import express from "express";
-import {
-  getAllStudents,
-  getStudent,
-  createStudent,
-  updateStudent,
-  deleteStudent,
-} from "./../controllers/StudentControllers.js";
+const express = require("express");
+const StudentControllers = require("./../controllers/StudentControllers");
 
 const router = express.Router();
 
@@ -13,7 +7,14 @@ router.param("id", (req, res, next, val) => {
   next();
 });
 
-router.route("/").get(getAllStudents).post(createStudent);
-router.route("/:id").get(getStudent).patch(updateStudent).delete(deleteStudent);
+router
+  .route("/")
+  .get(StudentControllers.getAllStudents)
+  .post(StudentControllers.createStudent);
+router
+  .route("/:id")
+  .get(StudentControllers.getStudent)
+  .patch(StudentControllers.updateStudent)
+  .delete(StudentControllers.deleteStudent);
 
-export default router;
+module.exports = router;

@@ -1,8 +1,7 @@
-import express from "express";
-//import morgan from "morgan";
+const express = require("express");
 
-import studentRouter from "./routes/studentRoutes.js";
-import apartmentRouter from "./routes/apartmentRoutes.js";
+const studentRouter = require("./routes/studentRoutes.js");
+const apartmentRouter = require("./routes/apartmentRoutes.js");
 
 const app = express();
 
@@ -12,4 +11,4 @@ app.use(express.json());
 app.use("/api/v1/apartments", apartmentRouter);
 app.use("/api/v1/students", studentRouter);
 
-export default app;
+module.exports = app;
