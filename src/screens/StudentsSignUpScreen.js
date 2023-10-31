@@ -9,7 +9,9 @@ import { academicList } from "../../backend/data/academic";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 
-function StudentsSignUpScreen() {
+function StudentsSignUpScreen({ route }) {
+  const { userType } = route.params;
+
   const [name, setName] = useState("");
   const [age, setAge] = useState();
   const [academic, setAcademic] = useState();
@@ -143,7 +145,7 @@ function StudentsSignUpScreen() {
           <NavLink
             text="כבר יש לך חשבון? היכנס במקום זאת"
             routeName="SignInScreen"
-            props="student"
+            props={{ userType: userType }}
           />
           <Button
             buttonColor={Color.Blue800}
