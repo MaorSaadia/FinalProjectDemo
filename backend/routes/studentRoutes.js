@@ -1,20 +1,19 @@
 const express = require("express");
-const StudentControllers = require("./../controllers/StudentControllers");
+const StudentController = require("../controllers/StudentController");
+const authController = require("./../controllers/authController");
 
 const router = express.Router();
 
-router.param("id", (req, res, next, val) => {
-  next();
-});
+router.post("/signup", authController.signup);
 
 router
   .route("/")
-  .get(StudentControllers.getAllStudents)
-  .post(StudentControllers.createStudent);
+  .get(StudentController.getAllStudents)
+  .post(StudentController.createStudent);
 router
   .route("/:id")
-  .get(StudentControllers.getStudent)
-  .patch(StudentControllers.updateStudent)
-  .delete(StudentControllers.deleteStudent);
+  .get(StudentController.getStudent)
+  .patch(StudentController.updateStudent)
+  .delete(StudentController.deleteStudent);
 
 module.exports = router;

@@ -1,11 +1,11 @@
 const express = require("express");
-const apartmentControllers = require("./../controllers/apartmentControllers");
+const apartmentController = require("../controllers/apartmentController");
 
 const router = express.Router();
 
 router
   .route("/")
-  .get(apartmentControllers.getAllApartments)
-  .post(apartmentControllers.createApartment);
+  .get(apartmentController.getAllApartments)
+  .post(apartmentController.createApartment);
 
 module.exports = router;
