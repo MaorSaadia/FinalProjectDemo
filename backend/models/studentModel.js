@@ -33,8 +33,8 @@ const studentSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "נא למלא סיסמה"],
-    minlength: 6,
-    // select: false,
+    minlength: [6, "הסיסמה צריכה להכיל 6 תווים לפחות"],
+    select: false,
   },
   passwordConfirm: {
     type: String,
@@ -60,6 +60,27 @@ studentSchema.pre("save", async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
+
+studentSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+studentSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  // False means NOT changed
+  return false;
+};
 
 const Student = mongoose.model("Student", studentSchema);
 
