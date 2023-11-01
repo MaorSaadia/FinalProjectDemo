@@ -1,7 +1,7 @@
-import * as React from "react";
 import { useState } from "react";
 import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
+import { ADDRESS, PORT } from "@env";
 
 import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
@@ -10,6 +10,7 @@ import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 
 function StudentsSignUpScreen({ route }) {
+  console.log(ADDRESS);
   const { userType } = route.params;
 
   const [name, setName] = useState("");
@@ -17,9 +18,10 @@ function StudentsSignUpScreen({ route }) {
   const [academic, setAcademic] = useState();
   const [department, setDepartment] = useState();
   const [yearbook, setYearbook] = useState();
-  const [checked, setChecked] = React.useState("זכר");
-  const [mail, setMail] = useState();
+  const [checked, setChecked] = useState("זכר");
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [passwordConfirm, setPasswordConfirm] = useState();
   const [isSecure, setIsSecure] = useState(true);
 
   const listAcademic = academicList.map((item) => ({
@@ -34,6 +36,39 @@ function StudentsSignUpScreen({ route }) {
     { label: "שנה ג'", value: "שנה ג'" },
     { label: "שנה ד'", value: "שנה ד'" },
   ];
+
+  const handleSignUp = () => {
+    // Gather all form data
+    const formData = {
+      name,
+      age,
+      academic,
+      department,
+      yearbook,
+      gender: checked,
+      email,
+      password,
+      passwordConfirm,
+    };
+
+    fetch(`http://${ADDRESS}:3000/api/v1/students/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response accordingly, e.g., show a success message, redirect, etc.
+        console.log("Sign-up successful:", data);
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the sign-up process
+        console.error("Sign-up error:", error);
+      });
+    console.log(formData);
+  };
 
   return (
     <ImageBackground
@@ -124,7 +159,7 @@ function StudentsSignUpScreen({ route }) {
           <Input
             label="מייל"
             mode="outlined"
-            onValueChange={(selectedMail) => setMail(selectedMail)}
+            onValueChange={(selectedemail) => setEmail(selectedemail)}
           />
           <TextInput
             label="סיסמה"
@@ -142,6 +177,26 @@ function StudentsSignUpScreen({ route }) {
             onChangeText={(password) => setPassword(password)}
             secureTextEntry={isSecure}
           />
+
+          <TextInput
+            label="אשר סיסמה"
+            style={{ backgroundColor: "#fff" }}
+            right={
+              <TextInput.Icon
+                icon={isSecure ? "eye" : "eye-off"}
+                onPress={() => setIsSecure(!isSecure)}
+              />
+            }
+            selectionColor={Color.Blue700}
+            outlineColor={Color.Blue200}
+            activeOutlineColor={Color.Blue800}
+            mode="outlined"
+            onChangeText={(passwordConfirm) =>
+              setPasswordConfirm(passwordConfirm)
+            }
+            secureTextEntry={isSecure}
+          />
+
           <NavLink
             text="כבר יש לך חשבון? היכנס במקום זאת"
             routeName="SignInScreen"
@@ -150,7 +205,7 @@ function StudentsSignUpScreen({ route }) {
           <Button
             buttonColor={Color.Blue800}
             mode="contained"
-            onPress={() => console.log("Ok")}
+            onPress={handleSignUp}
           >
             הרשם
           </Button>

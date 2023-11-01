@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 
 const studentRouter = require("./routes/studentRoutes.js");
 const apartmentRouter = require("./routes/apartmentRoutes.js");
@@ -6,6 +7,7 @@ const apartmentRouter = require("./routes/apartmentRoutes.js");
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 //app.use(morgan("dev"));
 
 app.use((req, res, next) => {

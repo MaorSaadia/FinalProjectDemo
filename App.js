@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./src/screens/HomeScreen";
+import WelcomeScreen from "./src/screens/WelcomeScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import StudentsSignUpScreen from "./src/screens/StudentsSignUpScreen";
 import LandlordSignUpScreen from "./src/screens/LandlordSignUpScreen";
@@ -11,12 +11,12 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="HomeScreen"
+        initialRouteName="WelcomeScreen"
         screenOptions={{ headerTitleAlign: "center" }}
       >
         <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
+          name="WelcomeScreen"
+          component={WelcomeScreen}
           options={{
             headerShown: false,
             presentation: "modal",
