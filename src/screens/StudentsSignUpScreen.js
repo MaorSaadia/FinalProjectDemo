@@ -10,7 +10,6 @@ import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 
 function StudentsSignUpScreen({ route }) {
-  console.log(ADDRESS);
   const { userType } = route.params;
 
   const [name, setName] = useState("");
@@ -22,7 +21,8 @@ function StudentsSignUpScreen({ route }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
-  const [isSecure, setIsSecure] = useState(true);
+  const [isSecure1, setIsSecure1] = useState(true);
+  const [isSecure2, setIsSecure2] = useState(true);
 
   const listAcademic = academicList.map((item) => ({
     label: item.name,
@@ -67,7 +67,7 @@ function StudentsSignUpScreen({ route }) {
         // Handle any errors that occur during the sign-up process
         console.error("Sign-up error:", error);
       });
-    console.log(formData);
+    //console.log(formData);
   };
 
   return (
@@ -79,7 +79,7 @@ function StudentsSignUpScreen({ route }) {
       <ScrollView>
         <View style={{ ...styles.container, ...styles.text }}>
           <Text variant="displaySmall" style={{ color: Color.Blue800 }}>
-            ──── הרשם ────
+            ──── הירשם ────
           </Text>
         </View>
         <View style={styles.inputsRow}>
@@ -166,8 +166,8 @@ function StudentsSignUpScreen({ route }) {
             style={{ backgroundColor: "#fff" }}
             right={
               <TextInput.Icon
-                icon={isSecure ? "eye" : "eye-off"}
-                onPress={() => setIsSecure(!isSecure)}
+                icon={isSecure1 ? "eye" : "eye-off"}
+                onPress={() => setIsSecure1(!isSecure1)}
               />
             }
             selectionColor={Color.Blue700}
@@ -175,7 +175,7 @@ function StudentsSignUpScreen({ route }) {
             activeOutlineColor={Color.Blue800}
             mode="outlined"
             onChangeText={(password) => setPassword(password)}
-            secureTextEntry={isSecure}
+            secureTextEntry={isSecure1}
           />
 
           <TextInput
@@ -183,8 +183,8 @@ function StudentsSignUpScreen({ route }) {
             style={{ backgroundColor: "#fff" }}
             right={
               <TextInput.Icon
-                icon={isSecure ? "eye" : "eye-off"}
-                onPress={() => setIsSecure(!isSecure)}
+                icon={isSecure2 ? "eye" : "eye-off"}
+                onPress={() => setIsSecure2(!isSecure2)}
               />
             }
             selectionColor={Color.Blue700}
@@ -194,7 +194,7 @@ function StudentsSignUpScreen({ route }) {
             onChangeText={(passwordConfirm) =>
               setPasswordConfirm(passwordConfirm)
             }
-            secureTextEntry={isSecure}
+            secureTextEntry={isSecure2}
           />
 
           <NavLink
