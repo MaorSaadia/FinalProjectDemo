@@ -4,7 +4,7 @@ import { View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { Color } from "../constants/colors";
 
-function HomeScreen({ navigation }) {
+function WelcomeScreen({ navigation }) {
   NavigationBar.setVisibilityAsync("hidden");
 
   return (
@@ -47,12 +47,22 @@ function HomeScreen({ navigation }) {
         >
           משכיר
         </Button>
+
+        <Button
+          style={styles.button}
+          buttonColor={Color.Brown600}
+          textColor={Color.white}
+          onPress={() => navigation.navigate("BottomTab")}
+          mode="elevated"
+        >
+          עמוד הבית
+        </Button>
       </View>
     </ImageBackground>
   );
 }
 
-export default HomeScreen;
+export default WelcomeScreen;
 
 const styles = StyleSheet.create({
   container: {

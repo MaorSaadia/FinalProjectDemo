@@ -1,7 +1,8 @@
+import { ADDRESS } from "@env";
 import { useState } from "react";
 import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
-import { ADDRESS, PORT } from "@env";
+import { useNavigation } from "@react-navigation/native";
 
 import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
@@ -10,6 +11,7 @@ import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 
 function StudentsSignUpScreen({ route }) {
+  const navigation = useNavigation();
   const { userType } = route.params;
 
   const [name, setName] = useState("");
@@ -67,6 +69,7 @@ function StudentsSignUpScreen({ route }) {
         // Handle any errors that occur during the sign-up process
         console.error("Sign-up error:", error);
       });
+    //navigation.navigate("HomeScreen");
     //console.log(formData);
   };
 
@@ -219,7 +222,7 @@ export default StudentsSignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 80,
+    paddingTop: 100,
   },
   image: {
     flex: 1,
