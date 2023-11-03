@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as NavigationBar from "expo-navigation-bar";
 
@@ -14,6 +15,14 @@ import { Color } from "./src/constants/colors";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+    },
+  },
+});
 
 function BottomTab() {
   NavigationBar.setVisibilityAsync("hidden");
@@ -54,45 +63,47 @@ function BottomTab() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="WelcomeScreen"
-        screenOptions={{ headerTitleAlign: "center" }}
-      >
-        <Stack.Screen
-          name="WelcomeScreen"
-          component={WelcomeScreen}
-          options={{
-            headerShown: false,
-            presentation: "modal",
-            animation: "fade_from_bottom",
-          }}
-        />
-        <Stack.Screen
-          name="SignInScreen"
-          component={SignInScreen}
-          options={{
-            title: "",
-            animation: "simple_push",
-          }}
-        />
-        <Stack.Screen
-          name="StudentsSignUpScreen"
-          component={StudentsSignUpScreen}
-          options={{ headerShown: false, animation: "simple_push" }}
-        />
-        <Stack.Screen
-          name="LandlordSignUpScreen"
-          component={LandlordSignUpScreen}
-          options={{ title: "", animation: "simple_push" }}
-        />
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="WelcomeScreen"
+          screenOptions={{ headerTitleAlign: "center" }}
+        >
+          <Stack.Screen
+            name="WelcomeScreen"
+            component={WelcomeScreen}
+            options={{
+              headerShown: false,
+              presentation: "modal",
+              animation: "fade_from_bottom",
+            }}
+          />
+          <Stack.Screen
+            name="SignInScreen"
+            component={SignInScreen}
+            options={{
+              title: "",
+              animation: "simple_push",
+            }}
+          />
+          <Stack.Screen
+            name="StudentsSignUpScreen"
+            component={StudentsSignUpScreen}
+            options={{ headerShown: false, animation: "simple_push" }}
+          />
+          <Stack.Screen
+            name="LandlordSignUpScreen"
+            component={LandlordSignUpScreen}
+            options={{ title: "", animation: "simple_push" }}
+          />
 
-        <Stack.Screen
-          name={"BottomTab"}
-          component={BottomTab}
-          options={{ title: "", animation: "simple_push" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name={"BottomTab"}
+            component={BottomTab}
+            options={{ title: "", animation: "simple_push" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }

@@ -11,6 +11,9 @@ exports.getAllStudents = catchAsync(async (req, res, next) => {
       students,
     },
   });
+
+  console.log(students);
+  return students;
 });
 
 exports.getStudent = (req, res) => {
