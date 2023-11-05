@@ -12,6 +12,9 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: [true, "נא למלא גיל"],
   },
+  gender: {
+    type: String,
+  },
   academic: {
     type: String,
     required: [true, "נא לבחור מוסד לימוד"],

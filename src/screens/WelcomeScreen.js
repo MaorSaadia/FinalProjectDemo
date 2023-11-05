@@ -52,7 +52,7 @@ function WelcomeScreen({ navigation }) {
           style={styles.button}
           buttonColor={Color.Brown600}
           textColor={Color.white}
-          onPress={() => navigation.navigate("BottomTab")}
+          onPress={() => navigation.navigate("Home")}
           mode="elevated"
         >
           עמוד הבית

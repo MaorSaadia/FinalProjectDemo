@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
   },
 });
 
-function BottomTab() {
+function Home() {
   NavigationBar.setVisibilityAsync("hidden");
 
   return (
@@ -98,8 +98,8 @@ export default function App() {
           />
 
           <Stack.Screen
-            name={"BottomTab"}
-            component={BottomTab}
+            name={"Home"}
+            component={Home}
             options={{ title: "", animation: "simple_push" }}
           />
         </Stack.Navigator>

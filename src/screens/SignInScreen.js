@@ -1,16 +1,59 @@
+import { ADDRESS } from "@env";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigation } from "@react-navigation/native";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
+
 import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 
 function SignInScreen({ route }) {
+  const navigation = useNavigation();
+
   const { userType } = route.params;
 
   const [isSecure, setIsSecure] = useState(true);
-  const [mail, setMail] = useState();
+  const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  const login = async ({ email, password }) => {
+    try {
+      const response = await fetch(
+        `http://${ADDRESS}:3000/api/v1/students/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.json();
+    } catch (error) {
+      throw new Error("Failed to fetch");
+    }
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ email, password }) => login({ email, password }),
+    onSuccess: (user) => {
+      console.log(user);
+      navigation.navigate("Home");
+    },
+    onError: (err) => {
+      console.log("ERROR", err);
+    },
+  });
+
+  const handleLogin = () => {
+    mutate({ email, password });
+  };
 
   return (
     <ImageBackground
@@ -27,7 +70,7 @@ function SignInScreen({ route }) {
         <Input
           label="מייל"
           mode="outlined"
-          onValueChange={(selectedMail) => setMail(selectedMail)}
+          onValueChange={(selectedMail) => setEmail(selectedMail)}
         />
         <TextInput
           label="סיסמה"
@@ -62,7 +105,7 @@ function SignInScreen({ route }) {
           icon="login"
           buttonColor={Color.Blue800}
           mode="contained"
-          onPress={() => console.log("Ok")}
+          onPress={handleLogin}
         >
           התחבר
         </Button>

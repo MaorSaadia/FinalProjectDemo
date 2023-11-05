@@ -2,6 +2,7 @@ import { ADDRESS } from "@env";
 import { useQuery } from "@tanstack/react-query";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
+import Loader from "../components/ui/Loader";
 
 function ProfileScreen() {
   const fetchStudents = async () => {
@@ -17,12 +18,14 @@ function ProfileScreen() {
     }
   };
 
-  const { data: students } = useQuery({
+  const {
+    data: students,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["student"],
     queryFn: fetchStudents,
   });
-
-  console.log(students);
 
   return (
     <View>

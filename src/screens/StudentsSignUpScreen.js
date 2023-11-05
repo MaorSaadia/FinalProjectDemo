@@ -3,15 +3,18 @@ import { useState } from "react";
 import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import { useMutation } from "@tanstack/react-query";
 
 import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
+import Loader from "../components/ui/Loader";
 
 function StudentsSignUpScreen({ route }) {
   const navigation = useNavigation();
+
   const { userType } = route.params;
 
   const [name, setName] = useState("");
@@ -39,9 +42,82 @@ function StudentsSignUpScreen({ route }) {
     { label: "שנה ד'", value: "שנה ד'" },
   ];
 
+  const SignUp = async ({
+    name,
+    age,
+    academic,
+    department,
+    yearbook,
+    gender,
+    email,
+    password,
+    passwordConfirm,
+  }) => {
+    try {
+      const response = await fetch(
+        `http://${ADDRESS}:3000/api/v1/students/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            age,
+            academic,
+            department,
+            yearbook,
+            gender,
+            email,
+            password,
+            passwordConfirm,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      return response.json();
+    } catch (error) {
+      throw new Error("Failed to fetch");
+    }
+  };
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({
+      name,
+      age,
+      academic,
+      department,
+      yearbook,
+      gender,
+      email,
+      password,
+      passwordConfirm,
+    }) =>
+      SignUp({
+        name,
+        age,
+        academic,
+        department,
+        yearbook,
+        gender,
+        email,
+        password,
+        passwordConfirm,
+      }),
+    onSuccess: (user) => {
+      console.log(user);
+      navigation.navigate("Home");
+    },
+    onError: (err) => {
+      console.log("ERROR", err);
+    },
+  });
+
   const handleSignUp = () => {
-    // Gather all form data
-    const formData = {
+    mutate({
       name,
       age,
       academic,
@@ -51,27 +127,12 @@ function StudentsSignUpScreen({ route }) {
       email,
       password,
       passwordConfirm,
-    };
-
-    fetch(`http://${ADDRESS}:3000/api/v1/students/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response accordingly, e.g., show a success message, redirect, etc.
-        console.log("Sign-up successful:", data);
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the sign-up process
-        console.error("Sign-up error:", error);
-      });
-    //navigation.navigate("HomeScreen");
-    //console.log(formData);
+    });
   };
+
+  if (isLoading) {
+    console.log("loading..");
+  }
 
   return (
     <ImageBackground
