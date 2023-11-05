@@ -1,6 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import {
+  DrawerToggleButton,
+  createDrawerNavigator,
+} from "@react-navigation/drawer";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as NavigationBar from "expo-navigation-bar";
@@ -15,6 +19,7 @@ import { Color } from "./src/constants/colors";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -27,6 +32,31 @@ const queryClient = new QueryClient({
 function Home() {
   NavigationBar.setVisibilityAsync("hidden");
 
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: Color.Brown100 },
+        drawerContentStyle: { backgroundColor: Color.Blue100 },
+        headerTitle: "",
+        drawerActiveTintColor: Color.Brown900,
+        drawerActiveBackgroundColor: Color.Brown50,
+      }}
+    >
+      <Drawer.Screen
+        name="בית"
+        component={HomeTabs}
+        // options={{
+        //   drawerIcon: ({ color }) => (
+        //     <MaterialCommunityIcons name="home" color={color} size={26} />
+        //   ),
+        // }}
+      />
+      <Drawer.Screen name="פרופיל" component={ProfileScreen} />
+    </Drawer.Navigator>
+  );
+}
+
+function HomeTabs() {
   return (
     <Tab.Navigator
       initialRouteName="HomeScreen"
@@ -84,6 +114,7 @@ export default function App() {
             options={{
               title: "",
               animation: "simple_push",
+              headerStyle: { backgroundColor: Color.Brown100 },
             }}
           />
           <Stack.Screen
@@ -100,7 +131,11 @@ export default function App() {
           <Stack.Screen
             name={"Home"}
             component={Home}
-            options={{ title: "", animation: "simple_push" }}
+            options={{
+              title: "",
+              animation: "simple_push",
+              headerShown: false,
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>
