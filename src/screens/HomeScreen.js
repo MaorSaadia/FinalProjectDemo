@@ -7,7 +7,7 @@ const HomeScreen = () => {
     const handleBackPress = () => {
       // Check if it's the first screen, and if so, exit the app
       if (isFirstScreen()) {
-        BackHandler.exitApp(); // Exits the app
+        BackHandler.exitApp();
         return true; // Prevents further back actions
       }
       return false; // Allow default back behavior
@@ -22,10 +22,7 @@ const HomeScreen = () => {
   }, []);
 
   const isFirstScreen = () => {
-    // Implement your logic to determine if the current screen is the first screen
-    // For example, you might check a navigation state or a flag.
-    // Replace this with your logic accordingly.
-    return true; // Replace with your condition to check if it's the first screen
+    return true;
   };
 
   return (

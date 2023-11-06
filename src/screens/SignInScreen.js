@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Color } from "../constants/colors";
 import Input from "../components/Input";
@@ -17,6 +18,14 @@ function SignInScreen({ route }) {
   const [isSecure, setIsSecure] = useState(true);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("token", value);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const login = async ({ email, password }) => {
     try {
@@ -43,8 +52,8 @@ function SignInScreen({ route }) {
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ email, password }) => login({ email, password }),
     onSuccess: (user) => {
-      console.log(user);
-      navigation.navigate("Home");
+      storeData(user.token);
+      navigation.navigate("HomeDrawer");
     },
     onError: (err) => {
       console.log("ERROR", err);

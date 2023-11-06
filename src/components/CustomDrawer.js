@@ -5,11 +5,21 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { Color } from "../constants/colors";
 
-const CustomDrawer = (props) => {
+async function logoutHandler(navigation) {
+  try {
+    await AsyncStorage.removeItem("token");
+    navigation.navigate("WelcomeScreen");
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function CustomDrawer(props) {
   const navigation = useNavigation();
 
   return (
@@ -41,9 +51,7 @@ const CustomDrawer = (props) => {
         }}
       >
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("WelcomeScreen");
-          }}
+          onPress={() => logoutHandler(navigation)}
           style={{ paddingVertical: 15 }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -61,6 +69,6 @@ const CustomDrawer = (props) => {
       </View>
     </View>
   );
-};
+}
 
 export default CustomDrawer;

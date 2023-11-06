@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
@@ -8,6 +8,7 @@ import SignInScreen from "./src/screens/SignInScreen";
 import StudentsSignUpScreen from "./src/screens/StudentsSignUpScreen";
 import LandlordSignUpScreen from "./src/screens/LandlordSignUpScreen";
 import HomeDrawer from "./src/navigation/HomeDrawer";
+import EmptyScreen from "./src/screens/EmptyScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,10 +24,9 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="WelcomeScreen"
-          screenOptions={{ headerTitleAlign: "center" }}
-        >
+        <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+          <Stack.Screen name="EmptyScreen" component={EmptyScreen} />
+
           <Stack.Screen
             name="WelcomeScreen"
             component={WelcomeScreen}
