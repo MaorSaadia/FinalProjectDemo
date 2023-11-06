@@ -2,6 +2,7 @@ import { ImageBackground, StyleSheet } from "react-native";
 import * as NavigationBar from "expo-navigation-bar";
 import { View } from "react-native";
 import { Button, Text } from "react-native-paper";
+
 import { Color } from "../constants/colors";
 
 function WelcomeScreen({ navigation }) {
@@ -52,7 +53,7 @@ function WelcomeScreen({ navigation }) {
           style={styles.button}
           buttonColor={Color.Brown600}
           textColor={Color.white}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("HomeDrawer")}
           mode="elevated"
         >
           עמוד הבית
