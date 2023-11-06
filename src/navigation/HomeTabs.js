@@ -13,9 +13,6 @@ function HomeTabs() {
       initialRouteName="HomeScreen"
       activeColor={Color.Blue900}
       barStyle={{ backgroundColor: Color.Brown100 }}
-      tabBarOptions={{
-        activeTintColor: "red", // Change this to the color you want for the active tab
-      }}
     >
       <Tab.Screen
         name="HomeScreen"
