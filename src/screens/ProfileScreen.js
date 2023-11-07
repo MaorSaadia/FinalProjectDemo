@@ -5,44 +5,48 @@ import { Text } from "react-native-paper";
 import Loader from "../components/ui/Loader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Color } from "../constants/colors";
+import { useStudents } from "../context/StudentContext";
 
 function ProfileScreen() {
-  const fetchStudents = async () => {
-    try {
-      const user = await AsyncStorage.getItem("id");
-      const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/${user}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+  // const { context } = useStudents();
+  // console.log(context);
 
-      return response.json();
-    } catch (error) {
-      throw new Error("Failed to fetch");
-    }
-  };
+  // const fetchStudents = async () => {
+  //   try {
+  //     const user = await AsyncStorage.getItem("id");
+  //     const response = await fetch(
+  //       `http://${ADDRESS}:3000/api/v1/students/${user}`
+  //     );
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
 
-  const {
-    data: students,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["student"],
-    queryFn: fetchStudents,
-  });
+  //     return response.json();
+  //   } catch (error) {
+  //     throw new Error("Failed to fetch");
+  //   }
+  // };
 
-  if (isLoading) {
-    return <Loader color={Color.Blue500} size="large" />;
-  }
+  // const {
+  //   data: students,
+  //   error,
+  //   isLoading,
+  // } = useQuery({
+  //   queryKey: ["student"],
+  //   queryFn: fetchStudents,
+  // });
 
-  if (error) {
-    return <Text>Error: {error.message}</Text>; // Handle error case
-  }
+  // if (isLoading) {
+  //   return <Loader color={Color.Blue500} size="large" />;
+  // }
+
+  // if (error) {
+  //   return <Text>Error: {error.message}</Text>; // Handle error case
+  // }
 
   return (
     <View>
-      <Text>{students.data.name}</Text>
+      <Text>Profile Screen</Text>
     </View>
   );
 }

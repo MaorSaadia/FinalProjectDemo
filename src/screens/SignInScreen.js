@@ -1,5 +1,5 @@
 import { ADDRESS } from "@env";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { ImageBackground, StyleSheet, View } from "react-native";
@@ -9,8 +9,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
+import { StudentContext } from "../context/StudentContext";
 
 function SignInScreen({ route }) {
+  const auth = useContext(StudentContext);
   const navigation = useNavigation();
 
   const { userType } = route.params;
@@ -22,7 +24,6 @@ function SignInScreen({ route }) {
   const storeData = async (key, value) => {
     try {
       await AsyncStorage.setItem(key, value);
-      console.log(key, value);
     } catch (err) {
       console.log(err);
     }
@@ -54,7 +55,8 @@ function SignInScreen({ route }) {
     mutationFn: ({ email, password }) => login({ email, password }),
     onSuccess: (user) => {
       storeData("token", user.token);
-      storeData("id", user.data.user._id);
+      auth.login(user.data);
+      // storeData("id", user.data.user._id);
       navigation.navigate("HomeDrawer");
     },
     onError: (err) => {

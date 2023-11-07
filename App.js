@@ -9,6 +9,7 @@ import StudentsSignUpScreen from "./src/screens/StudentsSignUpScreen";
 import LandlordSignUpScreen from "./src/screens/LandlordSignUpScreen";
 import HomeDrawer from "./src/navigation/HomeDrawer";
 import EmptyScreen from "./src/screens/EmptyScreen";
+import { StudentContext, useStudents } from "./src/context/StudentContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,52 +22,68 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
+  const { login } = useStudents();
+
   return (
     <QueryClientProvider client={queryClient}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
-          <Stack.Screen name="EmptyScreen" component={EmptyScreen} />
+      <StudentContext.Provider
+        value={{
+          id: "12",
+          name: "maor",
+          age: "1",
+          academic: "fd",
+          department: "fd",
+          yearbook: "2",
+          gender: "gfg",
+          email: "email",
+          login,
+        }}
+      >
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+            <Stack.Screen name="EmptyScreen" component={EmptyScreen} />
 
-          <Stack.Screen
-            name="WelcomeScreen"
-            component={WelcomeScreen}
-            options={{
-              headerShown: false,
-              presentation: "modal",
-              animation: "fade_from_bottom",
-            }}
-          />
-          <Stack.Screen
-            name="SignInScreen"
-            component={SignInScreen}
-            options={{
-              title: "",
-              animation: "simple_push",
-              headerStyle: { backgroundColor: Color.Brown100 },
-            }}
-          />
-          <Stack.Screen
-            name="StudentsSignUpScreen"
-            component={StudentsSignUpScreen}
-            options={{ headerShown: false, animation: "simple_push" }}
-          />
-          <Stack.Screen
-            name="LandlordSignUpScreen"
-            component={LandlordSignUpScreen}
-            options={{ title: "", animation: "simple_push" }}
-          />
+            <Stack.Screen
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+              options={{
+                headerShown: false,
+                presentation: "modal",
+                animation: "fade_from_bottom",
+              }}
+            />
+            <Stack.Screen
+              name="SignInScreen"
+              component={SignInScreen}
+              options={{
+                title: "",
+                animation: "simple_push",
+                headerStyle: { backgroundColor: Color.Brown100 },
+              }}
+            />
+            <Stack.Screen
+              name="StudentsSignUpScreen"
+              component={StudentsSignUpScreen}
+              options={{ headerShown: false, animation: "simple_push" }}
+            />
+            <Stack.Screen
+              name="LandlordSignUpScreen"
+              component={LandlordSignUpScreen}
+              options={{ title: "", animation: "simple_push" }}
+            />
 
-          <Stack.Screen
-            name={"HomeDrawer"}
-            component={HomeDrawer}
-            options={{
-              title: "",
-              animation: "simple_push",
-              headerShown: false,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen
+              name={"HomeDrawer"}
+              component={HomeDrawer}
+              options={{
+                title: "",
+                animation: "simple_push",
+                headerShown: false,
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </StudentContext.Provider>
     </QueryClientProvider>
   );
 }
