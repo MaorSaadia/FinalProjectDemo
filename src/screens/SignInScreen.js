@@ -19,9 +19,10 @@ function SignInScreen({ route }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
-  const storeData = async (value) => {
+  const storeData = async (key, value) => {
     try {
-      await AsyncStorage.setItem("token", value);
+      await AsyncStorage.setItem(key, value);
+      console.log(key, value);
     } catch (err) {
       console.log(err);
     }
@@ -52,7 +53,8 @@ function SignInScreen({ route }) {
   const { mutate, isLoading } = useMutation({
     mutationFn: ({ email, password }) => login({ email, password }),
     onSuccess: (user) => {
-      storeData(user.token);
+      storeData("token", user.token);
+      storeData("id", user.data.user._id);
       navigation.navigate("HomeDrawer");
     },
     onError: (err) => {

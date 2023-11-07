@@ -11,10 +11,7 @@ router.post("/forgotPassword", authController.forgotPassword);
 router.patch("/resetPassword/:token", authController.resetPassword);
 router.patch("/updateMyPassword", authController.updatePassword);
 
-router
-  .route("/")
-  .get(studentController.getAllStudents)
-  .post(studentController.createStudent);
+router.route("/").get(studentController.getAllStudents);
 router
   .route("/:id")
   .get(studentController.getStudent)

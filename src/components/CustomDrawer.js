@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import {
   DrawerContentScrollView,
@@ -9,10 +8,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { Color } from "../constants/colors";
+import { useQuery } from "@tanstack/react-query";
+import Loader from "./ui/Loader";
 
 async function logoutHandler(navigation) {
   try {
     await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("id");
     navigation.navigate("WelcomeScreen");
   } catch (err) {
     console.log(err);
@@ -35,7 +37,7 @@ function CustomDrawer(props) {
               fontSize: 18,
             }}
           >
-            מאור
+            שם
           </Text>
         </View>
         <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 12 }}>

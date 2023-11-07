@@ -1,6 +1,7 @@
 const AppError = require("../utils/appError");
 const Student = require("./../models/studentModel");
 const catchAsync = require("./../utils/catchAsync");
+const factory = require("./handlerFactory");
 
 exports.getAllStudents = catchAsync(async (req, res, next) => {
   const students = await Student.find();
@@ -13,19 +14,7 @@ exports.getAllStudents = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getStudent = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined!",
-  });
-};
-
-exports.createStudent = (req, res) => {
-  res.status(500).json({
-    status: "error",
-    message: "This route is not yet defined!",
-  });
-};
+exports.getStudent = factory.getOne(Student);
 
 exports.updateStudent = (req, res) => {
   res.status(500).json({
