@@ -36,7 +36,8 @@ function useStudents() {
   const login = useCallback((data) => {
     // console.log(data);
     // console.log(data.user.name);
-    const { _id, name, age, academic, department, yearbook, email } = data.user;
+    const { _id, name, age, academic, department, yearbook, gender, email } =
+      data.user;
 
     setId(_id);
     setName(name);
@@ -44,7 +45,7 @@ function useStudents() {
     setAcademic(academic);
     setDepartment(department);
     setYearbook(yearbook);
-    SetGender("זכר");
+    SetGender(gender);
     SetEmail(email);
 
     // AsyncStorage.setItem("studentData", JSON.stringify(data));

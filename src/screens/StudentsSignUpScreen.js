@@ -109,7 +109,7 @@ function StudentsSignUpScreen({ route }) {
       }),
     onSuccess: (user) => {
       console.log(user);
-      navigation.navigate("Home");
+      navigation.navigate("HomeDrawer");
     },
     onError: (err) => {
       console.log("ERROR", err);
