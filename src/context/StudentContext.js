@@ -12,17 +12,6 @@ const StudentContext = createContext({
   logout: () => {},
 });
 
-// const studentValue = {
-//   id: "12",
-//   name: "maor",
-//   age: "1",
-//   academic: "fd",
-//   department: "fd",
-//   yearbook: "2",
-//   gender: "gfg",
-//   email: "email",
-// };
-
 function useStudents() {
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
@@ -34,34 +23,52 @@ function useStudents() {
   const [email, SetEmail] = useState(null);
 
   const login = useCallback((data) => {
-    // console.log(data);
-    // console.log(data.user.name);
-    const { _id, name, age, academic, department, yearbook, gender, email } =
-      data.user;
+    const saveData = async () => {
+      const { _id, name, age, academic, department, yearbook, gender, email } =
+        data.user;
 
-    setId(_id);
-    setName(name);
-    setAge(age);
-    setAcademic(academic);
-    setDepartment(department);
-    setYearbook(yearbook);
-    SetGender(gender);
-    SetEmail(email);
+      setId(_id);
+      setName(name);
+      setAge(age);
+      setAcademic(academic);
+      setDepartment(department);
+      setYearbook(yearbook);
+      SetGender(gender);
+      SetEmail(email);
 
-    // AsyncStorage.setItem("studentData", JSON.stringify(data));
+      try {
+        await AsyncStorage.setItem("studentData", JSON.stringify(data));
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-    // setId(data);
-    // setName(data);
-    // setAge(data);
-    // setAcademic(data);
-    // setDepartment(data);
-    // setYearbook(data);
-    // SetGender("זכר");
-    // SetEmail(data);
+    saveData();
+  }, []);
+
+  const logout = useCallback(() => {
+    const removeData = async () => {
+      try {
+        await AsyncStorage.removeItem("studentData");
+      } catch (err) {
+        console.log(err);
+      }
+
+      setId(null);
+      setName(null);
+      setAge(null);
+      setAcademic(null);
+      setDepartment(null);
+      setYearbook(null);
+      SetGender(null);
+      SetEmail(null);
+    };
+
+    removeData();
   }, []);
 
   // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("userData"));
+  //   const storedData = JSON.parse(localStorage.getItem("studentData"));
   //   if (storedData) {
   //     login(
   //       storedData._id,
@@ -83,6 +90,7 @@ function useStudents() {
   return {
     context,
     login,
+    logout,
     id,
     name,
     age,

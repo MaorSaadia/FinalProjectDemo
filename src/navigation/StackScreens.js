@@ -15,7 +15,11 @@ function StackScreens() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
-        <Stack.Screen name="EmptyScreen" component={EmptyScreen} />
+        <Stack.Screen
+          name="EmptyScreen"
+          component={EmptyScreen}
+          options={{ headerShown: false, title: "" }}
+        />
 
         <Stack.Screen
           name="WelcomeScreen"

@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import {
   DrawerContentScrollView,
@@ -8,13 +9,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { Color } from "../constants/colors";
-import { useQuery } from "@tanstack/react-query";
-import Loader from "./ui/Loader";
+import { StudentContext, useStudents } from "../context/StudentContext";
 
-async function logoutHandler(navigation) {
+async function logoutHandler(auth, navigation) {
   try {
     await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem("id");
+    auth.logout();
     navigation.navigate("WelcomeScreen");
   } catch (err) {
     console.log(err);
@@ -22,6 +22,8 @@ async function logoutHandler(navigation) {
 }
 
 function CustomDrawer(props) {
+  const auth = useContext(StudentContext);
+  const { context } = useStudents();
   const navigation = useNavigation();
 
   return (
@@ -37,7 +39,7 @@ function CustomDrawer(props) {
               fontSize: 18,
             }}
           >
-            שם
+            {context.name}
           </Text>
         </View>
         <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 12 }}>
@@ -53,7 +55,7 @@ function CustomDrawer(props) {
         }}
       >
         <TouchableOpacity
-          onPress={() => logoutHandler(navigation)}
+          onPress={() => logoutHandler(auth, navigation)}
           style={{ paddingVertical: 15 }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>

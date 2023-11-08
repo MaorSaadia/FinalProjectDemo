@@ -12,21 +12,33 @@ const queryClient = new QueryClient({
 });
 
 export default function App() {
-  const { login } = useStudents();
+  const {
+    login,
+    logout,
+    id,
+    name,
+    age,
+    gender,
+    academic,
+    department,
+    yearbook,
+    email,
+  } = useStudents();
 
   return (
     <QueryClientProvider client={queryClient}>
       <StudentContext.Provider
         value={{
-          id: "12",
-          name: "maor",
-          age: "1",
-          academic: "fd",
-          department: "fd",
-          yearbook: "2",
-          gender: "gfg",
-          email: "email",
+          id,
+          name,
+          age,
+          gender,
+          academic,
+          department,
+          yearbook,
+          email,
           login,
+          logout,
         }}
       >
         <StackScreens />
