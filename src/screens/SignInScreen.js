@@ -10,6 +10,7 @@ import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 import { StudentContext } from "../context/StudentContext";
+import { ErrorMessage } from "../../backend/utils/errorMessage";
 
 function SignInScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -41,26 +42,28 @@ function SignInScreen({ route }) {
           body: JSON.stringify({ email, password }),
         }
       );
+
+      const responseData = await response.json();
+
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(responseData.message);
       }
 
-      return response.json();
-    } catch (error) {
-      throw new Error("Failed to fetch");
+      return responseData;
+    } catch (err) {
+      throw new Error(err);
     }
   };
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isLoading, error, isError } = useMutation({
     mutationFn: ({ email, password }) => login({ email, password }),
     onSuccess: (user) => {
       storeData("token", user.token);
       auth.login(user.data);
-      // storeData("id", user.data.user._id);
       navigation.navigate("HomeDrawer");
     },
     onError: (err) => {
-      console.log("ERROR", err);
+      console.log(err.message);
     },
   });
 
@@ -101,6 +104,7 @@ function SignInScreen({ route }) {
           onChangeText={(password) => setPassword(password)}
           secureTextEntry={isSecure}
         />
+        {isError && <Text>{ErrorMessage(error.message)}</Text>}
         {userType === "student" ? (
           <NavLink
             text="אין לך חשבון? לחץ כאן להירשם במקום"
