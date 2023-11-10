@@ -57,7 +57,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     status: "success",
     token,
     data: {
-      student: newStudent,
+      user: newStudent,
     },
   });
 });

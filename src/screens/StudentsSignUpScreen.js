@@ -1,9 +1,10 @@
 import { ADDRESS } from "@env";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
@@ -11,8 +12,10 @@ import { academicList } from "../../backend/data/academic";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 import Loader from "../components/ui/Loader";
+import { StudentContext } from "../context/StudentContext";
 
 function StudentsSignUpScreen({ route }) {
+  const auth = useContext(StudentContext);
   const navigation = useNavigation();
 
   const { userType } = route.params;
@@ -41,6 +44,14 @@ function StudentsSignUpScreen({ route }) {
     { label: "שנה ג'", value: "שנה ג'" },
     { label: "שנה ד'", value: "שנה ד'" },
   ];
+
+  const storeData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const SignUp = async ({
     name,
@@ -108,7 +119,8 @@ function StudentsSignUpScreen({ route }) {
         passwordConfirm,
       }),
     onSuccess: (user) => {
-      console.log(user);
+      storeData("token", user.token);
+      auth.login(user.data);
       navigation.navigate("HomeDrawer");
     },
     onError: (err) => {
