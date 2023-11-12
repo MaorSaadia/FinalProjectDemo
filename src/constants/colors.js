@@ -10,7 +10,7 @@ export const Color = {
   Blue600: "#9cb8c5",
   Blue700: "#8eaebd",
   Blue800: "#80a4b4",
-  Blue900: "#729aac",
+  Blue900: "#517d92",
   Brown50: "#f5f3ef", // Equivalent to f5f3ef
   Brown100: "#ebe6df", // Equivalent to ebe6df
   Brown200: "#e1dacf", // Equivalent to e1dacf

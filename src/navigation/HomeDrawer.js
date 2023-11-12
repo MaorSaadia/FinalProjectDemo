@@ -9,7 +9,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const Drawer = createDrawerNavigator();
 
 function HomeDrawer() {
-  NavigationBar.setVisibilityAsync("hidden");
+  // NavigationBar.setVisibilityAsync("hidden");
 
   return (
     <Drawer.Navigator
