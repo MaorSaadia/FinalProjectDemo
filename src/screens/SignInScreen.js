@@ -10,7 +10,8 @@ import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 import { StudentContext } from "../context/StudentContext";
-import { ErrorMessage } from "../../backend/utils/errorMessage";
+import ErrorMessage from "../components/ui/ErrorMessage";
+import Spacer from "../components/ui/Spacer";
 
 function SignInScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -55,7 +56,7 @@ function SignInScreen({ route }) {
     }
   };
 
-  const { mutate, isLoading, error, isError } = useMutation({
+  const { mutate, isPending, error, isError } = useMutation({
     mutationFn: ({ email, password }) => login({ email, password }),
     onSuccess: (user) => {
       storeData("token", user.token);
@@ -63,7 +64,7 @@ function SignInScreen({ route }) {
       navigation.navigate("HomeDrawer");
     },
     onError: (err) => {
-      console.log(err.message);
+      //console.log(err.message);
     },
   });
 
@@ -84,7 +85,7 @@ function SignInScreen({ route }) {
           </Text>
         </View>
         <Input
-          label="מייל"
+          label="אימייל"
           mode="outlined"
           onValueChange={(selectedMail) => setEmail(selectedMail)}
         />
@@ -104,7 +105,8 @@ function SignInScreen({ route }) {
           onChangeText={(password) => setPassword(password)}
           secureTextEntry={isSecure}
         />
-        {isError && <Text>{ErrorMessage(error.message)}</Text>}
+        {isError && <ErrorMessage errorMessage={error.message} />}
+
         {userType === "student" ? (
           <NavLink
             text="אין לך חשבון? לחץ כאן להירשם במקום"
@@ -123,8 +125,10 @@ function SignInScreen({ route }) {
           buttonColor={Color.Blue800}
           mode="contained"
           onPress={handleLogin}
+          disabled={isPending}
         >
           התחבר
+          {/* {isPending ? "טוען..." : "התחבר"} */}
         </Button>
       </View>
     </ImageBackground>

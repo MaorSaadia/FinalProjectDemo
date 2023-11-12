@@ -7,10 +7,8 @@ function DropDown({ list, label, searchable, listMode, onValueChange }) {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState(list);
 
-  // Add a callback function to handle value changes
   const handleValueChange = (selectedValue) => {
     setValue(selectedValue);
-    // Pass the selected value to the parent component using the onValueChange callback
     onValueChange(selectedValue);
   };
 

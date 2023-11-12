@@ -13,6 +13,7 @@ import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 import Loader from "../components/ui/Loader";
 import { StudentContext } from "../context/StudentContext";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 function StudentsSignUpScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -85,17 +86,19 @@ function StudentsSignUpScreen({ route }) {
           }),
         }
       );
+      const responseData = await response.json();
+
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error(responseData.message);
       }
 
-      return response.json();
-    } catch (error) {
-      throw new Error("Failed to fetch");
+      return responseData;
+    } catch (err) {
+      throw new Error(err);
     }
   };
 
-  const { mutate, isLoading } = useMutation({
+  const { mutate, isPending, isError, error } = useMutation({
     mutationFn: ({
       name,
       age,
@@ -124,7 +127,7 @@ function StudentsSignUpScreen({ route }) {
       navigation.navigate("HomeDrawer");
     },
     onError: (err) => {
-      console.log("ERROR", err);
+      console.log(err.message);
     },
   });
 
@@ -141,10 +144,6 @@ function StudentsSignUpScreen({ route }) {
       passwordConfirm,
     });
   };
-
-  if (isLoading) {
-    console.log("loading..");
-  }
 
   return (
     <ImageBackground
@@ -273,6 +272,8 @@ function StudentsSignUpScreen({ route }) {
             secureTextEntry={isSecure2}
           />
 
+          {isError && <ErrorMessage errorMessage={error.message} />}
+
           <NavLink
             text="כבר יש לך חשבון? היכנס במקום זאת"
             routeName="SignInScreen"
@@ -282,6 +283,7 @@ function StudentsSignUpScreen({ route }) {
             buttonColor={Color.Blue800}
             mode="contained"
             onPress={handleSignUp}
+            disabled={isPending}
           >
             הרשם
           </Button>

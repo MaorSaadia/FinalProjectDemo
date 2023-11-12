@@ -25,6 +25,25 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
+  // Check if any of the required fields are empty
+  const requiredFields = [
+    "name",
+    "age",
+    "academic",
+    "department",
+    "yearbook",
+    "gender",
+    "email",
+    "password",
+    "passwordConfirm",
+  ];
+
+  for (const field of requiredFields) {
+    if (!req.body[field]) {
+      return next(new AppError("יש למלא את כל השדות", 400));
+    }
+  }
+
   const newStudent = await Student.create({
     name: req.body.name,
     age: req.body.age,
