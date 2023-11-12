@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
+
 const Student = require("./../models/studentModel");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
@@ -44,42 +45,27 @@ exports.signup = catchAsync(async (req, res, next) => {
     }
   }
 
-  try {
-    const newStudent = await Student.create({
-      name: req.body.name,
-      age: req.body.age,
-      academic: req.body.academic,
-      department: req.body.department,
-      yearbook: req.body.yearbook,
-      gender: req.body.gender,
-      email: req.body.email,
-      password: req.body.password,
-      passwordConfirm: req.body.passwordConfirm,
-    });
+  const newStudent = await Student.create({
+    name: req.body.name,
+    age: req.body.age,
+    academic: req.body.academic,
+    department: req.body.department,
+    yearbook: req.body.yearbook,
+    gender: req.body.gender,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+  });
 
-    const token = signToken(newStudent._id);
+  const token = signToken(newStudent._id);
 
-    res.status(201).json({
-      status: "success",
-      token,
-      data: {
-        user: newStudent,
-      },
-    });
-  } catch (err) {
-    // Check if the error is a duplicate key error
-    console.log(err);
-    if (err.code === 11000) {
-      return next(new AppError("האימייל שהוזן כבר קיים במערכת", 400));
-    }
-    if (err.name === "ValidationError") {
-      // Extract the error messages and send a custom message
-      const errorMessages = Object.values(err.errors).map(
-        (error) => error.message
-      );
-      return next(new AppError(errorMessages.join("\n"), 400));
-    }
-  }
+  res.status(201).json({
+    status: "success",
+    token,
+    data: {
+      user: newStudent,
+    },
+  });
 });
 
 exports.login = catchAsync(async (req, res, next) => {

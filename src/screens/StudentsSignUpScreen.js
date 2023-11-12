@@ -283,9 +283,9 @@ function StudentsSignUpScreen({ route }) {
             buttonColor={Color.Blue800}
             mode="contained"
             onPress={handleSignUp}
-            disabled={isPending}
+            loading={isPending}
           >
-            הרשם
+            {isPending ? "" : "הרשם"}
           </Button>
         </View>
       </ScrollView>

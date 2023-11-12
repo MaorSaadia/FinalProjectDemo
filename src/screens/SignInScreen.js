@@ -11,7 +11,6 @@ import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 import { StudentContext } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
-import Spacer from "../components/ui/Spacer";
 
 function SignInScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -125,10 +124,9 @@ function SignInScreen({ route }) {
           buttonColor={Color.Blue800}
           mode="contained"
           onPress={handleLogin}
-          disabled={isPending}
+          loading={isPending}
         >
-          התחבר
-          {/* {isPending ? "טוען..." : "התחבר"} */}
+          {isPending ? "" : "התחבר"}
         </Button>
       </View>
     </ImageBackground>
