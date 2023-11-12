@@ -48,7 +48,7 @@ const studentSchema = new mongoose.Schema({
       validator: function (el) {
         return el === this.password;
       },
-      message: "!סיסמאות לא תואמות",
+      message: "סיסמאות לא תואמות",
     },
   },
   passwordChangedAt: Date,
