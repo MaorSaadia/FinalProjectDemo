@@ -137,10 +137,24 @@ exports.login = catchAsync(async (req, res, next) => {
 // });
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
+  const { email } = req.body;
+  const requiredFields = ["email"];
+
+  for (const field of requiredFields) {
+    if (!req.body[field]) {
+      return next(new AppError("יש למלא אימייל", 400));
+    }
+  }
+
+  let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (!re.test(email)) {
+    return next(new AppError("אנא ספק אימייל חוקי", 400));
+  }
+
   // 1) Get student based on POSTED email
   const student = await Student.findOne({ email: req.body.email });
   if (!student) {
-    return next(new AppError("אין סטודנט עם כתובת אימייל זו", 404));
+    return next(new AppError("אין משתמש עם כתובת אימייל זו", 404));
   }
 
   // 2) Generte the random reset token
