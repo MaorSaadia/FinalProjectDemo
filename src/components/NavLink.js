@@ -5,13 +5,13 @@ import { useNavigation } from "@react-navigation/native";
 import { Color } from "../constants/colors";
 import Spacer from "./ui/Spacer";
 
-const NavLink = ({ text, routeName, props }) => {
+const NavLink = ({ text, routeName, props, style }) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate(routeName, props)}>
       <Spacer>
-        <Text style={styles.link}>{text}</Text>
+        <Text style={{ ...styles.link, ...style }}>{text}</Text>
       </Spacer>
     </TouchableOpacity>
   );
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   link: {
     color: Color.Blue900,
     fontSize: 16,
+    textAlign: "center",
   },
 });
 

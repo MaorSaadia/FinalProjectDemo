@@ -90,59 +90,57 @@ exports.login = catchAsync(async (req, res, next) => {
   createSendToken(student, 200, res);
 });
 
-exports.protect = catchAsync(async (req, res, next) => {
-  // 1) Getting token and check if it's there
-  let token;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookies.jwt) {
-    token = req.cookies.jwt;
-  }
+// exports.protect = catchAsync(async (req, res, next) => {
+//   // 1) Getting token and check if it's there
+//   let token;
+//   if (
+//     req.headers.authorization &&
+//     req.headers.authorization.startsWith("Bearer")
+//   ) {
+//     token = req.headers.authorization.split(" ")[1];
+//   } else if (req.cookies.jwt) {
+//     token = req.cookies.jwt;
+//   }
 
-  if (!token) {
-    return next(
-      new AppError("Your are not looged in! Please log in to get access", 401)
-    );
-  }
-  // 2) Verification token
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+//   if (!token) {
+//     return next(
+//       new AppError("Your are not looged in! Please log in to get access", 401)
+//     );
+//   }
+//   // 2) Verification token
+//   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  // 3) Check if student still exists
-  const currentStudent = await Student.findById(decoded.id);
-  if (!currentStudent) {
-    return next(
-      new AppError(
-        "The student belonging to this token does no longer exist!",
-        401
-      )
-    );
-  }
+//   // 3) Check if student still exists
+//   const currentStudent = await Student.findById(decoded.id);
+//   if (!currentStudent) {
+//     return next(
+//       new AppError(
+//         "The student belonging to this token does no longer exist!",
+//         401
+//       )
+//     );
+//   }
 
-  // 4) Check if student changed password after the token was issued
-  if (currentStudent.changedPasswordAfter(decoded.iat)) {
-    return next(
-      new AppError(
-        "student recently changed password! Please log in again",
-        401
-      )
-    );
-  }
+//   // 4) Check if student changed password after the token was issued
+//   if (currentStudent.changedPasswordAfter(decoded.iat)) {
+//     return next(
+//       new AppError(
+//         "student recently changed password! Please log in again",
+//         401
+//       )
+//     );
+//   }
 
-  // GRANT ACCESS TO PROTECTED ROUTE
-  req.student = currentStudent;
-  next();
-});
+//   // GRANT ACCESS TO PROTECTED ROUTE
+//   req.student = currentStudent;
+//   next();
+// });
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get student based on POSTED email
   const student = await Student.findOne({ email: req.body.email });
   if (!student) {
-    return next(
-      new AppError("There is no student with this email address", 404)
-    );
+    return next(new AppError("אין סטודנט עם כתובת אימייל זו", 404));
   }
 
   // 2) Generte the random reset token

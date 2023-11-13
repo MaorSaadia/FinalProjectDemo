@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import EmptyScreen from "../screens/EmptyScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import SignInScreen from "../screens/SignInScreen";
+import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import StudentsSignUpScreen from "../screens/StudentsSignUpScreen";
 import LandlordSignUpScreen from "../screens/LandlordSignUpScreen";
 import HomeDrawer from "./HomeDrawer";
@@ -33,6 +34,15 @@ function StackScreens() {
         <Stack.Screen
           name="SignInScreen"
           component={SignInScreen}
+          options={{
+            title: "",
+            animation: "simple_push",
+            headerStyle: { backgroundColor: Color.Brown100 },
+          }}
+        />
+        <Stack.Screen
+          name="ForgotPasswordScreen"
+          component={ForgotPasswordScreen}
           options={{
             title: "",
             animation: "simple_push",

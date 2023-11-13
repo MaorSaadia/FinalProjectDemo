@@ -11,7 +11,6 @@ import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
 import Input from "../components/Input";
 import NavLink from "../components/NavLink";
-import Loader from "../components/ui/Loader";
 import { StudentContext } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
 

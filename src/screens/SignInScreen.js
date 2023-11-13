@@ -62,9 +62,6 @@ function SignInScreen({ route }) {
       auth.login(user.data);
       navigation.navigate("HomeDrawer");
     },
-    onError: (err) => {
-      //console.log(err.message);
-    },
   });
 
   const handleLogin = () => {
@@ -104,21 +101,25 @@ function SignInScreen({ route }) {
           onChangeText={(password) => setPassword(password)}
           secureTextEntry={isSecure}
         />
+
         {isError && <ErrorMessage errorMessage={error.message} />}
+
+        <NavLink text="שכחתי סיסמה" routeName="ForgotPasswordScreen" />
 
         {userType === "student" ? (
           <NavLink
-            text="אין לך חשבון? לחץ כאן להירשם במקום"
+            text="אין לך חשבון? לחץ כאן להירשם "
             props={{ userType: userType }}
             routeName="StudentsSignUpScreen"
           />
         ) : (
           <NavLink
-            text="אין לך חשבון? לחץ כאן להירשם במקום"
+            text="אין לך חשבון? לחץ כאן להירשם "
             props={{ userType: userType }}
             routeName="LandlordSignUpScreen"
           />
         )}
+
         <Button
           icon="login"
           buttonColor={Color.Blue800}
