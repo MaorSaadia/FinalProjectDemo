@@ -1,13 +1,14 @@
 import { ADDRESS } from "@env";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, Text, TextInput } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 
 import Input from "../components/Input";
 import Spacer from "../components/ui/Spacer";
 import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import Toast from "react-native-toast-message";
 
 function ForgotPasswordScreen() {
   const [email, setEmail] = useState();
@@ -39,7 +40,12 @@ function ForgotPasswordScreen() {
 
   const { mutate, isPending, error, isError } = useMutation({
     mutationFn: ({ email }) => sendEmail({ email }),
-    onSuccess: () => {},
+    onSuccess: () => {
+      Toast.show({
+        type: "success",
+        text1: "מייל נשלח בהצלחה",
+      });
+    },
   });
 
   const handleSendEmail = () => {

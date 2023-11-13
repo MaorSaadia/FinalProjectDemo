@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import StackScreens from "./src/navigation/StackScreens";
 import { StudentContext, useStudents } from "./src/context/StudentContext";
+import Toast from "react-native-toast-message";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,7 @@ export default function App() {
         }}
       >
         <StackScreens />
+        <Toast />
       </StudentContext.Provider>
     </QueryClientProvider>
   );

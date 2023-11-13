@@ -5,6 +5,7 @@ import { Button, RadioButton, Text, TextInput } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
@@ -123,7 +124,13 @@ function StudentsSignUpScreen({ route }) {
     onSuccess: (user) => {
       storeData("token", user.token);
       auth.login(user.data);
-      navigation.navigate("HomeDrawer");
+      Toast.show(
+        {
+          type: "success",
+          text1: "חשבון נוצר בהצלחה",
+        },
+        navigation.navigate("HomeDrawer")
+      );
     },
     onError: (err) => {
       console.log(err.message);
