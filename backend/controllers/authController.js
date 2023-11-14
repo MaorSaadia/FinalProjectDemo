@@ -157,17 +157,17 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     return next(new AppError("אין משתמש עם כתובת אימייל זו", 404));
   }
 
-  // 2) Generte the random reset token
-  const resetToken = student.createPasswordResetToken();
+  const randomNumber = Math.random() * (999999 - 100000) + 100000;
+  const OTP = Math.floor(randomNumber);
+  const otpExpire = 10 * 60 * 1000;
+
+  student.otp = OTP;
+  student.otpExpire = new Date(Date.now() + otpExpire);
+  console.log("OTP: ", OTP);
+
   await student.save({ validateBeforeSave: false });
 
-  // 3) Send it to student's email
-  const resetURL = `${req.protocol}://${req.get(
-    "host"
-  )}/api/v1/students/resetPassword/${resetToken}}`;
-
-  const message = `Forgot your password? Submit a PATCH request with your new password and
-  passwordConfirm to: ${resetURL}.\n if you didn't forget your password. please ignore thid email!`;
+  const message = `Your OTP for Reseting Password is ${OTP}`;
 
   try {
     await sendEmail({
@@ -178,11 +178,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      message: "Token sent to email!",
+      message: "OTP sent to email!",
     });
   } catch (err) {
-    student.passwordResetToken = undefined;
-    student.passwordResetExpires = undefined;
+    student.otp = undefined;
+    student.otpExpire = undefined;
     await student.save({ validateBeforeSave: false });
 
     return next(
@@ -194,31 +194,59 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   }
 });
 
+// exports.resetPassword = catchAsync(async (req, res, next) => {
+//   // 1) get student based on the token
+//   const hashedToken = crypto
+//     .createHash("sha256")
+//     .update(req.params.token)
+//     .digest("hex");
+
+//   const student = await Student.findOne({
+//     passwordResetToken: hashedToken,
+//     passwordResetExpires: { $gt: Date.now() },
+//   });
+
+//   // 2) if token has not expired, and there is student, set the new password
+//   if (!student) {
+//     return next(new AppError("Token is invalid or has expired", 400));
+//   }
+//   student.password = req.body.password;
+//   student.passwordConfirm = req.body.passwordConfirm;
+//   student.passwordResetToken = undefined;
+//   student.passwordResetExpires = undefined;
+//   await student.save();
+
+//   // 3) Update changedPasswordAt property for the student
+
+//   // 4) Log the student in, send JWT
+//   createSendToken(student, 200, res);
+// });
+
 exports.resetPassword = catchAsync(async (req, res, next) => {
-  // 1) get student based on the token
-  const hashedToken = crypto
-    .createHash("sha256")
-    .update(req.params.token)
-    .digest("hex");
+  const { otp, password } = req.body;
 
   const student = await Student.findOne({
-    passwordResetToken: hashedToken,
-    passwordResetExpires: { $gt: Date.now() },
+    otp,
+    otpExpire: {
+      $gt: Date.now(),
+    },
   });
 
-  // 2) if token has not expired, and there is student, set the new password
   if (!student) {
-    return next(new AppError("Token is invalid or has expired", 400));
+    return next(new AppError("קוד האימות לא תקין או לא בתוקף", 400));
   }
+
+  if (!password) {
+    return next(new AppError("יש למלא סיסמה חדשה", 400));
+  }
+
   student.password = req.body.password;
   student.passwordConfirm = req.body.passwordConfirm;
-  student.passwordResetToken = undefined;
-  student.passwordResetExpires = undefined;
+  student.otp = undefined;
+  student.otpExpire = undefined;
+
   await student.save();
 
-  // 3) Update changedPasswordAt property for the student
-
-  // 4) Log the student in, send JWT
   createSendToken(student, 200, res);
 });
 

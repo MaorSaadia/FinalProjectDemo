@@ -46,6 +46,12 @@ function ForgotPasswordScreen() {
         text1: "מייל נשלח בהצלחה",
       });
     },
+    onError: () => {
+      Toast.show({
+        type: "error",
+        text1: "שגיאה בשליחת המייל",
+      });
+    },
   });
 
   const handleSendEmail = () => {
