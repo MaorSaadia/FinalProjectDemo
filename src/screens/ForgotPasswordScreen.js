@@ -1,8 +1,9 @@
 import { ADDRESS } from "@env";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigation } from "@react-navigation/native";
 
 import Input from "../components/Input";
 import Spacer from "../components/ui/Spacer";
@@ -11,6 +12,8 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Toast from "react-native-toast-message";
 
 function ForgotPasswordScreen() {
+  const navigation = useNavigation();
+
   const [email, setEmail] = useState();
 
   const sendEmail = async ({ email }) => {
@@ -45,6 +48,7 @@ function ForgotPasswordScreen() {
         type: "success",
         text1: "מייל נשלח בהצלחה",
       });
+      navigation.navigate("ResetPasswordScreen");
     },
     onError: () => {
       Toast.show({

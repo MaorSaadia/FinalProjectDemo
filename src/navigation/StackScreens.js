@@ -9,6 +9,7 @@ import StudentsSignUpScreen from "../screens/StudentsSignUpScreen";
 import LandlordSignUpScreen from "../screens/LandlordSignUpScreen";
 import HomeDrawer from "./HomeDrawer";
 import { Color } from "../constants/colors";
+import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,16 @@ function StackScreens() {
             title: "",
             animation: "simple_push",
             headerStyle: { backgroundColor: Color.Brown100 },
+          }}
+        />
+        <Stack.Screen
+          name="ResetPasswordScreen"
+          component={ResetPasswordScreen}
+          options={{
+            title: "",
+            animation: "simple_push",
+            headerStyle: { backgroundColor: Color.Brown100 },
+            headerShown: false,
           }}
         />
         <Stack.Screen

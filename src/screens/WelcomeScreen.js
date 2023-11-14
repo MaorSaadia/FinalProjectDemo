@@ -48,7 +48,6 @@ function WelcomeScreen({ navigation }) {
         >
           משכיר
         </Button>
-
         <Button
           style={styles.button}
           buttonColor={Color.Brown600}
