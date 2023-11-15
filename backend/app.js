@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 
@@ -11,6 +12,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
+app.get("/", (req, res) => {
+  res.status(200).render("resetPasswordEmail");
+});
+
 app.use((req, res, next) => {
   res.requestTime = new Date().toISOString();
   next();
@@ -18,13 +26,6 @@ app.use((req, res, next) => {
 
 app.use("/api/v1/apartments", apartmentRouter);
 app.use("/api/v1/students", studentRouter);
-
-// app.use((err, req, res, next) => {
-//   res.status(err.status || 500).json({
-//     status: "error",
-//     message: err.message,
-//   });
-// });
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

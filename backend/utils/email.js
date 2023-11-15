@@ -1,4 +1,6 @@
 const nodemailer = require("nodemailer");
+const pug = require("pug");
+const { convert } = require("html-to-text");
 
 module.exports = class Email {
   constructor(user, url) {
@@ -26,14 +28,19 @@ module.exports = class Email {
 
   async send(template, subject) {
     // 1) Render HTML based on template
+    const html = pug.renderFile(`${__dirname}/../views/${template}.pug`, {
+      firstName: this.firstName,
+      url: this.url,
+      subject,
+    });
 
     // 2) Define email options
     const mailOptions = {
       from: this.from,
       to: this.to,
       subject,
-      text: template,
-      //html:
+      html,
+      text: convert(html),
     };
 
     // 3) create a transport and send email
@@ -41,10 +48,13 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send("welcome", "Welcome to the App!");
+    await this.send("welcomeEmail", "Welcome to the App!");
   }
 
   async sendPasswordReset() {
-    await this.send("passwordReset", "הקוד שלך לאיפוס סיסמה (תקף ל10 דקות)");
+    await this.send(
+      "resetPasswordEmail",
+      "הקוד שלך לאיפוס סיסמה (תקף ל10 דקות)"
+    );
   }
 };

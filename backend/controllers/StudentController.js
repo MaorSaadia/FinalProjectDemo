@@ -1,6 +1,6 @@
 const AppError = require("../utils/appError");
-const Student = require("./../models/studentModel");
-const catchAsync = require("./../utils/catchAsync");
+const Student = require("../models/studentModel");
+const catchAsync = require("../utils/catchAsync");
 const factory = require("./handlerFactory");
 
 exports.getAllStudents = catchAsync(async (req, res, next) => {

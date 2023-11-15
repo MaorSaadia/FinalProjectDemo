@@ -125,7 +125,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     const resetUrl = `${req.protocol}://${req.get(
       "host"
     )}/api/v1/students/forgotPassword`;
-    console.log(resetUrl);
+
     await new Email(student, resetUrl).sendPasswordReset();
 
     res.status(200).json({
@@ -136,7 +136,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     student.otp = undefined;
     student.otpExpire = undefined;
     await student.save({ validateBeforeSave: false });
-
+    console.log(err.message);
     return next(
       new AppError(
         "Theres was an error sending the email. Try again later!",
