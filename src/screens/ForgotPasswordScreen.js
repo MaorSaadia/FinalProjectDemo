@@ -4,51 +4,29 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
 
 import Input from "../components/Input";
 import Spacer from "../components/ui/Spacer";
 import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
-import Toast from "react-native-toast-message";
+import sendEmail from "../utils/sendEmail";
 
-function ForgotPasswordScreen() {
+function ForgotPasswordScreen({ route }) {
   const navigation = useNavigation();
 
   const [email, setEmail] = useState();
-
-  const sendEmail = async ({ email }) => {
-    try {
-      const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/forgotPassword`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
+  const { userType } = route.params;
+  const uri = "students/forgotPassword";
 
   const { mutate, isPending, error, isError } = useMutation({
-    mutationFn: ({ email }) => sendEmail({ email }),
+    mutationFn: ({ uri, email }) => sendEmail({ uri, email }),
     onSuccess: () => {
       Toast.show({
         type: "success",
         text1: "קוד לאיפוס סיסמה נשלח למייל",
       });
-      navigation.navigate("ResetPasswordScreen", { email });
+      navigation.navigate("ResetPasswordScreen", { email, uri, userType });
     },
     onError: () => {
       Toast.show({
@@ -59,7 +37,7 @@ function ForgotPasswordScreen() {
   });
 
   const handleSendEmail = () => {
-    mutate({ email });
+    mutate({ uri, email });
   };
 
   return (

@@ -4,13 +4,13 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
-import Clipboard from "@react-native-community/clipboard";
 import Toast from "react-native-toast-message";
 
 import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 import NavLink from "../components/NavLink";
+import sendEmail from "../utils/sendEmail";
 
 function ResetPasswordScreen({ route }) {
   const [otp, setOtp] = useState();
@@ -19,7 +19,7 @@ function ResetPasswordScreen({ route }) {
   const [isSecure1, setIsSecure1] = useState(true);
   const [isSecure2, setIsSecure2] = useState(true);
 
-  const { email } = route.params;
+  const { email, uri, userType } = route.params;
 
   const resetPassword = async ({ otp, password, passwordConfirm }) => {
     try {
@@ -46,31 +46,6 @@ function ResetPasswordScreen({ route }) {
     }
   };
 
-  const sendEmail = async ({ email }) => {
-    try {
-      const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/forgotPassword`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
   const {
     mutate: mutateResetPassword,
     isPending: isResetPasswordPending,
@@ -82,18 +57,14 @@ function ResetPasswordScreen({ route }) {
     onSuccess: () => {
       Toast.show({
         type: "success",
-        text1: "סיסמה אופסה בהצלחה",
+        text1: "סיסמה שונתה בהצלחה",
       });
     },
   });
 
-  const handleResetPassword = () => {
-    mutateResetPassword({ otp, password, passwordConfirm });
-  };
-
   const { mutate: mutateSendEmail, isPending: isSendEmailPanding } =
     useMutation({
-      mutationFn: ({ email }) => sendEmail({ email }),
+      mutationFn: ({ uri, email }) => sendEmail({ uri, email }),
       onSuccess: () => {
         Toast.show({
           type: "success",
@@ -108,8 +79,11 @@ function ResetPasswordScreen({ route }) {
       },
     });
 
+  const handleResetPassword = () => {
+    mutateResetPassword({ otp, password, passwordConfirm });
+  };
   const handleSendEmail = () => {
-    mutateSendEmail({ email });
+    mutateSendEmail({ uri, email });
   };
 
   return (
@@ -196,7 +170,7 @@ function ResetPasswordScreen({ route }) {
         </Spacer>
         <NavLink
           text="חזור לעמוד התחברות"
-          props={{ userType: "student" }}
+          props={{ userType }}
           routeName="SignInScreen"
         />
       </View>
@@ -209,7 +183,7 @@ export default ResetPasswordScreen;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginTop: 125,
+    marginTop: 150,
   },
   text: {
     fontWeight: "bold",

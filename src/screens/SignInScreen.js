@@ -104,7 +104,11 @@ function SignInScreen({ route }) {
 
         {isError && <ErrorMessage errorMessage={error.message} />}
 
-        <NavLink text="שכחתי סיסמה" routeName="ForgotPasswordScreen" />
+        <NavLink
+          text="שכחתי סיסמה"
+          routeName="ForgotPasswordScreen"
+          props={{ userType: userType }}
+        />
 
         {userType === "student" ? (
           <NavLink
