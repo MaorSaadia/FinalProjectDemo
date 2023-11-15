@@ -20,5 +20,5 @@ export const Color = {
   Brown600: "#baa990", // Equivalent to baa990
   Brown700: "#b09d80", // Equivalent to b09d80
   Brown800: "#947e5d", // Equivalent to a69070
-  Brown900: "#816a47", // Equivalent to 9c8460
+  Brown900: "#755c36", // Equivalent to 9c8460
 };

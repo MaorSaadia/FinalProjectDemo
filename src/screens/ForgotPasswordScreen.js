@@ -46,9 +46,9 @@ function ForgotPasswordScreen() {
     onSuccess: () => {
       Toast.show({
         type: "success",
-        text1: "מייל נשלח בהצלחה",
+        text1: "קוד לאיפוס סיסמה נשלח למייל",
       });
-      navigation.navigate("ResetPasswordScreen");
+      navigation.navigate("ResetPasswordScreen", { email });
     },
     onError: () => {
       Toast.show({
