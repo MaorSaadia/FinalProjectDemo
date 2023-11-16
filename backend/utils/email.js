@@ -3,18 +3,25 @@ const pug = require("pug");
 const { convert } = require("html-to-text");
 
 module.exports = class Email {
-  constructor(user, url) {
+  constructor(user, url, OTP) {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
-    this.from = `App name <${process.env.EMAIL_FORM}>`;
+    this.OTP = OTP;
+    this.from = `HomeStudents<${process.env.EMAIL_FORM}>`;
   }
 
   newTransport() {
-    // if (process.env.NODE_ENV === "production") {
-    //   //Sendgrid
-    //   return 1;
-    // }
+    if (process.env.NODE_ENV === "production") {
+      // Sendgrid
+      return nodemailer.createTransport({
+        service: "SendGrid",
+        auth: {
+          user: process.env.SENDGRID_USERNAME,
+          pass: process.env.SENDGRID_PASSWORD,
+        },
+      });
+    }
 
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
@@ -31,6 +38,7 @@ module.exports = class Email {
     const html = pug.renderFile(`${__dirname}/../views/${template}.pug`, {
       firstName: this.firstName,
       url: this.url,
+      OTP: this.OTP,
       subject,
     });
 

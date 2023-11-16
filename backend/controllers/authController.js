@@ -126,7 +126,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       "host"
     )}/api/v1/students/forgotPassword`;
 
-    await new Email(student, resetUrl).sendPasswordReset();
+    await new Email(student, resetUrl, OTP).sendPasswordReset();
 
     res.status(200).json({
       status: "success",
