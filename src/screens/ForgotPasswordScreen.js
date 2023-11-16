@@ -1,6 +1,6 @@
 import { ADDRESS } from "@env";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
@@ -41,33 +41,39 @@ function ForgotPasswordScreen({ route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text} variant="titleMedium">
-        אנא הזן מייל לקבלת לינק לאיפוס סיסמה
-      </Text>
-      <View style={styles.line} />
-      <Spacer>
-        <Input
-          label="אימייל"
-          mode="outlined"
-          onValueChange={(selectedMail) => setEmail(selectedMail)}
-        />
-      </Spacer>
+    <ImageBackground
+      source={require("../../assets/images/MidnightCity.jpg")}
+      resizeMode="cover"
+      style={styles.image}
+    >
+      <View style={styles.container}>
+        <Text style={styles.text} variant="titleMedium">
+          אנא הזן מייל לקבלת לינק לאיפוס סיסמה
+        </Text>
+        <View style={styles.line} />
+        <Spacer>
+          <Input
+            label="אימייל"
+            mode="outlined"
+            onValueChange={(selectedMail) => setEmail(selectedMail)}
+          />
+        </Spacer>
 
-      <View style={styles.line} />
+        <View style={styles.line} />
 
-      {isError && <ErrorMessage errorMessage={error.message} />}
+        {isError && <ErrorMessage errorMessage={error.message} />}
 
-      <Button
-        style={styles.button}
-        buttonColor={Color.Brown500}
-        onPress={handleSendEmail}
-        loading={isPending}
-        mode="contained"
-      >
-        {isPending ? "" : "שלח"}
-      </Button>
-    </View>
+        <Button
+          style={styles.button}
+          buttonColor={Color.Brown500}
+          onPress={handleSendEmail}
+          loading={isPending}
+          mode="contained"
+        >
+          {isPending ? "" : "שלח"}
+        </Button>
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -77,9 +83,13 @@ const styles = StyleSheet.create({
   container: {
     margin: 15,
   },
+  image: {
+    flex: 1,
+  },
   text: {
     fontWeight: "bold",
     textAlign: "center",
+    color: Color.white,
   },
   line: {
     height: 3,

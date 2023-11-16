@@ -70,7 +70,7 @@ function SignInScreen({ route }) {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/Zinc.jpg")}
+      source={require("../../assets/images/MidnightCity.jpg")}
       resizeMode="cover"
       style={styles.image}
     >

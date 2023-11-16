@@ -2,6 +2,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   MD3LightTheme as DefaultTheme,
+  MD3DarkTheme as DarkTheme,
   Provider as PaperProvider,
 } from "react-native-paper";
 
@@ -12,9 +13,9 @@ import ProfileScreen from "../screens/ProfileScreen";
 const Tab = createMaterialBottomTabNavigator();
 
 const theme = {
-  ...DefaultTheme,
+  ...DarkTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...DarkTheme.colors,
     secondaryContainer: Color.Brown100,
   },
 };

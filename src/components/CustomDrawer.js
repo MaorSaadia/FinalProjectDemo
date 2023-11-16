@@ -1,5 +1,6 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { Switch } from "react-native-paper";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -29,6 +30,7 @@ function CustomDrawer(props) {
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView
+        style={{ backgroundColor: Color.darkTheme }}
         {...props}
         contentContainerStyle={{ backgroundColor: Color.Blue200 }}
       >
@@ -42,10 +44,41 @@ function CustomDrawer(props) {
             {context.name}
           </Text>
         </View>
-        <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 12 }}>
+        <View
+          style={{ flex: 1, backgroundColor: Color.darkTheme, paddingTop: 12 }}
+        >
           <DrawerItemList {...props} />
         </View>
       </DrawerContentScrollView>
+
+      <View
+        style={{
+          padding: 10,
+          backgroundColor: Color.darkTheme,
+          borderTopWidth: 1,
+          borderTopColor: Color.Brown100,
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row-reverse",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Switch value={true} color={Color.Brown400} />
+          <Text
+            style={{
+              fontSize: 15,
+              marginLeft: 5,
+              color: Color.white,
+            }}
+          >
+            מצב כהה
+          </Text>
+        </View>
+      </View>
+
       <View
         style={{
           padding: 15,

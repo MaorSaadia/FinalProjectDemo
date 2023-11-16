@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import EmptyScreen from "../screens/EmptyScreen";
@@ -7,15 +7,24 @@ import SignInScreen from "../screens/SignInScreen";
 import ForgotPasswordScreen from "../screens/ForgotPasswordScreen";
 import StudentsSignUpScreen from "../screens/StudentsSignUpScreen";
 import LandlordSignUpScreen from "../screens/LandlordSignUpScreen";
+import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import HomeDrawer from "./HomeDrawer";
 import { Color } from "../constants/colors";
-import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 
 const Stack = createNativeStackNavigator();
 
+const CustomDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: Color.darkTheme,
+    text: Color.white,
+  },
+};
+
 function StackScreens() {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={CustomDarkTheme}>
       <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
         <Stack.Screen
           name="EmptyScreen"
@@ -38,7 +47,7 @@ function StackScreens() {
           options={{
             title: "",
             animation: "simple_push",
-            headerStyle: { backgroundColor: Color.Brown100 },
+            headerStyle: { backgroundColor: Color.darkTheme },
           }}
         />
         <Stack.Screen
@@ -46,8 +55,8 @@ function StackScreens() {
           component={ForgotPasswordScreen}
           options={{
             title: "",
-            animation: "simple_push",
-            headerStyle: { backgroundColor: Color.Brown100 },
+            animation: "slide_from_right",
+            headerStyle: { backgroundColor: Color.darkTheme },
           }}
         />
         <Stack.Screen
@@ -55,8 +64,8 @@ function StackScreens() {
           component={ResetPasswordScreen}
           options={{
             title: "",
-            animation: "simple_push",
-            headerStyle: { backgroundColor: Color.Brown100 },
+            animation: "slide_from_right",
+            headerStyle: { backgroundColor: Color.darkTheme },
             headerShown: false,
           }}
         />

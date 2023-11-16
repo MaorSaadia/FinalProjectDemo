@@ -1,6 +1,8 @@
 export const Color = {
   white: "#ffffff",
   black: "#000000",
+  darkTheme: "#333333",
+
   Blue50: "#f1f5f7",
   Blue100: "#e3ebee",
   Blue200: "#d5e1e6",
@@ -11,6 +13,7 @@ export const Color = {
   Blue700: "#8eaebd",
   Blue800: "#80a4b4",
   Blue900: "#517d92",
+
   Brown50: "#f5f3ef", // Equivalent to f5f3ef
   Brown100: "#ebe6df", // Equivalent to ebe6df
   Brown200: "#e1dacf", // Equivalent to e1dacf

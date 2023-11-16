@@ -168,11 +168,7 @@ function ResetPasswordScreen({ route }) {
             {isResetPasswordPending ? "" : "אפס סיסמה"}
           </Button>
         </Spacer>
-        <NavLink
-          text="חזור לעמוד התחברות"
-          props={{ userType }}
-          routeName="SignInScreen"
-        />
+        <NavLink text="התחבר" props={{ userType }} routeName="SignInScreen" />
       </View>
     </View>
   );

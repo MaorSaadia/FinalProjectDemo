@@ -153,7 +153,7 @@ function StudentsSignUpScreen({ route }) {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/Zinc.jpg")}
+      source={require("../../assets/images/MidnightCity.jpg")}
       resizeMode="cover"
       style={styles.image}
     >
@@ -323,6 +323,7 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: 20,
     fontWeight: "bold",
+    color: Color.white,
   },
   radioButtom: {
     paddingHorizontal: 20,
@@ -330,5 +331,6 @@ const styles = StyleSheet.create({
   },
   textRadio: {
     paddingTop: 6,
+    color: Color.white,
   },
 });

@@ -1,8 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
+import { Provider, MD3DarkTheme as DarkTheme } from "react-native-paper";
 
 import StackScreens from "./src/navigation/StackScreens";
 import { StudentContext, useStudents } from "./src/context/StudentContext";
-import Toast from "react-native-toast-message";
+import { Color } from "./src/constants/colors";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,6 +13,15 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+// const CustomDarkTheme = {
+//   ...DarkTheme,
+//   colors: {
+//     ...DarkTheme.colors,
+//     background: Color.darkTheme,
+//     text: Color.white,
+//   },
+// };
 
 export default function App() {
   const {
