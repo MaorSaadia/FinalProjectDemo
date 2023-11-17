@@ -11,8 +11,11 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 import NavLink from "../components/NavLink";
 import sendEmail from "../utils/sendEmail";
+import { useDarkMode } from "../context/DarkModeContext";
 
 function ResetPasswordScreen({ route }) {
+  const { isDarkMode } = useDarkMode();
+
   const [otp, setOtp] = useState();
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
@@ -190,7 +193,7 @@ const styles = StyleSheet.create({
     height: 100,
   },
   underlineStyleBase: {
-    color: Color.black,
+    color: Color.Blue800,
     width: 40,
     height: 45,
     borderWidth: 1,

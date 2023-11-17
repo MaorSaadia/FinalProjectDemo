@@ -5,6 +5,7 @@ import { Provider, MD3DarkTheme as DarkTheme } from "react-native-paper";
 import StackScreens from "./src/navigation/StackScreens";
 import { StudentContext, useStudents } from "./src/context/StudentContext";
 import { Color } from "./src/constants/colors";
+import { DarkModeProvider } from "./src/context/DarkModeContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,24 +39,26 @@ export default function App() {
   } = useStudents();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <StudentContext.Provider
-        value={{
-          id,
-          name,
-          age,
-          gender,
-          academic,
-          department,
-          yearbook,
-          email,
-          login,
-          logout,
-        }}
-      >
-        <StackScreens />
-        <Toast />
-      </StudentContext.Provider>
-    </QueryClientProvider>
+    <DarkModeProvider>
+      <QueryClientProvider client={queryClient}>
+        <StudentContext.Provider
+          value={{
+            id,
+            name,
+            age,
+            gender,
+            academic,
+            department,
+            yearbook,
+            email,
+            login,
+            logout,
+          }}
+        >
+          <StackScreens />
+          <Toast />
+        </StudentContext.Provider>
+      </QueryClientProvider>
+    </DarkModeProvider>
   );
 }

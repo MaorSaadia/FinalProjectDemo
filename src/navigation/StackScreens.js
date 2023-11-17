@@ -1,4 +1,8 @@
-import { NavigationContainer, DarkTheme } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  DarkTheme,
+  DefaultTheme,
+} from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import EmptyScreen from "../screens/EmptyScreen";
@@ -10,6 +14,8 @@ import LandlordSignUpScreen from "../screens/LandlordSignUpScreen";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import HomeDrawer from "./HomeDrawer";
 import { Color } from "../constants/colors";
+import { useDarkMode } from "../context/DarkModeContext";
+import { StatusBar } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,9 +28,22 @@ const CustomDarkTheme = {
   },
 };
 
+const CustomDefaultTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "#ffffff",
+    text: Color.black,
+  },
+};
+
 function StackScreens() {
+  const { isDarkMode } = useDarkMode();
+
+  const theme = isDarkMode ? CustomDarkTheme : CustomDefaultTheme;
+
   return (
-    <NavigationContainer theme={CustomDarkTheme}>
+    <NavigationContainer theme={theme}>
       <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
         <Stack.Screen
           name="EmptyScreen"
@@ -47,7 +66,9 @@ function StackScreens() {
           options={{
             title: "",
             animation: "simple_push",
-            headerStyle: { backgroundColor: Color.darkTheme },
+            headerStyle: {
+              backgroundColor: isDarkMode ? Color.darkTheme : Color.Brown100,
+            },
           }}
         />
         <Stack.Screen
@@ -56,7 +77,9 @@ function StackScreens() {
           options={{
             title: "",
             animation: "slide_from_right",
-            headerStyle: { backgroundColor: Color.darkTheme },
+            headerStyle: {
+              backgroundColor: isDarkMode ? Color.darkTheme : Color.Brown100,
+            },
           }}
         />
         <Stack.Screen
@@ -65,7 +88,9 @@ function StackScreens() {
           options={{
             title: "",
             animation: "slide_from_right",
-            headerStyle: { backgroundColor: Color.darkTheme },
+            headerStyle: {
+              backgroundColor: isDarkMode ? Color.darkTheme : Color.Brown100,
+            },
             headerShown: false,
           }}
         />

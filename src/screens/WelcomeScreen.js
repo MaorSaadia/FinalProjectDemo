@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    opacity: 0.9,
   },
   text: {
     alignItems: "center",

@@ -2,6 +2,7 @@ export const Color = {
   white: "#ffffff",
   black: "#000000",
   darkTheme: "#333333",
+  defaultTheme: "#faf7f7",
 
   Blue50: "#f1f5f7",
   Blue100: "#e3ebee",

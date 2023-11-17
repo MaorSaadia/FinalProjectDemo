@@ -11,9 +11,11 @@ import Spacer from "../components/ui/Spacer";
 import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import sendEmail from "../utils/sendEmail";
+import { useDarkMode } from "../context/DarkModeContext";
 
 function ForgotPasswordScreen({ route }) {
   const navigation = useNavigation();
+  const { isDarkMode } = useDarkMode();
 
   const [email, setEmail] = useState();
   const { userType } = route.params;
@@ -40,9 +42,15 @@ function ForgotPasswordScreen({ route }) {
     mutate({ uri, email });
   };
 
+  const getBackgroundImage = (isDarkMode) => {
+    return isDarkMode
+      ? require("../../assets/images/MidnightCity.jpg")
+      : require("../../assets/images/Zinc.jpg");
+  };
+
   return (
     <ImageBackground
-      source={require("../../assets/images/MidnightCity.jpg")}
+      source={getBackgroundImage(isDarkMode)}
       resizeMode="cover"
       style={styles.image}
     >
@@ -89,7 +97,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "bold",
     textAlign: "center",
-    color: Color.white,
+    color: Color.Brown800,
   },
   line: {
     height: 3,

@@ -2,7 +2,7 @@ import { ADDRESS } from "@env";
 import { useContext, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-import { ImageBackground, StyleSheet, View } from "react-native";
+import { ImageBackground, StatusBar, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -11,9 +11,11 @@ import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 import { StudentContext } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import { useDarkMode } from "../context/DarkModeContext";
 
 function SignInScreen({ route }) {
   const auth = useContext(StudentContext);
+  const { isDarkMode } = useDarkMode();
   const navigation = useNavigation();
 
   const { userType } = route.params;
@@ -68,12 +70,19 @@ function SignInScreen({ route }) {
     mutate({ email, password });
   };
 
+  const getBackgroundImage = (isDarkMode) => {
+    return isDarkMode
+      ? require("../../assets/images/MidnightCity.jpg")
+      : require("../../assets/images/Zinc.jpg");
+  };
+
   return (
     <ImageBackground
-      source={require("../../assets/images/MidnightCity.jpg")}
+      source={getBackgroundImage(isDarkMode)}
       resizeMode="cover"
       style={styles.image}
     >
+      {/* <StatusBar barStyle="light-content" backgroundColor={Color.darkTheme} /> */}
       <View style={styles.container}>
         <View style={styles.text}>
           <Text variant="displaySmall" style={{ color: Color.Blue800 }}>

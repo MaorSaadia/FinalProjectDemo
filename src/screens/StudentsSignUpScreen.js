@@ -14,9 +14,12 @@ import Input from "../components/Input";
 import NavLink from "../components/NavLink";
 import { StudentContext } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import { useDarkMode } from "../context/DarkModeContext";
 
 function StudentsSignUpScreen({ route }) {
   const auth = useContext(StudentContext);
+  const { isDarkMode } = useDarkMode();
+
   const navigation = useNavigation();
 
   const { userType } = route.params;
@@ -151,9 +154,15 @@ function StudentsSignUpScreen({ route }) {
     });
   };
 
+  const getBackgroundImage = (isDarkMode) => {
+    return isDarkMode
+      ? require("../../assets/images/MidnightCity.jpg")
+      : require("../../assets/images/Zinc.jpg");
+  };
+
   return (
     <ImageBackground
-      source={require("../../assets/images/MidnightCity.jpg")}
+      source={getBackgroundImage(isDarkMode)}
       resizeMode="cover"
       style={styles.image}
     >
@@ -213,7 +222,10 @@ function StudentsSignUpScreen({ route }) {
           </View>
         </View>
 
-        <Text style={styles.title} variant="titleMedium">
+        <Text
+          style={isDarkMode ? styles.whiteTitle : styles.blackTitle}
+          variant="titleMedium"
+        >
           מגדר:
         </Text>
 
@@ -224,7 +236,11 @@ function StudentsSignUpScreen({ route }) {
             status={checked === "זכר" ? "checked" : "unchecked"}
             onPress={() => setChecked("זכר")}
           />
-          <Text style={styles.textRadio}>זכר</Text>
+          <Text
+            style={isDarkMode ? styles.whiteTextRadio : styles.blackTextRadio}
+          >
+            זכר
+          </Text>
         </View>
         <View style={styles.radioButtom}>
           <RadioButton
@@ -233,7 +249,11 @@ function StudentsSignUpScreen({ route }) {
             status={checked === "נקבה" ? "checked" : "unchecked"}
             onPress={() => setChecked("נקבה")}
           />
-          <Text style={styles.textRadio}>נקבה</Text>
+          <Text
+            style={isDarkMode ? styles.whiteTextRadio : styles.blackTextRadio}
+          >
+            נקבה
+          </Text>
         </View>
 
         <View style={styles.textInput}>
@@ -320,17 +340,26 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 6,
   },
-  title: {
+  whiteTitle: {
     paddingHorizontal: 20,
     fontWeight: "bold",
     color: Color.white,
+  },
+  blackTitle: {
+    paddingHorizontal: 20,
+    fontWeight: "bold",
+    color: Color.black,
   },
   radioButtom: {
     paddingHorizontal: 20,
     flexDirection: "row",
   },
-  textRadio: {
+  whiteTextRadio: {
     paddingTop: 6,
     color: Color.white,
+  },
+  blackTextRadio: {
+    paddingTop: 6,
+    color: Color.black,
   },
 });

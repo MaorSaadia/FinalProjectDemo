@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import { Switch } from "react-native-paper";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -11,6 +10,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { Color } from "../constants/colors";
 import { StudentContext, useStudents } from "../context/StudentContext";
+import { useDarkMode } from "../context/DarkModeContext";
+import Switchr from "./ui/Switchr";
 
 async function logoutHandler(auth, navigation) {
   try {
@@ -24,13 +25,17 @@ async function logoutHandler(auth, navigation) {
 
 function CustomDrawer(props) {
   const auth = useContext(StudentContext);
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+
   const { context } = useStudents();
   const navigation = useNavigation();
 
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView
-        style={{ backgroundColor: Color.darkTheme }}
+        style={{
+          backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
+        }}
         {...props}
         contentContainerStyle={{ backgroundColor: Color.Blue200 }}
       >
@@ -45,7 +50,11 @@ function CustomDrawer(props) {
           </Text>
         </View>
         <View
-          style={{ flex: 1, backgroundColor: Color.darkTheme, paddingTop: 12 }}
+          style={{
+            flex: 1,
+            backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
+            paddingTop: 12,
+          }}
         >
           <DrawerItemList {...props} />
         </View>
@@ -54,9 +63,9 @@ function CustomDrawer(props) {
       <View
         style={{
           padding: 10,
-          backgroundColor: Color.darkTheme,
+          backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
           borderTopWidth: 1,
-          borderTopColor: Color.Brown100,
+          borderTopColor: Color.Brown300,
         }}
       >
         <View
@@ -66,12 +75,16 @@ function CustomDrawer(props) {
             justifyContent: "space-between",
           }}
         >
-          <Switch value={true} color={Color.Brown400} />
+          <Switchr
+            value={true}
+            color={Color.Brown400}
+            onToggle={toggleDarkMode}
+          />
           <Text
             style={{
               fontSize: 15,
               marginLeft: 5,
-              color: Color.white,
+              color: !isDarkMode ? Color.darkTheme : Color.defaultTheme,
             }}
           >
             מצב כהה
