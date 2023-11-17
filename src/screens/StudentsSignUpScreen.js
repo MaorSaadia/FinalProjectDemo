@@ -167,7 +167,7 @@ function StudentsSignUpScreen({ route }) {
       style={styles.image}
     >
       <ScrollView>
-        <View style={{ ...styles.container, ...styles.text }}>
+        <View style={{ ...styles.text }}>
           <Text variant="displaySmall" style={{ color: Color.Blue800 }}>
             ──── הירשם ────
           </Text>

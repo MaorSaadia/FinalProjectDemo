@@ -1,12 +1,34 @@
-import { createContext, useContext, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const DarkModeContext = createContext();
 
 function DarkModeProvider({ children }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  function toggleDarkMode() {
-    setIsDarkMode((isDark) => !isDark);
+  useEffect(() => {
+    const fetchDarkMode = async () => {
+      try {
+        const isDarkMode = await AsyncStorage.getItem("darkMode");
+        if (isDarkMode !== null) {
+          setIsDarkMode(JSON.parse(isDarkMode));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchDarkMode();
+  }, []);
+
+  async function toggleDarkMode() {
+    try {
+      const isDark = !isDarkMode;
+      await AsyncStorage.setItem("darkMode", JSON.stringify(isDark));
+      setIsDarkMode(isDark);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (

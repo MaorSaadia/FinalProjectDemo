@@ -18,7 +18,9 @@ function HomeDrawer() {
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
-        headerStyle: { backgroundColor: Color.Brown100 },
+        headerStyle: {
+          backgroundColor: isDarkMode ? Color.Brown800 : Color.Brown100,
+        },
         drawerContentStyle: {
           backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
         },

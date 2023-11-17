@@ -67,7 +67,7 @@ function StackScreens() {
             title: "",
             animation: "simple_push",
             headerStyle: {
-              backgroundColor: isDarkMode ? Color.darkTheme : Color.Brown100,
+              backgroundColor: Color.Blue600,
             },
           }}
         />
@@ -78,7 +78,7 @@ function StackScreens() {
             title: "",
             animation: "slide_from_right",
             headerStyle: {
-              backgroundColor: isDarkMode ? Color.darkTheme : Color.Brown100,
+              backgroundColor: Color.Blue600,
             },
           }}
         />
@@ -89,7 +89,7 @@ function StackScreens() {
             title: "",
             animation: "slide_from_right",
             headerStyle: {
-              backgroundColor: isDarkMode ? Color.darkTheme : Color.Brown100,
+              backgroundColor: Color.Blue600,
             },
             headerShown: false,
           }}
@@ -97,7 +97,14 @@ function StackScreens() {
         <Stack.Screen
           name="StudentsSignUpScreen"
           component={StudentsSignUpScreen}
-          options={{ headerShown: false, animation: "simple_push" }}
+          options={{
+            // headerShown: false,
+            title: "",
+            animation: "simple_push",
+            headerStyle: {
+              backgroundColor: Color.Blue600,
+            },
+          }}
         />
         <Stack.Screen
           name="LandlordSignUpScreen"
