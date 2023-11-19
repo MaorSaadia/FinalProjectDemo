@@ -2,7 +2,7 @@ import { ADDRESS } from "@env";
 import { useContext, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-import { ImageBackground, StatusBar, StyleSheet, View } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -82,7 +82,6 @@ function SignInScreen({ route }) {
       resizeMode="cover"
       style={styles.image}
     >
-      {/* <StatusBar barStyle="light-content" backgroundColor={Color.darkTheme} /> */}
       <View style={styles.container}>
         <View style={styles.text}>
           <Text variant="displaySmall" style={{ color: Color.Blue800 }}>

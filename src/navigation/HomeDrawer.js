@@ -1,12 +1,12 @@
 import * as NavigationBar from "expo-navigation-bar";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-
-import { Color } from "../constants/colors";
-import HomeTabs from "./HomeTabs";
-import CustomDrawer from "../components/CustomDrawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import ProfileScreen from "../screens/ProfileScreen";
+
 import { useDarkMode } from "../context/DarkModeContext";
+import { Color } from "../constants/colors";
+import CustomDrawer from "../components/CustomDrawer";
+import HomeTabs from "./HomeTabs";
+import StudentProfileScreen from "../screens/StudentProfileScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -19,7 +19,7 @@ function HomeDrawer() {
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerStyle: {
-          backgroundColor: isDarkMode ? Color.Brown800 : Color.Brown100,
+          backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,
         },
         drawerContentStyle: {
           backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
@@ -50,7 +50,7 @@ function HomeDrawer() {
 
       <Drawer.Screen
         name="פרופיל"
-        component={ProfileScreen}
+        component={StudentProfileScreen}
         options={{
           drawerIcon: ({ color }) => (
             <Ionicons name="list" size={22} color={color} />

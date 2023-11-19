@@ -4,7 +4,6 @@ import {
   DefaultTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ScreenStackHeaderBackButtonImage } from "react-native-screens";
 
 import EmptyScreen from "../screens/EmptyScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
@@ -20,21 +19,21 @@ import { View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
+const CustomDefaultTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: Color.white,
+    text: Color.black,
+  },
+};
+
 const CustomDarkTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
     background: Color.darkTheme,
     text: Color.white,
-  },
-};
-
-const CustomDefaultTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "#ffffff",
-    text: Color.black,
   },
 };
 

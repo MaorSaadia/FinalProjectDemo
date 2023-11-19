@@ -6,10 +6,10 @@ import {
   Provider as PaperProvider,
 } from "react-native-paper";
 
+import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import HomeScreen from "../screens/HomeScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import { useDarkMode } from "../context/DarkModeContext";
+import StudentProfileScreen from "../screens/StudentProfileScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -18,6 +18,7 @@ const CustomDarkTheme = {
   colors: {
     ...DarkTheme.colors,
     secondaryContainer: Color.Brown700,
+    text: Color.white,
   },
 };
 
@@ -26,6 +27,7 @@ const CustomDefaultTheme = {
   colors: {
     ...DefaultTheme.colors,
     secondaryContainer: Color.Brown100,
+    text: Color.black,
   },
 };
 
@@ -40,6 +42,7 @@ function HomeTabs() {
         initialRouteName="HomeScreen"
         activeColor={isDarkMode ? Color.Blue400 : Color.Blue900}
         inactiveColor={isDarkMode ? Color.Blue900 : Color.Blue400}
+        shifting={true}
         barStyle={{
           backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,
         }}
@@ -56,8 +59,8 @@ function HomeTabs() {
         />
 
         <Tab.Screen
-          name="ProfileScreen"
-          component={ProfileScreen}
+          name="StudentProfileScreen"
+          component={StudentProfileScreen}
           options={{
             tabBarLabel: "פרופיל",
             tabBarIcon: ({ color }) => (
