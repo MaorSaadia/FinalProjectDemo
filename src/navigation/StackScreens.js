@@ -4,6 +4,7 @@ import {
   DefaultTheme,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { ScreenStackHeaderBackButtonImage } from "react-native-screens";
 
 import EmptyScreen from "../screens/EmptyScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
@@ -15,7 +16,7 @@ import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import HomeDrawer from "./HomeDrawer";
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
-import { StatusBar } from "react-native";
+import { View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -88,10 +89,11 @@ function StackScreens() {
           options={{
             title: "",
             animation: "slide_from_right",
-            headerStyle: {
-              backgroundColor: Color.Blue600,
-            },
-            headerShown: false,
+            header: () => (
+              <View
+                style={{ height: 40, backgroundColor: Color.Blue600 }}
+              ></View>
+            ),
           }}
         />
         <Stack.Screen
@@ -101,9 +103,11 @@ function StackScreens() {
             // headerShown: false,
             title: "",
             animation: "simple_push",
-            headerStyle: {
-              backgroundColor: Color.Blue600,
-            },
+            header: () => (
+              <View
+                style={{ height: 40, backgroundColor: Color.Blue600 }}
+              ></View>
+            ),
           }}
         />
         <Stack.Screen

@@ -167,7 +167,7 @@ function StudentsSignUpScreen({ route }) {
       style={styles.image}
     >
       <ScrollView>
-        <View style={{ ...styles.text }}>
+        <View style={{ ...styles.container, ...styles.text }}>
           <Text variant="displaySmall" style={{ color: Color.Blue800 }}>
             ──── הירשם ────
           </Text>
@@ -323,7 +323,7 @@ export default StudentsSignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
+    paddingTop: 75,
   },
   image: {
     flex: 1,

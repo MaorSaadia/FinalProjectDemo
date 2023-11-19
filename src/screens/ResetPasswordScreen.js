@@ -1,6 +1,6 @@
 import { ADDRESS } from "@env";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
@@ -108,7 +108,7 @@ function ResetPasswordScreen({ route }) {
         <Button
           mode="text"
           style={{ marginTop: -15 }}
-          textColor={Color.Brown900}
+          textColor={Color.Brown800}
           onPress={handleSendEmail}
           loading={isSendEmailPanding}
         >
@@ -182,11 +182,11 @@ export default ResetPasswordScreen;
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    marginTop: 150,
+    marginTop: 125,
   },
   text: {
     fontWeight: "bold",
-    color: Color.Blue900,
+    color: Color.Blue800,
   },
   otp: {
     width: "85%",

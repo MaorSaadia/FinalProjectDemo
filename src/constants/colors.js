@@ -15,14 +15,14 @@ export const Color = {
   Blue800: "#80a4b4",
   Blue900: "#517d92",
 
-  Brown50: "#f5f3ef", // Equivalent to f5f3ef
-  Brown100: "#ebe6df", // Equivalent to ebe6df
-  Brown200: "#e1dacf", // Equivalent to e1dacf
-  Brown300: "#d7cebf", // Equivalent to d7cebf
-  Brown400: "#cec2b0", // Equivalent to cec2b0
-  Brown500: "#c4b5a0", // Equivalent to c4b5a0
-  Brown600: "#baa990", // Equivalent to baa990
-  Brown700: "#b09d80", // Equivalent to b09d80
-  Brown800: "#947e5d", // Equivalent to a69070
-  Brown900: "#755c36", // Equivalent to 9c8460
+  Brown50: "#f5f3ef",
+  Brown100: "#ebe6df",
+  Brown200: "#e1dacf",
+  Brown300: "#d7cebf",
+  Brown400: "#cec2b0",
+  Brown500: "#c4b5a0",
+  Brown600: "#baa990",
+  Brown700: "#b09d80",
+  Brown800: "#947e5d",
+  Brown900: "#755c36",
 };

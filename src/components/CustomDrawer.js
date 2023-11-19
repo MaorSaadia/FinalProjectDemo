@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import {
   DrawerContentScrollView,
@@ -11,7 +11,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { Color } from "../constants/colors";
 import { StudentContext, useStudents } from "../context/StudentContext";
 import { useDarkMode } from "../context/DarkModeContext";
-import Switchr from "./ui/Switchr";
+import DarkModeSwitch from "./ui/DarkModeSwitch";
 
 async function logoutHandler(auth, navigation) {
   try {
@@ -37,9 +37,16 @@ function CustomDrawer(props) {
           backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
         }}
         {...props}
-        contentContainerStyle={{ backgroundColor: Color.Blue200 }}
+        contentContainerStyle={{
+          backgroundColor: isDarkMode ? Color.Blue800 : Color.Blue200,
+        }}
       >
-        <View style={{ padding: 20, backgroundColor: Color.Blue200 }}>
+        <View
+          style={{
+            padding: 20,
+            backgroundColor: isDarkMode ? Color.Blue800 : Color.Blue200,
+          }}
+        >
           <Text
             style={{
               color: Color.black,
@@ -75,7 +82,7 @@ function CustomDrawer(props) {
             justifyContent: "space-between",
           }}
         >
-          <Switchr
+          <DarkModeSwitch
             value={true}
             color={Color.Brown400}
             onToggle={toggleDarkMode}
@@ -97,7 +104,7 @@ function CustomDrawer(props) {
           padding: 15,
           borderTopWidth: 2,
           borderTopColor: Color.Brown300,
-          backgroundColor: Color.Blue200,
+          backgroundColor: isDarkMode ? Color.Blue800 : Color.Blue200,
         }}
       >
         <TouchableOpacity
@@ -105,11 +112,16 @@ function CustomDrawer(props) {
           style={{ paddingVertical: 15 }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="exit-outline" size={22} />
+            <Ionicons
+              name="exit-outline"
+              size={22}
+              color={!isDarkMode ? Color.darkTheme : Color.defaultTheme}
+            />
             <Text
               style={{
                 fontSize: 15,
                 marginLeft: 5,
+                color: !isDarkMode ? Color.darkTheme : Color.defaultTheme,
               }}
             >
               התנתק

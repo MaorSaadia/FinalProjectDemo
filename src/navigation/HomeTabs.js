@@ -17,7 +17,7 @@ const CustomDarkTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    secondaryContainer: Color.Brown800,
+    secondaryContainer: Color.Brown700,
   },
 };
 
@@ -38,10 +38,10 @@ function HomeTabs() {
     <PaperProvider theme={theme}>
       <Tab.Navigator
         initialRouteName="HomeScreen"
-        activeColor={Color.Blue900}
-        inactiveColor={Color.Blue500}
+        activeColor={isDarkMode ? Color.Blue400 : Color.Blue900}
+        inactiveColor={isDarkMode ? Color.Blue900 : Color.Blue400}
         barStyle={{
-          backgroundColor: isDarkMode ? Color.Brown800 : Color.Brown100,
+          backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,
         }}
       >
         <Tab.Screen
