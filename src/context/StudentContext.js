@@ -21,11 +21,21 @@ function useStudents() {
   const [yearbook, setYearbook] = useState(null);
   const [gender, SetGender] = useState(null);
   const [email, SetEmail] = useState(null);
+  const [avatar, SetAvatar] = useState("default.png");
 
   const login = useCallback((data) => {
     const saveData = async () => {
-      const { _id, name, age, academic, department, yearbook, gender, email } =
-        data.user;
+      const {
+        _id,
+        name,
+        age,
+        academic,
+        department,
+        yearbook,
+        gender,
+        email,
+        avatar,
+      } = data.user;
 
       setId(_id);
       setName(name);
@@ -35,6 +45,7 @@ function useStudents() {
       setYearbook(yearbook);
       SetGender(gender);
       SetEmail(email);
+      SetAvatar(avatar);
 
       try {
         await AsyncStorage.setItem("studentData", JSON.stringify(data));
@@ -62,10 +73,26 @@ function useStudents() {
       setYearbook(null);
       SetGender(null);
       SetEmail(null);
+      SetAvatar(null);
     };
 
     removeData();
   }, []);
+
+  // useEffect(() => {
+  //   const fetchDarkMode = async () => {
+  //     try {
+  //       const isDarkMode = await AsyncStorage.getItem("darkMode");
+  //       if (isDarkMode !== null) {
+  //         setIsSwitchOn(JSON.parse(isDarkMode));
+  //       }
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+
+  //   fetchDarkMode();
+  // }, []);
 
   // useEffect(() => {
   //   const storedData = JSON.parse(localStorage.getItem("studentData"));
@@ -99,6 +126,7 @@ function useStudents() {
     department,
     yearbook,
     email,
+    avatar,
   };
 }
 

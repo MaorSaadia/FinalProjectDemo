@@ -1,7 +1,33 @@
+const multer = require("multer");
+
 const AppError = require("../utils/appError");
 const Student = require("../models/studentModel");
 const catchAsync = require("../utils/catchAsync");
 const factory = require("./handlerFactory");
+
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/img/users");
+  },
+  filename: (req, file, cb) => {
+    // user-543gfgfgf-43656565.jpg
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+  },
+});
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else cb(new AppError("ניתן לעלות רק תמונות!", 400), false);
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadUserAvatar = upload.single("avatar");
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {};
@@ -32,6 +58,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
   const filterdedBody = filterObj(req.body, "name", "email");
+  if (req.file) filterdedBody.avatar = req.file.filename;
 
   // 3) Update student document
   const updatedStudent = await Student.findByIdAndUpdate(

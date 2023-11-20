@@ -19,6 +19,7 @@ export default function App() {
     logout,
     id,
     name,
+    avatar,
     age,
     gender,
     academic,
@@ -34,6 +35,7 @@ export default function App() {
           value={{
             id,
             name,
+            avatar,
             age,
             gender,
             academic,

@@ -9,9 +9,17 @@ router.post("/login", authController.login);
 
 router.post("/forgotPassword", authController.forgotPassword);
 router.patch("/resetPassword", authController.resetPassword);
-router.patch("/updateMyPassword", authController.updatePassword);
 
-router.patch("/updateMe", authController.protect, studentController.updateMe);
+// Protect all routes after this middleware
+// router.use(authController.protect);
+
+router.patch(
+  "/updateMe",
+  authController.protect,
+  studentController.uploadUserAvatar,
+  studentController.updateMe
+);
+router.patch("/updateMyPassword", authController.updatePassword);
 
 router.route("/").get(studentController.getAllStudents);
 router

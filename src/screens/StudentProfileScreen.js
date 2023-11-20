@@ -7,16 +7,20 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
 import Loader from "../components/ui/Loader";
+import ErrorMessage from "../components/ui/ErrorMessage";
 
 const StudentProfileScreen = () => {
   const { context } = useStudents();
 
-  const id = context.id?.toString();
+  // const id = context.id?.toString();
+  const avatar = context.avatar?.toString();
+  console.log(avatar);
+  const uri = `../../backend/public/img/users/${avatar}`;
 
   const fetchStudents = async () => {
     try {
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/${id}`
+        `http://${ADDRESS}:3000/api/v1/students/${context.id}`
       );
       const responseData = await response.json();
 
@@ -40,19 +44,22 @@ const StudentProfileScreen = () => {
   }
 
   if (error) {
-    return <Text>Error: {error.message}</Text>;
+    return (
+      <View style={{ alignItems: "center" }}>
+        <ErrorMessage errorMessage={error.message} />
+      </View>
+    );
   }
+
+  const getAvatar = () => {
+    return require(`../../backend/public/img/users/default.png`);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.userInfoSection}>
         <View style={styles.avatar}>
-          <Avatar.Image
-            source={{
-              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVjV46oIcT3biDGOJ5FtLlIXqPO_xRlWL2VA&usqp=CAU",
-            }}
-            size={80}
-          />
+          <Avatar.Image source={getAvatar()} size={80} />
           <View>
             <Title style={styles.title}>{context.name}</Title>
           </View>

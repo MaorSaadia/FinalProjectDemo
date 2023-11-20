@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const crypto = require("crypto");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 
@@ -7,6 +6,10 @@ const studentSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "נא למלא שם מלא"],
+  },
+  avatar: {
+    type: String,
+    default: "default.png",
   },
   age: {
     type: String,
