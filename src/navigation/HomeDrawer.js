@@ -1,6 +1,7 @@
 import * as NavigationBar from "expo-navigation-bar";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
@@ -10,7 +11,7 @@ import StudentProfileScreen from "../screens/StudentProfileScreen";
 
 const Drawer = createDrawerNavigator();
 
-function HomeDrawer() {
+function HomeDrawer({ navigation }) {
   // NavigationBar.setVisibilityAsync("hidden");
   const { isDarkMode } = useDarkMode();
 
@@ -52,6 +53,15 @@ function HomeDrawer() {
         name="פרופיל"
         component={StudentProfileScreen}
         options={{
+          headerRight: () => (
+            <MaterialCommunityIcons.Button
+              backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
+              name="account-edit"
+              size={25}
+              color={Color.darkTheme}
+              onPress={() => navigation.navigate("EditStudentProfileScreen")}
+            />
+          ),
           drawerIcon: ({ color }) => (
             <Ionicons name="list" size={22} color={color} />
           ),

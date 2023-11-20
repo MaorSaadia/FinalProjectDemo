@@ -49,7 +49,7 @@ function CustomDrawer(props) {
         >
           <Text
             style={{
-              color: Color.black,
+              color: !isDarkMode ? Color.darkTheme : Color.defaultTheme,
               fontSize: 18,
             }}
           >

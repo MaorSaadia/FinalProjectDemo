@@ -79,36 +79,20 @@ function useStudents() {
     removeData();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchDarkMode = async () => {
-  //     try {
-  //       const isDarkMode = await AsyncStorage.getItem("darkMode");
-  //       if (isDarkMode !== null) {
-  //         setIsSwitchOn(JSON.parse(isDarkMode));
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
+  useEffect(() => {
+    const getStoredData = async () => {
+      try {
+        const storedData = await AsyncStorage.getItem("studentData");
+        if (storedData !== null) {
+          login(JSON.parse(storedData));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  //   fetchDarkMode();
-  // }, []);
-
-  // useEffect(() => {
-  //   const storedData = JSON.parse(localStorage.getItem("studentData"));
-  //   if (storedData) {
-  //     login(
-  //       storedData._id,
-  //       storedData.name,
-  //       storedData.age,
-  //       storedData.academic,
-  //       storedData.department,
-  //       storedData.yearbook,
-  //       storedData.gender,
-  //       storedData.email
-  //     );
-  //   }
-  // }, [login]);
+    getStoredData();
+  }, [login]);
 
   const context = useContext(StudentContext);
   if (context === undefined) {

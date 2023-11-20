@@ -12,10 +12,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 const StudentProfileScreen = () => {
   const { context } = useStudents();
 
-  // const id = context.id?.toString();
-  const avatar = context.avatar?.toString();
-  console.log(avatar);
-  const uri = `../../backend/public/img/users/${avatar}`;
+  // const avatar = context.avatar?.toString();
 
   const fetchStudents = async () => {
     try {

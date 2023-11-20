@@ -1,3 +1,4 @@
+import { View } from "react-native";
 import {
   NavigationContainer,
   DarkTheme,
@@ -15,7 +16,6 @@ import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import HomeDrawer from "./HomeDrawer";
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
-import { View } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
