@@ -1,9 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
-import StackScreens from "./src/navigation/StackScreens";
 import { StudentContext, useStudents } from "./src/context/StudentContext";
 import { DarkModeProvider } from "./src/context/DarkModeContext";
+import AuthStackScreens from "./src/navigation/AuthStackScreens";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,7 +46,7 @@ export default function App() {
             logout,
           }}
         >
-          <StackScreens />
+          <AuthStackScreens />
           <Toast />
         </StudentContext.Provider>
       </QueryClientProvider>

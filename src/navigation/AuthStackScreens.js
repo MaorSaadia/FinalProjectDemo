@@ -17,7 +17,7 @@ import HomeDrawer from "./HomeDrawer";
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
 
-const Stack = createNativeStackNavigator();
+const AuthStack = createNativeStackNavigator();
 
 const CustomDefaultTheme = {
   ...DefaultTheme,
@@ -37,21 +37,21 @@ const CustomDarkTheme = {
   },
 };
 
-function StackScreens() {
+function AuthStackScreens() {
   const { isDarkMode } = useDarkMode();
 
   const theme = isDarkMode ? CustomDarkTheme : CustomDefaultTheme;
 
   return (
     <NavigationContainer theme={theme}>
-      <Stack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
-        <Stack.Screen
+      <AuthStack.Navigator screenOptions={{ headerTitleAlign: "center" }}>
+        <AuthStack.Screen
           name="EmptyScreen"
           component={EmptyScreen}
           options={{ headerShown: false, title: "" }}
         />
 
-        <Stack.Screen
+        <AuthStack.Screen
           name="WelcomeScreen"
           component={WelcomeScreen}
           options={{
@@ -60,7 +60,7 @@ function StackScreens() {
             animation: "fade_from_bottom",
           }}
         />
-        <Stack.Screen
+        <AuthStack.Screen
           name="SignInScreen"
           component={SignInScreen}
           options={{
@@ -71,7 +71,7 @@ function StackScreens() {
             },
           }}
         />
-        <Stack.Screen
+        <AuthStack.Screen
           name="ForgotPasswordScreen"
           component={ForgotPasswordScreen}
           options={{
@@ -82,7 +82,7 @@ function StackScreens() {
             },
           }}
         />
-        <Stack.Screen
+        <AuthStack.Screen
           name="ResetPasswordScreen"
           component={ResetPasswordScreen}
           options={{
@@ -95,7 +95,7 @@ function StackScreens() {
             ),
           }}
         />
-        <Stack.Screen
+        <AuthStack.Screen
           name="StudentsSignUpScreen"
           component={StudentsSignUpScreen}
           options={{
@@ -109,13 +109,13 @@ function StackScreens() {
             ),
           }}
         />
-        <Stack.Screen
+        <AuthStack.Screen
           name="LandlordSignUpScreen"
           component={LandlordSignUpScreen}
           options={{ title: "", animation: "simple_push" }}
         />
 
-        <Stack.Screen
+        <AuthStack.Screen
           name={"HomeDrawer"}
           component={HomeDrawer}
           options={{
@@ -124,9 +124,9 @@ function StackScreens() {
             headerShown: false,
           }}
         />
-      </Stack.Navigator>
+      </AuthStack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default StackScreens;
+export default AuthStackScreens;

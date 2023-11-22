@@ -1,31 +1,37 @@
 import * as NavigationBar from "expo-navigation-bar";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { DrawerActions } from "@react-navigation/native";
 
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import CustomDrawer from "../components/CustomDrawer";
-import HomeTabs from "./HomeTabs";
-import StudentProfileScreen from "../screens/StudentProfileScreen";
+import ProfileStackScreen from "./ProfileStackScreen";
+import MainTabScreen from "./MainTabScreen";
 
 const Drawer = createDrawerNavigator();
 
 function HomeDrawer({ navigation }) {
-  // NavigationBar.setVisibilityAsync("hidden");
-  const { isDarkMode } = useDarkMode();
+  useFocusEffect(
+    useCallback(() => {
+      const closeDrawer = () => {
+        navigation.dispatch(DrawerActions.closeDrawer());
+      };
 
+      closeDrawer();
+      return () => {};
+    }, [navigation])
+  );
+
+  NavigationBar.setVisibilityAsync("hidden");
+  const { isDarkMode } = useDarkMode();
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
-        headerStyle: {
-          backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,
-        },
-        drawerContentStyle: {
-          backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
-        },
-        headerTitle: "",
+        headerShown: false,
         drawerActiveTintColor: !isDarkMode
           ? Color.darkTheme
           : Color.defaultTheme,
@@ -37,11 +43,12 @@ function HomeDrawer({ navigation }) {
           marginLeft: -20,
           fontSize: 15,
         },
+        swipeEdgeWidth: 300,
       }}
     >
       <Drawer.Screen
         name="בית"
-        component={HomeTabs}
+        component={MainTabScreen}
         options={{
           drawerIcon: ({ color }) => (
             <Ionicons name="home-outline" size={22} color={color} />
@@ -51,17 +58,8 @@ function HomeDrawer({ navigation }) {
 
       <Drawer.Screen
         name="פרופיל"
-        component={StudentProfileScreen}
+        component={ProfileStackScreen}
         options={{
-          headerRight: () => (
-            <MaterialCommunityIcons.Button
-              backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
-              name="account-edit"
-              size={25}
-              color={Color.darkTheme}
-              onPress={() => navigation.navigate("EditStudentProfileScreen")}
-            />
-          ),
           drawerIcon: ({ color }) => (
             <Ionicons name="list" size={22} color={color} />
           ),

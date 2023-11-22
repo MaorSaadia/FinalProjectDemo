@@ -8,8 +8,8 @@ import {
 
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
-import HomeScreen from "../screens/HomeScreen";
-import StudentProfileScreen from "../screens/StudentProfileScreen";
+import HomeStackScreen from "./HomeStackScreen ";
+import ProfileStackScreen from "./ProfileStackScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -31,7 +31,7 @@ const CustomDefaultTheme = {
   },
 };
 
-function HomeTabs() {
+function MainTabScreen() {
   const { isDarkMode } = useDarkMode();
 
   const theme = isDarkMode ? CustomDarkTheme : CustomDefaultTheme;
@@ -39,7 +39,7 @@ function HomeTabs() {
   return (
     <PaperProvider theme={theme}>
       <Tab.Navigator
-        initialRouteName="HomeScreen"
+        initialRouteName="HomeStackScreen"
         activeColor={isDarkMode ? Color.Blue400 : Color.Blue900}
         inactiveColor={isDarkMode ? Color.Blue900 : Color.Blue400}
         shifting={true}
@@ -48,8 +48,8 @@ function HomeTabs() {
         }}
       >
         <Tab.Screen
-          name="HomeScreen"
-          component={HomeScreen}
+          name="HomeStackScreen"
+          component={HomeStackScreen}
           options={{
             tabBarLabel: "בית",
             tabBarIcon: ({ color }) => (
@@ -60,7 +60,7 @@ function HomeTabs() {
 
         <Tab.Screen
           name="StudentProfileScreen"
-          component={StudentProfileScreen}
+          component={ProfileStackScreen}
           options={{
             tabBarLabel: "פרופיל",
             tabBarIcon: ({ color }) => (
@@ -73,4 +73,4 @@ function HomeTabs() {
   );
 }
 
-export default HomeTabs;
+export default MainTabScreen;
