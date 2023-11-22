@@ -17,6 +17,7 @@ async function logoutHandler(auth, navigation) {
   try {
     await AsyncStorage.removeItem("token");
     auth.logout();
+    navigation.navigate("HomeStackScreen");
     navigation.navigate("WelcomeScreen");
   } catch (err) {
     console.log(err);

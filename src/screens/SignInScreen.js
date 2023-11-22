@@ -62,7 +62,7 @@ function SignInScreen({ route }) {
     onSuccess: (user) => {
       storeData("token", user.token);
       auth.login(user.data);
-      navigation.navigate("HomeDrawer");
+      navigation.navigate("HomeStackScreen");
     },
   });
 

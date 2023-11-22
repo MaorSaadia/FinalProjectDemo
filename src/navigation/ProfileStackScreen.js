@@ -14,6 +14,7 @@ function ProfileStackScreen({ navigation }) {
   const { isDarkMode } = useDarkMode();
   return (
     <ProfileStack.Navigator
+      initialRouteName="StudentProfileScreen"
       screenOptions={{
         headerStyle: {
           backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,

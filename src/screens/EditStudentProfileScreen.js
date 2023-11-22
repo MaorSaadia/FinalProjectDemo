@@ -8,8 +8,7 @@ import {
   View,
 } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -18,24 +17,21 @@ import DropDown from "../components/DropDown";
 import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
 import Input from "../components/Input";
-import { StudentContext } from "../context/StudentContext";
+import { StudentContext, useStudents } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
-import { useDarkMode } from "../context/DarkModeContext";
 import Spacer from "../components/ui/Spacer";
 
 function EditStudentProfileScreen() {
   const auth = useContext(StudentContext);
-  const { isDarkMode } = useDarkMode();
+  const { context } = useStudents();
 
-  const navigation = useNavigation();
-
-  const [name, setName] = useState("");
-  const [age, setAge] = useState();
-  const [academic, setAcademic] = useState();
-  const [department, setDepartment] = useState();
-  const [yearbook, setYearbook] = useState();
-  const [checked, setChecked] = useState("זכר");
-  const [email, setEmail] = useState();
+  const [name, setName] = useState(context.name);
+  const [age, setAge] = useState(context.age);
+  const [academic, setAcademic] = useState(context.academic);
+  const [department, setDepartment] = useState(context.department);
+  const [yearbook, setYearbook] = useState(context.yearbook);
+  const [checked, setChecked] = useState(context.gender);
+  const [email, setEmail] = useState(context.email);
 
   const listAcademic = academicList.map((item) => ({
     label: item.name,
@@ -50,15 +46,7 @@ function EditStudentProfileScreen() {
     { label: "שנה ד'", value: "שנה ד'" },
   ];
 
-  const storeData = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const SignUp = async ({
+  const updateMe = async ({
     name,
     age,
     academic,
@@ -69,9 +57,9 @@ function EditStudentProfileScreen() {
   }) => {
     try {
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/signup`,
+        `http://${ADDRESS}:3000/api/v1/students/updateMe`,
         {
-          method: "POST",
+          method: "PATCH",
           headers: {
             "Content-Type": "application/json",
           },
@@ -108,7 +96,7 @@ function EditStudentProfileScreen() {
       gender,
       email,
     }) =>
-      SignUp({
+      updateMe({
         name,
         age,
         academic,
@@ -118,22 +106,18 @@ function EditStudentProfileScreen() {
         email,
       }),
     onSuccess: (user) => {
-      storeData("token", user.token);
       auth.login(user.data);
-      Toast.show(
-        {
-          type: "success",
-          text1: "חשבון נוצר בהצלחה",
-        },
-        navigation.navigate("HomeDrawer")
-      );
+      Toast.show({
+        type: "success",
+        text1: "פרופיל עודכן בהצלחה",
+      });
     },
     onError: (err) => {
       console.log(err.message);
     },
   });
 
-  const handleSignUp = () => {
+  const handleUpdateMe = () => {
     mutate({
       name,
       age,
@@ -164,7 +148,7 @@ function EditStudentProfileScreen() {
               imageStyle={{
                 borderRadius: 50,
                 borderWidth: 2,
-                borderColor: isDarkMode ? Color.defaultTheme : Color.darkTheme,
+                borderColor: Color.Blue600,
               }}
             >
               <View
@@ -182,7 +166,7 @@ function EditStudentProfileScreen() {
                 />
               </View>
             </ImageBackground>
-            <Text style={{ marginBottom: 20 }}> עדכן תמונה </Text>
+            <Text style={{ marginBottom: 30 }}>עדכן תמונה</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -190,25 +174,27 @@ function EditStudentProfileScreen() {
       <View style={styles.inputsRow}>
         <Input
           style={styles.textInput}
-          label="שם מלא"
+          label={name ? "" : "שם מלא"}
+          value={name}
+          left={<TextInput.Icon icon={"account-outline"} />}
           mode="outlined"
-          onValueChange={(selectedName) => setName(selectedName)}
+          onValueChange={(name) => setName(name)}
         />
-
         <Input
           style={styles.textInput}
-          label="גיל"
+          label={age ? "" : "גיל"}
+          value={age}
+          left={<TextInput.Icon icon={"calendar-account-outline"} />}
           mode="outlined"
           keyboardType="decimal-pad"
           maxLength={2}
           onValueChange={(selectedAge) => setAge(selectedAge)}
         />
       </View>
-
       <View style={{ paddingHorizontal: 6 }}>
         <DropDown
           list={listAcademic}
-          label="מוסד אקדמאי"
+          label={academic}
           listMode="MODAL"
           searchable={true}
           onValueChange={(selectedAcademic) => setAcademic(selectedAcademic)}
@@ -219,7 +205,9 @@ function EditStudentProfileScreen() {
         <View style={styles.inputsRow}>
           <Input
             style={styles.textInput}
-            label="מחלקה"
+            label={department ? "" : "מחלקה"}
+            value={department}
+            left={<TextInput.Icon icon={"school-outline"} />}
             mode="outlined"
             onValueChange={(selectedDepartment) =>
               setDepartment(selectedDepartment)
@@ -227,7 +215,7 @@ function EditStudentProfileScreen() {
           />
           <DropDown
             list={listYear}
-            label="שנתון"
+            label={yearbook}
             searchable={false}
             listMode="SCROLLVIEW"
             onValueChange={(selectedYearbook) => setYearbook(selectedYearbook)}
@@ -260,7 +248,9 @@ function EditStudentProfileScreen() {
 
       <View style={styles.textInput}>
         <Input
-          label="מייל"
+          label={email ? "" : "אימייל"}
+          value={email}
+          left={<TextInput.Icon icon={"email-outline"} />}
           mode="outlined"
           keyboardType="email-address"
           onValueChange={(selectedemail) => setEmail(selectedemail)}
@@ -273,7 +263,7 @@ function EditStudentProfileScreen() {
             textColor={Color.defaultTheme}
             buttonColor={Color.Blue800}
             mode="contained"
-            onPress={handleSignUp}
+            onPress={handleUpdateMe}
             loading={isPending}
           >
             {isPending ? "" : "עדכן"}

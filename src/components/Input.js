@@ -6,6 +6,7 @@ import { useDarkMode } from "../context/DarkModeContext";
 
 function Input({
   label,
+  placeholder,
   mode,
   keyboardType,
   maxLength,
@@ -14,12 +15,13 @@ function Input({
   error,
   right,
   left,
+  value,
 }) {
   const { isDarkMode } = useDarkMode();
-  const [value, setValue] = useState();
+  const [changeValue, setChangeValue] = useState();
 
   const handleValueChange = (selectedValue) => {
-    setValue(selectedValue);
+    setChangeValue(selectedValue);
     onValueChange(selectedValue);
   };
 
@@ -28,6 +30,7 @@ function Input({
       <TextInput
         maxLength={maxLength ? maxLength : null}
         label={label}
+        placeholder={placeholder}
         style={
           isDarkMode
             ? { backgroundColor: Color.darkTheme }

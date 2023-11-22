@@ -29,6 +29,7 @@ function HomeDrawer({ navigation }) {
   const { isDarkMode } = useDarkMode();
   return (
     <Drawer.Navigator
+      initialRouteName="MainTabScreen"
       drawerContent={(props) => <CustomDrawer {...props} />}
       screenOptions={{
         headerShown: false,

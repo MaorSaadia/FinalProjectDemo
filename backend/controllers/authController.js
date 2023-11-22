@@ -176,6 +176,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
+  console.log(req.headers);
   // 1) Getting token and check if it's there
   let token;
   if (
@@ -189,7 +190,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   if (!token) {
     return next(
-      new AppError("Your are not looged in! Please log in to get access", 401)
+      new AppError("Your are not loged in! Please log in to get access", 401)
     );
   }
   // 2) Verification token
