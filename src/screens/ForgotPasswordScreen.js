@@ -63,6 +63,7 @@ function ForgotPasswordScreen({ route }) {
           <Input
             label="אימייל"
             mode="outlined"
+            keyboardType="email-address"
             onValueChange={(selectedMail) => setEmail(selectedMail)}
           />
         </Spacer>

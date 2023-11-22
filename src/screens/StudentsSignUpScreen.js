@@ -260,6 +260,7 @@ function StudentsSignUpScreen({ route }) {
           <Input
             label="מייל"
             mode="outlined"
+            keyboardType="email-address"
             onValueChange={(selectedemail) => setEmail(selectedemail)}
           />
           <TextInput

@@ -90,6 +90,7 @@ function SignInScreen({ route }) {
         </View>
         <Input
           label="אימייל"
+          keyboardType="email-address"
           mode="outlined"
           onValueChange={(selectedMail) => setEmail(selectedMail)}
         />
@@ -133,7 +134,6 @@ function SignInScreen({ route }) {
         )}
 
         <Button
-          icon="login"
           buttonColor={Color.Blue800}
           mode="contained"
           onPress={handleLogin}

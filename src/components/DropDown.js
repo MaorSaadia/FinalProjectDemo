@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+import { useDarkMode } from "../context/DarkModeContext";
 
 function DropDown({ list, label, searchable, listMode, onValueChange }) {
+  const { isDarkMode } = useDarkMode();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState(list);
@@ -16,6 +18,7 @@ function DropDown({ list, label, searchable, listMode, onValueChange }) {
     <View style={styles.container}>
       <View style={styles.view}>
         <DropDownPicker
+          theme={isDarkMode ? "DARK" : "LIGHT"}
           open={open}
           value={value}
           items={items}
