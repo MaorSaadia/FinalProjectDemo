@@ -74,6 +74,7 @@ function ForgotPasswordScreen({ route }) {
 
         <Button
           style={styles.button}
+          textColor={Color.defaultTheme}
           buttonColor={Color.Brown500}
           onPress={handleSendEmail}
           loading={isPending}
@@ -95,10 +96,11 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
   },
+
   text: {
     fontWeight: "bold",
     textAlign: "center",
-    color: Color.Brown800,
+    fontSize: 18,
   },
   line: {
     height: 3,

@@ -123,7 +123,11 @@ function ResetPasswordScreen({ route }) {
       <View>
         <TextInput
           label="סיסמה"
-          style={styles.textInput}
+          style={
+            isDarkMode
+              ? { ...styles.textInput, backgroundColor: Color.darkTheme }
+              : { ...styles.textInput, backgroundColor: Color.defaultTheme }
+          }
           right={
             <TextInput.Icon
               icon={isSecure1 ? "eye" : "eye-off"}
@@ -139,7 +143,11 @@ function ResetPasswordScreen({ route }) {
         />
 
         <TextInput
-          style={styles.textInput}
+          style={
+            isDarkMode
+              ? { ...styles.textInput, backgroundColor: Color.darkTheme }
+              : { ...styles.textInput, backgroundColor: Color.defaultTheme }
+          }
           label="אשר סיסמה"
           right={
             <TextInput.Icon
@@ -163,7 +171,9 @@ function ResetPasswordScreen({ route }) {
 
         <Spacer>
           <Button
+            style={{ marginHorizontal: 10 }}
             buttonColor={Color.Blue800}
+            textColor={Color.defaultTheme}
             mode="contained"
             onPress={handleResetPassword}
             loading={isResetPasswordPending}
@@ -203,7 +213,6 @@ const styles = StyleSheet.create({
     borderColor: Color.Blue900,
   },
   textInput: {
-    backgroundColor: "#fff",
     margin: 6,
     marginHorizontal: 10,
   },

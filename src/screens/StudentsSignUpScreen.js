@@ -222,10 +222,7 @@ function StudentsSignUpScreen({ route }) {
           </View>
         </View>
 
-        <Text
-          style={isDarkMode ? styles.whiteTitle : styles.blackTitle}
-          variant="titleMedium"
-        >
+        <Text style={styles.title} variant="titleMedium">
           מגדר:
         </Text>
 
@@ -236,11 +233,7 @@ function StudentsSignUpScreen({ route }) {
             status={checked === "זכר" ? "checked" : "unchecked"}
             onPress={() => setChecked("זכר")}
           />
-          <Text
-            style={isDarkMode ? styles.whiteTextRadio : styles.blackTextRadio}
-          >
-            זכר
-          </Text>
+          <Text style={styles.textRadio}>זכר</Text>
         </View>
         <View style={styles.radioButtom}>
           <RadioButton
@@ -249,11 +242,7 @@ function StudentsSignUpScreen({ route }) {
             status={checked === "נקבה" ? "checked" : "unchecked"}
             onPress={() => setChecked("נקבה")}
           />
-          <Text
-            style={isDarkMode ? styles.whiteTextRadio : styles.blackTextRadio}
-          >
-            נקבה
-          </Text>
+          <Text style={styles.textRadio}>נקבה</Text>
         </View>
 
         <View style={styles.textInput}>
@@ -265,7 +254,11 @@ function StudentsSignUpScreen({ route }) {
           />
           <TextInput
             label="סיסמה"
-            style={{ backgroundColor: "#fff" }}
+            style={
+              isDarkMode
+                ? { backgroundColor: Color.darkTheme }
+                : { backgroundColor: Color.white }
+            }
             right={
               <TextInput.Icon
                 icon={isSecure1 ? "eye" : "eye-off"}
@@ -282,7 +275,11 @@ function StudentsSignUpScreen({ route }) {
 
           <TextInput
             label="אשר סיסמה"
-            style={{ backgroundColor: "#fff" }}
+            style={
+              isDarkMode
+                ? { backgroundColor: Color.darkTheme }
+                : { backgroundColor: Color.white }
+            }
             right={
               <TextInput.Icon
                 icon={isSecure2 ? "eye" : "eye-off"}
@@ -308,6 +305,7 @@ function StudentsSignUpScreen({ route }) {
           />
           <Button
             buttonColor={Color.Blue800}
+            textColor={Color.defaultTheme}
             mode="contained"
             onPress={handleSignUp}
             loading={isPending}
@@ -341,26 +339,16 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 6,
   },
-  whiteTitle: {
+  title: {
     paddingHorizontal: 20,
     fontWeight: "bold",
-    color: Color.white,
   },
-  blackTitle: {
-    paddingHorizontal: 20,
-    fontWeight: "bold",
-    color: Color.black,
-  },
+
   radioButtom: {
     paddingHorizontal: 20,
     flexDirection: "row",
   },
-  whiteTextRadio: {
+  textRadio: {
     paddingTop: 6,
-    color: Color.white,
-  },
-  blackTextRadio: {
-    paddingTop: 6,
-    color: Color.black,
   },
 });

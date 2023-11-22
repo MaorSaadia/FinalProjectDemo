@@ -96,7 +96,11 @@ function SignInScreen({ route }) {
         />
         <TextInput
           label="סיסמה"
-          style={{ backgroundColor: "#fff" }}
+          style={
+            isDarkMode
+              ? { backgroundColor: Color.darkTheme }
+              : { backgroundColor: Color.white }
+          }
           right={
             <TextInput.Icon
               icon={isSecure ? "eye" : "eye-off"}
@@ -135,6 +139,7 @@ function SignInScreen({ route }) {
 
         <Button
           buttonColor={Color.Blue800}
+          textColor={Color.defaultTheme}
           mode="contained"
           onPress={handleLogin}
           loading={isPending}

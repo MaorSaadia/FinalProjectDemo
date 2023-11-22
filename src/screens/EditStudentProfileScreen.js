@@ -170,13 +170,13 @@ function EditStudentProfileScreen() {
               <View
                 style={{
                   flex: 1,
-                  justifyContent: "center",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                 }}
               >
                 <Icon
                   name="camera"
-                  size={35}
+                  size={25}
                   color={Color.darkTheme}
                   style={{ opacity: 0.4 }}
                 />
@@ -269,6 +269,7 @@ function EditStudentProfileScreen() {
         {isError && <ErrorMessage errorMessage={error.message} />}
         <Spacer>
           <Button
+            style={{ marginTop: 10 }}
             textColor={Color.defaultTheme}
             buttonColor={Color.Blue800}
             mode="contained"
