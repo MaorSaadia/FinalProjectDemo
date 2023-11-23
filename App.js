@@ -17,6 +17,7 @@ export default function App() {
   const {
     login,
     logout,
+    token,
     id,
     name,
     avatar,
@@ -33,6 +34,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <StudentContext.Provider
           value={{
+            token,
             id,
             name,
             avatar,

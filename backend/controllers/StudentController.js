@@ -51,13 +51,24 @@ exports.getAllStudents = catchAsync(async (req, res, next) => {
 exports.getStudent = factory.getOne(Student);
 
 exports.updateMe = catchAsync(async (req, res, next) => {
+  console.log(req.body);
+
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError("This route is not for password updates", 400));
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filterdedBody = filterObj(req.body, "name", "email");
+  const filterdedBody = filterObj(
+    req.body,
+    "name",
+    "age",
+    "academic",
+    "department",
+    "yearbook",
+    "gender",
+    "email"
+  );
   if (req.file) filterdedBody.avatar = req.file.filename;
 
   // 3) Update student document
@@ -73,7 +84,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      student: updatedStudent,
+      updatedStudent,
     },
   });
 });

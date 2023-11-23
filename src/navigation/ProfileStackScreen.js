@@ -68,6 +68,9 @@ function ProfileStackScreen({ navigation }) {
       <ProfileStack.Screen
         name="EditStudentProfileScreen"
         component={EditStudentProfileScreen}
+        options={{
+          headerTintColor: Color.darkTheme,
+        }}
       />
     </ProfileStack.Navigator>
   );

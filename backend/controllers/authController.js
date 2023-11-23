@@ -120,8 +120,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   await student.save({ validateBeforeSave: false });
 
-  // const message = `Your OTP for Reseting Password is ${OTP}`;
-
   try {
     const resetUrl = `${req.protocol}://${req.get(
       "host"
@@ -176,8 +174,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  console.log(req.headers);
   // 1) Getting token and check if it's there
+  console.log(req.headers);
   let token;
   if (
     req.headers.authorization &&

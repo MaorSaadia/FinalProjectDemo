@@ -56,7 +56,7 @@ function ForgotPasswordScreen({ route }) {
     >
       <View style={styles.container}>
         <Text style={styles.text} variant="titleMedium">
-          אנא הזן מייל לקבלת לינק לאיפוס סיסמה
+          אנא הזן מייל לקבלת קוד לאיפוס סיסמה
         </Text>
         <View style={styles.line} />
         <Spacer>

@@ -13,6 +13,7 @@ const StudentContext = createContext({
 });
 
 function useStudents() {
+  const [token, setToken] = useState(null);
   const [id, setId] = useState(null);
   const [name, setName] = useState(null);
   const [age, setAge] = useState(null);
@@ -23,7 +24,7 @@ function useStudents() {
   const [email, SetEmail] = useState(null);
   const [avatar, SetAvatar] = useState("default.png");
 
-  const login = useCallback((data) => {
+  const login = useCallback((data, token) => {
     const saveData = async () => {
       const {
         _id,
@@ -35,8 +36,9 @@ function useStudents() {
         gender,
         email,
         avatar,
-      } = data.user;
+      } = data;
 
+      setToken(token);
       setId(_id);
       setName(name);
       setAge(age);
@@ -65,6 +67,7 @@ function useStudents() {
         console.log(err);
       }
 
+      setToken(null);
       setId(null);
       setName(null);
       setAge(null);
@@ -83,8 +86,9 @@ function useStudents() {
     const getStoredData = async () => {
       try {
         const storedData = await AsyncStorage.getItem("studentData");
+        const token = await AsyncStorage.getItem("token");
         if (storedData !== null) {
-          login(JSON.parse(storedData));
+          login(JSON.parse(storedData), token);
         }
       } catch (err) {
         console.log(err);
@@ -102,6 +106,7 @@ function useStudents() {
     context,
     login,
     logout,
+    token,
     id,
     name,
     age,

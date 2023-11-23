@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -24,6 +24,9 @@ import Spacer from "../components/ui/Spacer";
 function EditStudentProfileScreen() {
   const auth = useContext(StudentContext);
   const { context } = useStudents();
+  const navigation = useNavigation();
+
+  const { token } = context;
 
   const [name, setName] = useState(context.name);
   const [age, setAge] = useState(context.age);
@@ -62,6 +65,7 @@ function EditStudentProfileScreen() {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             name,
@@ -106,11 +110,12 @@ function EditStudentProfileScreen() {
         email,
       }),
     onSuccess: (user) => {
-      auth.login(user.data);
+      auth.login(user.data.updatedStudent, token);
       Toast.show({
         type: "success",
         text1: "פרופיל עודכן בהצלחה",
       });
+      navigation.goBack();
     },
     onError: (err) => {
       console.log(err.message);

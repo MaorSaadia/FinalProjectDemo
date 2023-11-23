@@ -61,7 +61,7 @@ function SignInScreen({ route }) {
     mutationFn: ({ email, password }) => login({ email, password }),
     onSuccess: (user) => {
       storeData("token", user.token);
-      auth.login(user.data);
+      auth.login(user.data.user, user.token);
       navigation.navigate("HomeDrawer");
     },
   });
