@@ -14,6 +14,12 @@ import MainTabScreen from "./MainTabScreen";
 const Drawer = createDrawerNavigator();
 
 function HomeDrawer({ navigation }) {
+  const { isDarkMode } = useDarkMode();
+
+  NavigationBar.setBackgroundColorAsync(
+    isDarkMode ? Color.darkTheme : Color.white
+  );
+
   useFocusEffect(
     useCallback(() => {
       const closeDrawer = () => {
@@ -25,8 +31,6 @@ function HomeDrawer({ navigation }) {
     }, [navigation])
   );
 
-  NavigationBar.setVisibilityAsync("hidden");
-  const { isDarkMode } = useDarkMode();
   return (
     <Drawer.Navigator
       initialRouteName="MainTabScreen"

@@ -1,3 +1,4 @@
+import { Text, View } from "react-native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
@@ -17,7 +18,7 @@ const CustomDarkTheme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    secondaryContainer: Color.Brown700,
+    secondaryContainer: Color.darkTheme,
     text: Color.white,
   },
 };
@@ -26,7 +27,7 @@ const CustomDefaultTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    secondaryContainer: Color.Brown100,
+    secondaryContainer: Color.white,
     text: Color.black,
   },
 };
@@ -40,20 +41,39 @@ function MainTabScreen() {
     <PaperProvider theme={theme}>
       <Tab.Navigator
         initialRouteName="HomeStackScreen"
-        activeColor={isDarkMode ? Color.Blue400 : Color.Blue900}
-        inactiveColor={isDarkMode ? Color.Blue900 : Color.Blue400}
-        shifting={true}
+        activeColor={isDarkMode ? Color.white : Color.black}
+        inactiveColor={isDarkMode ? Color.white : Color.black}
+        // shifting={true}
         barStyle={{
-          backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,
+          backgroundColor: isDarkMode ? Color.darkTheme : Color.white,
+          borderTopColor: Color.Brown100,
+          borderTopWidth: 1,
+          height: 50,
+          position: "absolute",
         }}
       >
         <Tab.Screen
           name="HomeStackScreen"
           component={HomeStackScreen}
           options={{
-            tabBarLabel: "בית",
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+            tabBarLabel: "",
+            tabBarIcon: ({ focused, color }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name={focused ? "home" : "home-outline"}
+                  style={{ marginTop: -8 }}
+                  color={color}
+                  size={26}
+                />
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: isDarkMode ? Color.white : Color.black,
+                  }}
+                >
+                  בית
+                </Text>
+              </View>
             ),
           }}
         />
@@ -62,9 +82,24 @@ function MainTabScreen() {
           name="StudentProfileScreen"
           component={ProfileStackScreen}
           options={{
-            tabBarLabel: "פרופיל",
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name="account" color={color} size={26} />
+            tabBarLabel: "",
+            tabBarIcon: ({ focused, color }) => (
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons
+                  name={focused ? "account" : "account-outline"}
+                  style={{ marginTop: -8 }}
+                  color={color}
+                  size={26}
+                />
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: isDarkMode ? Color.white : Color.black,
+                  }}
+                >
+                  פרופיל
+                </Text>
+              </View>
             ),
           }}
         />
