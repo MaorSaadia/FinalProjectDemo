@@ -2,6 +2,7 @@ import { ADDRESS } from "@env";
 import { useQuery } from "@tanstack/react-query";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Avatar, Title, Text, TouchableRipple } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { Color } from "../constants/colors";
@@ -11,6 +12,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 
 const StudentProfileScreen = () => {
   const { context } = useStudents();
+  const navigation = useNavigation();
 
   // const avatar = context.avatar?.toString();
 
@@ -63,33 +65,50 @@ const StudentProfileScreen = () => {
         </View>
       </View>
 
+      <View style={styles.info}>
+        <Text style={styles.infoTitle}>חשבון</Text>
+      </View>
+
       <View style={styles.userInfoSection}>
         <View style={styles.row}>
-          <Icon name="map-marker-radius-outline" color="#777777" size={20} />
+          <Icon name="map-marker-radius-outline" color={Color.icon} size={20} />
           <Text style={styles.text}>{context.academic}</Text>
         </View>
 
         <View style={styles.row}>
-          <Icon name="school-outline" color="#777777" size={20} />
+          <Icon name="school-outline" color={Color.icon} size={20} />
           <Text style={styles.text}>{context.department}</Text>
         </View>
 
         <View style={styles.row}>
-          <Icon name="calendar-blank-outline" color="#777777" size={20} />
+          <Icon name="calendar-blank-outline" color={Color.icon} size={20} />
           <Text style={styles.text}>{context.yearbook}</Text>
         </View>
 
         <View style={styles.row}>
-          <Icon name="email-outline" color="#777777" size={20} />
+          <Icon name="email-outline" color={Color.icon} size={20} />
           <Text style={styles.text}>{context.email}</Text>
         </View>
+      </View>
+
+      {/* <View style={styles.line}></View> */}
+
+      <View style={styles.info}>
+        <Text style={styles.infoTitle}>אחר</Text>
       </View>
 
       <View style={styles.menuWrapper}>
         <TouchableRipple onPress={() => {}}>
           <View style={styles.menuItem}>
-            <Icon name="heart-outline" color={Color.Blue800} size={25} />
+            <Icon name="heart-outline" color={Color.icon} size={25} />
             <Text style={styles.menuItemText}>מועדפים</Text>
+          </View>
+        </TouchableRipple>
+
+        <TouchableRipple onPress={() => navigation.navigate("SecurityScreen")}>
+          <View style={styles.menuItem}>
+            <Icon name="shield-lock-outline" color={Color.icon} size={25} />
+            <Text style={styles.menuItemText}>אבטחה</Text>
           </View>
         </TouchableRipple>
       </View>
@@ -116,8 +135,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
+  info: {
+    marginBottom: 20,
+    marginHorizontal: 30,
+    marginTop: -20,
+    borderBottomWidth: 0.6,
+    borderColor: Color.Blue500,
+  },
+  infoTitle: {
+    fontWeight: "800",
+    fontSize: 15,
+    color: Color.Blue900,
+    marginBottom: 5,
+  },
   text: {
-    color: "#777777",
+    color: Color.icon,
     marginLeft: 20,
   },
   caption: {
@@ -129,16 +161,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 10,
   },
+
   menuWrapper: {
-    marginTop: 10,
+    marginTop: -15,
   },
   menuItem: {
     flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 30,
   },
   menuItemText: {
-    color: "#777777",
+    color: Color.icon,
     marginLeft: 10,
     fontWeight: "600",
     fontSize: 16,

@@ -8,16 +8,16 @@ import {
   View,
 } from "react-native";
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import DropDown from "../components/DropDown";
+import { StudentContext, useStudents } from "../context/StudentContext";
 import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
+import DropDown from "../components/DropDown";
 import Input from "../components/Input";
-import { StudentContext, useStudents } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 
@@ -27,7 +27,6 @@ function EditStudentProfileScreen() {
   const navigation = useNavigation();
 
   const { token } = context;
-
   const [name, setName] = useState(context.name);
   const [age, setAge] = useState(context.age);
   const [academic, setAcademic] = useState(context.academic);
@@ -118,7 +117,10 @@ function EditStudentProfileScreen() {
       navigation.goBack();
     },
     onError: (err) => {
-      console.log(err.message);
+      Toast.show({
+        type: "error",
+        text1: err.message,
+      });
     },
   });
 
@@ -134,146 +136,162 @@ function EditStudentProfileScreen() {
     });
   };
 
+  // bs = createRef();
+  // fall = new Animated.Value(1);
+
+  // renderInner = () => <Text>Hello</Text>;
+
+  // renderHeader = () => (
+  //   <View style={styles.header}>
+  //     <View style={styles.panelHeader}>
+  //       <View style={styles.panelHandle}></View>
+  //     </View>
+  //   </View>
+  // );
+
   return (
     <ScrollView>
-      <View style={styles.container}></View>
-      <View style={{ alignItems: "center" }}>
-        <TouchableOpacity>
-          <View
-            style={{
-              height: 100,
-              width: 100,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <ImageBackground
-              source={require("../../backend/public/img/users/default.png")}
-              style={{ height: 100, width: 100 }}
-              imageStyle={{
-                borderRadius: 50,
-                borderWidth: 2,
-                borderColor: Color.Blue600,
+      <View style={styles.container}>
+        <View style={{ alignItems: "center" }}>
+          <TouchableOpacity onPress={() => {}}>
+            <View
+              style={{
+                height: 100,
+                width: 100,
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "flex-end",
-                  alignItems: "center",
+              <ImageBackground
+                source={require("../../backend/public/img/users/default.png")}
+                style={{ height: 100, width: 100 }}
+                imageStyle={{
+                  borderRadius: 50,
+                  borderWidth: 2,
+                  borderColor: Color.Blue600,
                 }}
               >
-                <Icon
-                  name="camera"
-                  size={25}
-                  color={Color.darkTheme}
-                  style={{ opacity: 0.4 }}
-                />
-              </View>
-            </ImageBackground>
-            <Text style={{ marginBottom: 30 }}>עדכן תמונה</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                  }}
+                >
+                  <Icon
+                    name="camera"
+                    size={25}
+                    color={Color.darkTheme}
+                    style={{ opacity: 0.4 }}
+                  />
+                </View>
+              </ImageBackground>
+              <Text style={{ marginBottom: 30 }}>עדכן תמונה</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.inputsRow}>
-        <Input
-          style={styles.textInput}
-          label={name ? "" : "שם מלא"}
-          value={name}
-          left={<TextInput.Icon icon={"account-outline"} />}
-          mode="outlined"
-          onValueChange={(name) => setName(name)}
-        />
-        <Input
-          style={styles.textInput}
-          label={age ? "" : "גיל"}
-          value={age}
-          left={<TextInput.Icon icon={"calendar-account-outline"} />}
-          mode="outlined"
-          keyboardType="decimal-pad"
-          maxLength={2}
-          onValueChange={(selectedAge) => setAge(selectedAge)}
-        />
-      </View>
-      <View style={{ paddingHorizontal: 6 }}>
-        <DropDown
-          list={listAcademic}
-          label={academic}
-          listMode="MODAL"
-          searchable={true}
-          onValueChange={(selectedAcademic) => setAcademic(selectedAcademic)}
-        />
-      </View>
-
-      <View>
         <View style={styles.inputsRow}>
           <Input
             style={styles.textInput}
-            label={department ? "" : "מחלקה"}
-            value={department}
-            left={<TextInput.Icon icon={"school-outline"} />}
+            label={name ? "" : "שם מלא"}
+            value={name}
+            left={<TextInput.Icon icon={"account-outline"} />}
             mode="outlined"
-            onValueChange={(selectedDepartment) =>
-              setDepartment(selectedDepartment)
-            }
+            onValueChange={(name) => setName(name)}
           />
-          <DropDown
-            list={listYear}
-            label={yearbook}
-            searchable={false}
-            listMode="SCROLLVIEW"
-            onValueChange={(selectedYearbook) => setYearbook(selectedYearbook)}
+          <Input
+            style={styles.textInput}
+            label={age ? "" : "גיל"}
+            value={age}
+            left={<TextInput.Icon icon={"calendar-account-outline"} />}
+            mode="outlined"
+            keyboardType="decimal-pad"
+            maxLength={2}
+            onValueChange={(selectedAge) => setAge(selectedAge)}
           />
         </View>
-      </View>
+        <View style={{ paddingHorizontal: 6 }}>
+          <DropDown
+            list={listAcademic}
+            label={academic}
+            listMode="MODAL"
+            searchable={true}
+            onValueChange={(selectedAcademic) => setAcademic(selectedAcademic)}
+          />
+        </View>
 
-      <Text style={styles.title} variant="titleMedium">
-        מגדר:
-      </Text>
+        <View>
+          <View style={styles.inputsRow}>
+            <Input
+              style={styles.textInput}
+              label={department ? "" : "מחלקה"}
+              value={department}
+              left={<TextInput.Icon icon={"school-outline"} />}
+              mode="outlined"
+              onValueChange={(selectedDepartment) =>
+                setDepartment(selectedDepartment)
+              }
+            />
+            <DropDown
+              list={listYear}
+              label={yearbook}
+              searchable={false}
+              listMode="SCROLLVIEW"
+              onValueChange={(selectedYearbook) =>
+                setYearbook(selectedYearbook)
+              }
+            />
+          </View>
+        </View>
 
-      <View style={styles.radioButtom}>
-        <RadioButton
-          value="זכר"
-          color={Color.Blue500}
-          status={checked === "זכר" ? "checked" : "unchecked"}
-          onPress={() => setChecked("זכר")}
-        />
-        <Text style={styles.textRadio}>זכר</Text>
-      </View>
-      <View style={styles.radioButtom}>
-        <RadioButton
-          value="נקבה"
-          color={Color.Blue500}
-          status={checked === "נקבה" ? "checked" : "unchecked"}
-          onPress={() => setChecked("נקבה")}
-        />
-        <Text style={styles.textRadio}>נקבה</Text>
-      </View>
+        <Text style={styles.title} variant="titleMedium">
+          מגדר:
+        </Text>
 
-      <View style={styles.textInput}>
-        <Input
-          label={email ? "" : "אימייל"}
-          value={email}
-          left={<TextInput.Icon icon={"email-outline"} />}
-          mode="outlined"
-          keyboardType="email-address"
-          onValueChange={(selectedemail) => setEmail(selectedemail)}
-        />
+        <View style={styles.radioButtom}>
+          <RadioButton
+            value="זכר"
+            color={Color.Blue500}
+            status={checked === "זכר" ? "checked" : "unchecked"}
+            onPress={() => setChecked("זכר")}
+          />
+          <Text style={styles.textRadio}>זכר</Text>
+        </View>
+        <View style={styles.radioButtom}>
+          <RadioButton
+            value="נקבה"
+            color={Color.Blue500}
+            status={checked === "נקבה" ? "checked" : "unchecked"}
+            onPress={() => setChecked("נקבה")}
+          />
+          <Text style={styles.textRadio}>נקבה</Text>
+        </View>
 
-        {isError && <ErrorMessage errorMessage={error.message} />}
-        <Spacer>
-          <Button
-            style={{ marginTop: 10 }}
-            textColor={Color.defaultTheme}
-            buttonColor={Color.Blue800}
-            mode="contained"
-            onPress={handleUpdateMe}
-            loading={isPending}
-          >
-            {isPending ? "" : "עדכן"}
-          </Button>
-        </Spacer>
+        <View style={styles.textInput}>
+          <Input
+            label={email ? "" : "אימייל"}
+            value={email}
+            left={<TextInput.Icon icon={"email-outline"} />}
+            mode="outlined"
+            keyboardType="email-address"
+            onValueChange={(selectedemail) => setEmail(selectedemail)}
+          />
+
+          {isError && <ErrorMessage errorMessage={error.message} />}
+          <Spacer>
+            <Button
+              style={{ marginTop: 10 }}
+              textColor={Color.defaultTheme}
+              buttonColor={Color.Blue800}
+              mode="contained"
+              onPress={handleUpdateMe}
+              loading={isPending}
+            >
+              {isPending ? "" : "עדכן"}
+            </Button>
+          </Spacer>
+        </View>
       </View>
     </ScrollView>
   );
@@ -304,5 +322,49 @@ const styles = StyleSheet.create({
   },
   textRadio: {
     paddingTop: 6,
+  },
+
+  header: {
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#333333",
+    shadowOffset: { width: -1, height: -3 },
+    shadowRadius: 2,
+    shadowOpacity: 0.4,
+    // elevation: 5,
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  panelHeader: {
+    alignItems: "center",
+  },
+  panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#00000040",
+    marginBottom: 10,
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35,
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: "gray",
+    height: 30,
+    marginBottom: 10,
+  },
+  panelButton: {
+    padding: 13,
+    borderRadius: 10,
+    backgroundColor: "#FF6347",
+    alignItems: "center",
+    marginVertical: 7,
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "white",
   },
 });

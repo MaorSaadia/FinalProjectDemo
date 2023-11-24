@@ -7,6 +7,7 @@ import { useDarkMode } from "../context/DarkModeContext";
 import StudentProfileScreen from "../screens/StudentProfileScreen";
 import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
 import { View } from "react-native";
+import SecurityScreen from "../screens/SecurityScreen";
 
 const ProfileStack = createNativeStackNavigator();
 
@@ -70,6 +71,15 @@ function ProfileStackScreen({ navigation }) {
         component={EditStudentProfileScreen}
         options={{
           headerTintColor: Color.darkTheme,
+        }}
+      />
+      <ProfileStack.Screen
+        name="SecurityScreen"
+        component={SecurityScreen}
+        options={{
+          headerTintColor: Color.darkTheme,
+          presentation: "modal",
+          animation: "fade_from_bottom",
         }}
       />
     </ProfileStack.Navigator>
