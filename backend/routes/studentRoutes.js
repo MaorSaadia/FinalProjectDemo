@@ -19,7 +19,11 @@ router.patch(
   studentController.uploadUserAvatar,
   studentController.updateMe
 );
-router.patch("/updateMyPassword", authController.updatePassword);
+router.patch(
+  "/updateMyPassword",
+  authController.protect,
+  authController.updatePassword
+);
 
 router.route("/").get(studentController.getAllStudents);
 router

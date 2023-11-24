@@ -1,17 +1,17 @@
 import { ADDRESS } from "@env";
 import { useState } from "react";
-import { StatusBar, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import Toast from "react-native-toast-message";
 
+import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 import NavLink from "../components/NavLink";
 import sendEmail from "../utils/sendEmail";
-import { useDarkMode } from "../context/DarkModeContext";
 
 function ResetPasswordScreen({ route }) {
   const { isDarkMode } = useDarkMode();

@@ -219,11 +219,13 @@ exports.protect = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   // 1) Get student from collection
-  const student = await Student.findById(req.student.id).select("+password");
+  const student = await Student.findById(req.user.id).select("+password");
 
   // 2) Check if POSTed current password is correct
-  if (!student.correctPassword(req.body.passwordCurrent, student.password)) {
-    return next(new AppError("Your current password is wrong.", 401));
+  if (
+    !(await student.correctPassword(req.body.passwordCurrent, student.password))
+  ) {
+    return next(new AppError("הסיסמה הנוכחית שלך שגויה", 401));
   }
 
   // 3) if so, update password
