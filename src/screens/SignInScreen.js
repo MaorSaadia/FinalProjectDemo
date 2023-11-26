@@ -3,15 +3,16 @@ import { useContext, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import { ImageBackground, StyleSheet, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { useDarkMode } from "../context/DarkModeContext";
+import { StudentContext } from "../context/StudentContext";
 import { Color } from "../constants/colors";
 import Input from "../components/Input";
+import PasswordInput from "../components/PasswordInput";
 import NavLink from "../components/NavLink";
-import { StudentContext } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
-import { useDarkMode } from "../context/DarkModeContext";
 
 function SignInScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -20,7 +21,6 @@ function SignInScreen({ route }) {
 
   const { userType } = route.params;
 
-  const [isSecure, setIsSecure] = useState(true);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
 
@@ -88,31 +88,18 @@ function SignInScreen({ route }) {
             ─── התחברות ───
           </Text>
         </View>
+
         <Input
           label="אימייל"
           keyboardType="email-address"
           mode="outlined"
           onValueChange={(selectedMail) => setEmail(selectedMail)}
         />
-        <TextInput
-          label="סיסמה"
-          style={
-            isDarkMode
-              ? { backgroundColor: Color.darkTheme }
-              : { backgroundColor: Color.white }
-          }
-          right={
-            <TextInput.Icon
-              icon={isSecure ? "eye" : "eye-off"}
-              onPress={() => setIsSecure(!isSecure)}
-            />
-          }
-          selectionColor={Color.Blue700}
-          outlineColor={Color.Blue200}
-          activeOutlineColor={Color.Blue800}
+
+        <PasswordInput
           mode="outlined"
-          onChangeText={(password) => setPassword(password)}
-          secureTextEntry={isSecure}
+          label="סיסמה"
+          onValueChange={(password) => setPassword(password)}
         />
 
         {isError && <ErrorMessage errorMessage={error.message} />}

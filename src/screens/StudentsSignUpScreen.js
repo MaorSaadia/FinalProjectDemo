@@ -1,20 +1,21 @@
 import { ADDRESS } from "@env";
 import { useContext, useState } from "react";
 import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
-import { Button, RadioButton, Text, TextInput } from "react-native-paper";
+import { Button, RadioButton, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 
-import DropDown from "../components/DropDown";
+import { useDarkMode } from "../context/DarkModeContext";
+import { StudentContext } from "../context/StudentContext";
 import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
 import Input from "../components/Input";
+import PasswordInput from "../components/PasswordInput";
+import DropDown from "../components/DropDown";
 import NavLink from "../components/NavLink";
-import { StudentContext } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
-import { useDarkMode } from "../context/DarkModeContext";
 
 function StudentsSignUpScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -33,8 +34,6 @@ function StudentsSignUpScreen({ route }) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
-  const [isSecure1, setIsSecure1] = useState(true);
-  const [isSecure2, setIsSecure2] = useState(true);
 
   const listAcademic = academicList.map((item) => ({
     label: item.name,
@@ -252,48 +251,19 @@ function StudentsSignUpScreen({ route }) {
             keyboardType="email-address"
             onValueChange={(selectedemail) => setEmail(selectedemail)}
           />
-          <TextInput
-            label="סיסמה"
-            style={
-              isDarkMode
-                ? { backgroundColor: Color.darkTheme }
-                : { backgroundColor: Color.white }
-            }
-            right={
-              <TextInput.Icon
-                icon={isSecure1 ? "eye" : "eye-off"}
-                onPress={() => setIsSecure1(!isSecure1)}
-              />
-            }
-            selectionColor={Color.Blue700}
-            outlineColor={Color.Blue200}
-            activeOutlineColor={Color.Blue800}
+
+          <PasswordInput
             mode="outlined"
-            onChangeText={(password) => setPassword(password)}
-            secureTextEntry={isSecure1}
+            label="סיסמה"
+            onValueChange={(password) => setPassword(password)}
           />
 
-          <TextInput
-            label="אשר סיסמה"
-            style={
-              isDarkMode
-                ? { backgroundColor: Color.darkTheme }
-                : { backgroundColor: Color.white }
-            }
-            right={
-              <TextInput.Icon
-                icon={isSecure2 ? "eye" : "eye-off"}
-                onPress={() => setIsSecure2(!isSecure2)}
-              />
-            }
-            selectionColor={Color.Blue700}
-            outlineColor={Color.Blue200}
-            activeOutlineColor={Color.Blue800}
+          <PasswordInput
             mode="outlined"
-            onChangeText={(passwordConfirm) =>
+            label="אשר סיסמה"
+            onValueChange={(passwordConfirm) =>
               setPasswordConfirm(passwordConfirm)
             }
-            secureTextEntry={isSecure2}
           />
 
           {isError && <ErrorMessage errorMessage={error.message} />}

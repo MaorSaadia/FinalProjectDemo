@@ -218,6 +218,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   // 1) Get student from collection
   const student = await Student.findById(req.user.id).select("+password");
 

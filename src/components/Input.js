@@ -34,7 +34,7 @@ function Input({
         style={
           isDarkMode
             ? { backgroundColor: Color.darkTheme }
-            : { backgroundColor: Color.white }
+            : { backgroundColor: Color.defaultTheme }
         }
         selectionColor={Color.Blue700}
         outlineColor={Color.Blue200}

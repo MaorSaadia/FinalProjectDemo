@@ -3,6 +3,7 @@ export const Color = {
   black: "#000000",
   darkTheme: "#333333",
   defaultTheme: "#faf7f7",
+  errorText: "#721c24",
   icon: "#777777",
 
   Blue50: "#f1f5f7",

@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
+import { Color } from "../../constants/colors";
+
 function ErrorMessage({ errorMessage }) {
   // Remove "Error:" from the beginning of the error message
   const message = errorMessage.replace(/^Error:\s*/i, "");
@@ -14,16 +16,16 @@ function ErrorMessage({ errorMessage }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f8d7da",
     padding: 10,
     borderRadius: 5,
-    borderColor: "#f5c6cb",
     borderWidth: 1,
     marginTop: 10,
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
+    backgroundColor: "#f8d7da",
+    borderColor: "#f5c6cb",
   },
   text: {
-    color: "#721c24",
+    color: Color.errorText,
     fontSize: 16,
   },
 });

@@ -291,6 +291,14 @@ function EditStudentProfileScreen() {
               {isPending ? "" : "עדכן"}
             </Button>
           </Spacer>
+          <Button
+            mode="text"
+            style={{ marginTop: -10 }}
+            textColor={Color.Blue800}
+            onPress={() => navigation.goBack()}
+          >
+            {"חזור"}
+          </Button>
         </View>
       </View>
     </ScrollView>
