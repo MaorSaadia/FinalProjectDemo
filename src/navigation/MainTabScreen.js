@@ -11,6 +11,7 @@ import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import HomeStackScreen from "./HomeStackScreen ";
 import ProfileStackScreen from "./ProfileStackScreen";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -38,73 +39,74 @@ function MainTabScreen() {
   const theme = isDarkMode ? CustomDarkTheme : CustomDefaultTheme;
 
   return (
-    <PaperProvider theme={theme}>
-      <Tab.Navigator
-        initialRouteName="HomeStackScreen"
-        activeColor={isDarkMode ? Color.white : Color.black}
-        inactiveColor={isDarkMode ? Color.white : Color.black}
-        // shifting={true}
-        barStyle={{
-          backgroundColor: isDarkMode ? Color.darkTheme : Color.white,
-          borderTopColor: Color.Brown100,
-          borderTopWidth: 1,
-          height: 50,
-          position: "absolute",
-        }}
-      >
-        <Tab.Screen
-          name="HomeStackScreen"
-          component={HomeStackScreen}
-          options={{
-            tabBarLabel: "",
-            tabBarIcon: ({ focused, color }) => (
-              <View style={{ alignItems: "center" }}>
-                <MaterialCommunityIcons
-                  name={focused ? "home" : "home-outline"}
-                  style={{ marginTop: -8 }}
-                  color={color}
-                  size={26}
-                />
-                <Text
-                  style={{
-                    fontSize: 11,
-                    color: isDarkMode ? Color.white : Color.black,
-                  }}
-                >
-                  בית
-                </Text>
-              </View>
-            ),
+    <BottomSheetModalProvider>
+      <PaperProvider theme={theme}>
+        <Tab.Navigator
+          initialRouteName="HomeStackScreen"
+          activeColor={isDarkMode ? Color.white : Color.black}
+          inactiveColor={isDarkMode ? Color.white : Color.black}
+          barStyle={{
+            backgroundColor: isDarkMode ? Color.darkTheme : Color.white,
+            borderTopColor: Color.Brown100,
+            borderTopWidth: 1,
+            height: 50,
+            position: "absolute",
           }}
-        />
+        >
+          <Tab.Screen
+            name="HomeStackScreen"
+            component={HomeStackScreen}
+            options={{
+              tabBarLabel: "",
+              tabBarIcon: ({ focused, color }) => (
+                <View style={{ alignItems: "center" }}>
+                  <MaterialCommunityIcons
+                    name={focused ? "home" : "home-outline"}
+                    style={{ marginTop: -8 }}
+                    color={color}
+                    size={26}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: isDarkMode ? Color.white : Color.black,
+                    }}
+                  >
+                    בית
+                  </Text>
+                </View>
+              ),
+            }}
+          />
 
-        <Tab.Screen
-          name="StudentProfileScreen"
-          component={ProfileStackScreen}
-          options={{
-            tabBarLabel: "",
-            tabBarIcon: ({ focused, color }) => (
-              <View style={{ alignItems: "center" }}>
-                <MaterialCommunityIcons
-                  name={focused ? "account" : "account-outline"}
-                  style={{ marginTop: -8 }}
-                  color={color}
-                  size={26}
-                />
-                <Text
-                  style={{
-                    fontSize: 11,
-                    color: isDarkMode ? Color.white : Color.black,
-                  }}
-                >
-                  פרופיל
-                </Text>
-              </View>
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </PaperProvider>
+          <Tab.Screen
+            name="StudentProfileScreen"
+            component={ProfileStackScreen}
+            options={{
+              tabBarLabel: "",
+              tabBarIcon: ({ focused, color }) => (
+                <View style={{ alignItems: "center" }}>
+                  <MaterialCommunityIcons
+                    name={focused ? "account" : "account-outline"}
+                    style={{ marginTop: -8 }}
+                    color={color}
+                    size={26}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      color: isDarkMode ? Color.white : Color.black,
+                    }}
+                  >
+                    פרופיל
+                  </Text>
+                </View>
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      </PaperProvider>
+    </BottomSheetModalProvider>
   );
 }
 

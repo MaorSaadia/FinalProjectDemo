@@ -1,5 +1,11 @@
 import { ADDRESS } from "@env";
-import { useContext, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   ImageBackground,
   ScrollView,
@@ -10,9 +16,11 @@ import {
 import { Button, RadioButton, Text, TextInput } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+import { useDarkMode } from "../context/DarkModeContext";
 import { StudentContext, useStudents } from "../context/StudentContext";
 import { Color } from "../constants/colors";
 import { academicList } from "../../backend/data/academic";
@@ -22,6 +30,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 
 function EditStudentProfileScreen() {
+  const { isDarkMode } = useDarkMode();
   const auth = useContext(StudentContext);
   const { context } = useStudents();
   const navigation = useNavigation();
@@ -34,6 +43,7 @@ function EditStudentProfileScreen() {
   const [yearbook, setYearbook] = useState(context.yearbook);
   const [checked, setChecked] = useState(context.gender);
   const [email, setEmail] = useState(context.email);
+  const [isButtomSheetOpen, SetIsButtomSheetOpen] = useState(false);
 
   const listAcademic = academicList.map((item) => ({
     label: item.name,
@@ -136,24 +146,31 @@ function EditStudentProfileScreen() {
     });
   };
 
-  // bs = createRef();
-  // fall = new Animated.Value(1);
+  const bottomSheetModalRef = useRef(null);
 
-  // renderInner = () => <Text>Hello</Text>;
+  const snapPoints = useMemo(() => ["20%", "40%", "60%", "80%"], []);
 
-  // renderHeader = () => (
-  //   <View style={styles.header}>
-  //     <View style={styles.panelHeader}>
-  //       <View style={styles.panelHandle}></View>
-  //     </View>
-  //   </View>
-  // );
+  const handlePresentModalOpen = useCallback(() => {
+    SetIsButtomSheetOpen((prevState) => !prevState);
+    bottomSheetModalRef.current?.present();
+  }, []);
+
+  const handlePresentModalClose = useCallback(() => {
+    SetIsButtomSheetOpen((prevState) => !prevState);
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
 
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity
+            onPress={
+              isButtomSheetOpen
+                ? handlePresentModalClose
+                : handlePresentModalOpen
+            }
+          >
             <View
               style={{
                 height: 100,
@@ -300,6 +317,55 @@ function EditStudentProfileScreen() {
             {"חזור"}
           </Button>
         </View>
+
+        <BottomSheetModal
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          backgroundStyle={{
+            backgroundColor: isDarkMode
+              ? Color.buttomSheetDarkTheme
+              : Color.defaultTheme,
+          }}
+          handleIndicatorStyle={{
+            backgroundColor: isDarkMode
+              ? Color.defaultTheme
+              : Color.buttomSheetDarkTheme,
+          }}
+        >
+          <View style={styles.contentContainer}>
+            <Text style={styles.panelTitle}>העלה תמונה</Text>
+            <Text style={styles.panelSubtitle}>בחר את תמונת הפרופיל שלך </Text>
+
+            <Button
+              style={styles.button}
+              textColor={
+                isDarkMode ? Color.buttomSheetDarkTheme : Color.defaultTheme
+              }
+              buttonColor={
+                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
+              }
+              mode="contained"
+            >
+              בחר מהגלרייה
+            </Button>
+
+            <Button
+              style={styles.button}
+              textColor={
+                isDarkMode ? Color.buttomSheetDarkTheme : Color.defaultTheme
+              }
+              buttonColor={
+                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
+              }
+              mode="contained"
+            >
+              צלם תמונה
+            </Button>
+          </View>
+        </BottomSheetModal>
+
+        {/* <CustomBottomSheet ref={bottomSheetModalRef} /> */}
       </View>
     </ScrollView>
   );
@@ -332,47 +398,23 @@ const styles = StyleSheet.create({
     paddingTop: 6,
   },
 
-  header: {
-    backgroundColor: "#FFFFFF",
-    shadowColor: "#333333",
-    shadowOffset: { width: -1, height: -3 },
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
-    // elevation: 5,
-    paddingTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  panelHeader: {
-    alignItems: "center",
-  },
-  panelHandle: {
-    width: 40,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#00000040",
-    marginBottom: 10,
+  contentContainer: {
+    flex: 1,
+    marginHorizontal: 20,
   },
   panelTitle: {
+    textAlign: "center",
     fontSize: 27,
     height: 35,
   },
   panelSubtitle: {
-    fontSize: 14,
+    textAlign: "center",
     color: "gray",
+    fontSize: 14,
     height: 30,
     marginBottom: 10,
   },
-  panelButton: {
-    padding: 13,
-    borderRadius: 10,
-    backgroundColor: "#FF6347",
-    alignItems: "center",
-    marginVertical: 7,
-  },
-  panelButtonTitle: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "white",
+  button: {
+    marginBottom: 20,
   },
 });

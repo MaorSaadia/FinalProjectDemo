@@ -2,6 +2,7 @@ export const Color = {
   white: "#ffffff",
   black: "#000000",
   darkTheme: "#333333",
+  buttomSheetDarkTheme: "#444444",
   defaultTheme: "#faf7f7",
   errorText: "#721c24",
   icon: "#777777",
