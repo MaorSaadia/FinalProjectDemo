@@ -5,17 +5,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
-import StudentProfileScreen from "../screens/StudentProfileScreen";
-import EditStudentProfileScreen from "../screens/EditStudentProfileScreen";
-import SecurityScreen from "../screens/SecurityScreen";
+import ChatScreen from "../screens/ChatScreen";
 
-const ProfileStack = createNativeStackNavigator();
+const ChatStack = createNativeStackNavigator();
 
-function ProfileStackScreen({ navigation }) {
+function ChatStackScreen({ navigation }) {
   const { isDarkMode } = useDarkMode();
   return (
-    <ProfileStack.Navigator
-      initialRouteName="StudentProfileScreen"
+    <ChatStack.Navigator
+      initialRouteName="ChatScreen"
       screenOptions={{
         headerStyle: {
           backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,
@@ -37,9 +35,9 @@ function ProfileStackScreen({ navigation }) {
         },
       }}
     >
-      <ProfileStack.Screen
-        name="פרופיל"
-        component={StudentProfileScreen}
+      <ChatStack.Screen
+        name="chat"
+        component={ChatScreen}
         options={{
           title: "",
           headerRight: () => (
@@ -53,37 +51,10 @@ function ProfileStackScreen({ navigation }) {
               />
             </View>
           ),
-          headerLeft: () => (
-            <View style={{ marginRight: -10 }}>
-              <MaterialCommunityIcons.Button
-                name="account-edit"
-                size={25}
-                color={Color.darkTheme}
-                backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
-                onPress={() => navigation.navigate("EditStudentProfileScreen")}
-              />
-            </View>
-          ),
         }}
       />
-      <ProfileStack.Screen
-        name="EditStudentProfileScreen"
-        component={EditStudentProfileScreen}
-        options={{
-          headerTintColor: Color.darkTheme,
-        }}
-      />
-      <ProfileStack.Screen
-        name="SecurityScreen"
-        component={SecurityScreen}
-        options={{
-          headerTintColor: Color.darkTheme,
-          presentation: "modal",
-          animation: "fade_from_bottom",
-        }}
-      />
-    </ProfileStack.Navigator>
+    </ChatStack.Navigator>
   );
 }
 
-export default ProfileStackScreen;
+export default ChatStackScreen;

@@ -46,6 +46,7 @@ function StudentsSignUpScreen({ route }) {
     { label: "שנה ב'", value: "שנה ב'" },
     { label: "שנה ג'", value: "שנה ג'" },
     { label: "שנה ד'", value: "שנה ד'" },
+    { label: "תואר שני", value: "תואר שני" },
   ];
 
   const storeData = async (key, value) => {

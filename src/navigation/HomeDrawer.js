@@ -2,14 +2,14 @@ import * as NavigationBar from "expo-navigation-bar";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback } from "react";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import { DrawerActions } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import CustomDrawer from "../components/CustomDrawer";
-import ProfileStackScreen from "./ProfileStackScreen";
 import MainTabScreen from "./MainTabScreen";
+import ChatStackScreen from "./ChatStackScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -62,11 +62,11 @@ function HomeDrawer({ navigation }) {
       />
 
       <Drawer.Screen
-        name="פרופיל"
-        component={ProfileStackScreen}
+        name="צ'אט"
+        component={ChatStackScreen}
         options={{
           drawerIcon: ({ color }) => (
-            <Ionicons name="list" size={22} color={color} />
+            <Ionicons name="chatbox-outline" size={22} color={color} />
           ),
         }}
       />

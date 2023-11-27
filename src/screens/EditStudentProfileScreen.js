@@ -56,6 +56,7 @@ function EditStudentProfileScreen() {
     { label: "שנה ב'", value: "שנה ב'" },
     { label: "שנה ג'", value: "שנה ג'" },
     { label: "שנה ד'", value: "שנה ד'" },
+    { label: "תואר שני", value: "תואר שני" },
   ];
 
   const updateMe = async ({
@@ -148,7 +149,8 @@ function EditStudentProfileScreen() {
 
   const bottomSheetModalRef = useRef(null);
 
-  const snapPoints = useMemo(() => ["20%", "40%", "60%", "80%"], []);
+  // const snapPoints = useMemo(() => ["20%", "40%", "60%", "80%"], []);
+  const snapPoints = useMemo(() => ["30%", "60%"], []);
 
   const handlePresentModalOpen = useCallback(() => {
     SetIsButtomSheetOpen((prevState) => !prevState);
@@ -320,7 +322,6 @@ function EditStudentProfileScreen() {
 
         <BottomSheetModal
           ref={bottomSheetModalRef}
-          index={1}
           snapPoints={snapPoints}
           backgroundStyle={{
             backgroundColor: isDarkMode
@@ -333,7 +334,7 @@ function EditStudentProfileScreen() {
               : Color.buttomSheetDarkTheme,
           }}
         >
-          <View style={styles.contentContainer}>
+          <View style={styles.sheetContainer}>
             <Text style={styles.panelTitle}>העלה תמונה</Text>
             <Text style={styles.panelSubtitle}>בחר את תמונת הפרופיל שלך </Text>
 
@@ -361,6 +362,17 @@ function EditStudentProfileScreen() {
               mode="contained"
             >
               צלם תמונה
+            </Button>
+
+            <Button
+              mode="text"
+              style={{ marginTop: -10 }}
+              textColor={
+                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
+              }
+              onPress={handlePresentModalClose}
+            >
+              בטל
             </Button>
           </View>
         </BottomSheetModal>
@@ -397,8 +409,7 @@ const styles = StyleSheet.create({
   textRadio: {
     paddingTop: 6,
   },
-
-  contentContainer: {
+  sheetContainer: {
     flex: 1,
     marginHorizontal: 20,
   },
@@ -415,6 +426,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    marginBottom: 20,
+    marginBottom: 15,
   },
 });
