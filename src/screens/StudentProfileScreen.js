@@ -1,4 +1,5 @@
 import { ADDRESS } from "@env";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Avatar, Title, Text, TouchableRipple } from "react-native-paper";
@@ -14,8 +15,9 @@ const StudentProfileScreen = () => {
   const { context } = useStudents();
   const navigation = useNavigation();
 
-  // const avatar = context.avatar?.toString();
-
+  const [image, setImage] = useState(
+    "https://img.myloview.cz/nalepky/default-avatar-profile-icon-vector-social-media-user-image-700-205124837.jpg"
+  );
   const fetchStudents = async () => {
     try {
       const response = await fetch(
@@ -50,15 +52,16 @@ const StudentProfileScreen = () => {
     );
   }
 
-  const getAvatar = () => {
-    return require(`../../backend/public/img/users/default.png`);
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.userInfoSection}>
         <View style={styles.avatar}>
-          <Avatar.Image source={getAvatar()} size={80} />
+          <Avatar.Image
+            source={{
+              uri: image,
+            }}
+            size={80}
+          />
           <View>
             <Title style={styles.title}>{context.name}</Title>
           </View>
@@ -90,8 +93,6 @@ const StudentProfileScreen = () => {
           <Text style={styles.text}>{context.email}</Text>
         </View>
       </View>
-
-      {/* <View style={styles.line}></View> */}
 
       <View style={styles.info}>
         <Text style={styles.infoTitle}>אחר</Text>

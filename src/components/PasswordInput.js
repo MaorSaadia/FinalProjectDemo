@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { TextInput } from "react-native-paper";
 
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
@@ -22,7 +21,7 @@ function PasswordInput({ mode, onValueChange, label }) {
       style={
         isDarkMode
           ? { backgroundColor: Color.darkTheme }
-          : { backgroundColor: Color.defaultTheme }
+          : { backgroundColor: Color.white }
       }
       right={
         <TextInput.Icon
@@ -41,14 +40,3 @@ function PasswordInput({ mode, onValueChange, label }) {
 }
 
 export default PasswordInput;
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 150,
-  },
-  text: {
-    textAlign: "center",
-    fontWeight: "bold",
-    color: Color.Blue800,
-  },
-});

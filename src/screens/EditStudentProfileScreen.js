@@ -28,6 +28,8 @@ import DropDown from "../components/DropDown";
 import Input from "../components/Input";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
+import TakePhoto from "../components/TakePhoto";
+import ImagePicker from "../components/ImagePicker";
 
 function EditStudentProfileScreen() {
   const { isDarkMode } = useDarkMode();
@@ -36,6 +38,9 @@ function EditStudentProfileScreen() {
   const navigation = useNavigation();
 
   const { token } = context;
+  const [avatar, setAvatar] = useState(
+    "https://img.myloview.cz/nalepky/default-avatar-profile-icon-vector-social-media-user-image-700-205124837.jpg"
+  );
   const [name, setName] = useState(context.name);
   const [age, setAge] = useState(context.age);
   const [academic, setAcademic] = useState(context.academic);
@@ -60,6 +65,7 @@ function EditStudentProfileScreen() {
   ];
 
   const updateMe = async ({
+    avatar,
     name,
     age,
     academic,
@@ -78,6 +84,7 @@ function EditStudentProfileScreen() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
+            avatar,
             name,
             age,
             academic,
@@ -102,6 +109,7 @@ function EditStudentProfileScreen() {
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: ({
+      avatar,
       name,
       age,
       academic,
@@ -111,6 +119,7 @@ function EditStudentProfileScreen() {
       email,
     }) =>
       updateMe({
+        avatar,
         name,
         age,
         academic,
@@ -137,6 +146,7 @@ function EditStudentProfileScreen() {
 
   const handleUpdateMe = () => {
     mutate({
+      avatar,
       name,
       age,
       academic,
@@ -182,7 +192,7 @@ function EditStudentProfileScreen() {
               }}
             >
               <ImageBackground
-                source={require("../../backend/public/img/users/default.png")}
+                source={{ uri: avatar }}
                 style={{ height: 100, width: 100 }}
                 imageStyle={{
                   borderRadius: 50,
@@ -335,34 +345,11 @@ function EditStudentProfileScreen() {
           }}
         >
           <View style={styles.sheetContainer}>
-            <Text style={styles.panelTitle}>העלה תמונה</Text>
-            <Text style={styles.panelSubtitle}>בחר את תמונת הפרופיל שלך </Text>
+            <Text style={styles.panelTitle}>עדכן תמונה</Text>
+            <Text style={styles.panelSubtitle}>בחר את תמונת הפרופיל שלך</Text>
 
-            <Button
-              style={styles.button}
-              textColor={
-                isDarkMode ? Color.buttomSheetDarkTheme : Color.defaultTheme
-              }
-              buttonColor={
-                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
-              }
-              mode="contained"
-            >
-              בחר מהגלרייה
-            </Button>
-
-            <Button
-              style={styles.button}
-              textColor={
-                isDarkMode ? Color.buttomSheetDarkTheme : Color.defaultTheme
-              }
-              buttonColor={
-                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
-              }
-              mode="contained"
-            >
-              צלם תמונה
-            </Button>
+            <ImagePicker onPickImage={(image) => setAvatar(image)} />
+            <TakePhoto onTakeImage={(image) => setAvatar(image)} />
 
             <Button
               mode="text"
