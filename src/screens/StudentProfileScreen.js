@@ -15,9 +15,6 @@ const StudentProfileScreen = () => {
   const { context } = useStudents();
   const navigation = useNavigation();
 
-  const [image, setImage] = useState(
-    "https://img.myloview.cz/nalepky/default-avatar-profile-icon-vector-social-media-user-image-700-205124837.jpg"
-  );
   const fetchStudents = async () => {
     try {
       const response = await fetch(
@@ -58,7 +55,7 @@ const StudentProfileScreen = () => {
         <View style={styles.avatar}>
           <Avatar.Image
             source={{
-              uri: image,
+              uri: context.avatar,
             }}
             size={80}
           />

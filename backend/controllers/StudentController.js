@@ -1,11 +1,13 @@
 const multer = require("multer");
+const cloudinary = require("cloudinary");
 
 const AppError = require("../utils/appError");
 const Student = require("../models/studentModel");
 const catchAsync = require("../utils/catchAsync");
 const factory = require("./handlerFactory");
+const { getDataUri } = require("../../src/utils/features");
 
-const multerStorage = multer.diskStorage({
+const multerStorage = multer.memoryStorage({
   destination: (req, file, cb) => {
     cb(null, "public/img/users");
   },
@@ -51,8 +53,6 @@ exports.getAllStudents = catchAsync(async (req, res, next) => {
 exports.getStudent = factory.getOne(Student);
 
 exports.updateMe = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(new AppError("This route is not for password updates", 400));
@@ -69,7 +69,15 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     "gender",
     "email"
   );
-  if (req.file) filterdedBody.avatar = req.file.filename;
+
+  if (req.file) {
+    const file = getDataUri(req.file);
+    console.log(file);
+
+    const uploadToCloud = await cloudinary.v2.uploader.upload(file.content);
+    const image = uploadToCloud.secure_url;
+    filterdedBody.avatar = image;
+  }
 
   // 3) Update student document
   const updatedStudent = await Student.findByIdAndUpdate(

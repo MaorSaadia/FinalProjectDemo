@@ -2,6 +2,7 @@ import { ADDRESS } from "@env";
 import React, {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -38,9 +39,7 @@ function EditStudentProfileScreen() {
   const navigation = useNavigation();
 
   const { token } = context;
-  const [avatar, setAvatar] = useState(
-    "https://img.myloview.cz/nalepky/default-avatar-profile-icon-vector-social-media-user-image-700-205124837.jpg"
-  );
+  const [avatar, setAvatar] = useState(context.avatar);
   const [name, setName] = useState(context.name);
   const [age, setAge] = useState(context.age);
   const [academic, setAcademic] = useState(context.academic);
@@ -48,7 +47,10 @@ function EditStudentProfileScreen() {
   const [yearbook, setYearbook] = useState(context.yearbook);
   const [checked, setChecked] = useState(context.gender);
   const [email, setEmail] = useState(context.email);
-  const [isButtomSheetOpen, SetIsButtomSheetOpen] = useState(false);
+  // const [isButtomSheetOpen, SetIsButtomSheetOpen] = useState(false);
+
+  const uri =
+    "https://res.cloudinary.com/dtkpp77xw/image/upload/v1701189732/default_nk5c5h.png";
 
   const listAcademic = academicList.map((item) => ({
     label: item.name,
@@ -63,6 +65,12 @@ function EditStudentProfileScreen() {
     { label: "שנה ד'", value: "שנה ד'" },
     { label: "תואר שני", value: "תואר שני" },
   ];
+
+  useEffect(() => {
+    if (avatar !== context.avatar) {
+      handlePresentModalClose();
+    }
+  }, [avatar]);
 
   const updateMe = async ({
     avatar,
@@ -160,15 +168,13 @@ function EditStudentProfileScreen() {
   const bottomSheetModalRef = useRef(null);
 
   // const snapPoints = useMemo(() => ["20%", "40%", "60%", "80%"], []);
-  const snapPoints = useMemo(() => ["30%", "60%"], []);
+  const snapPoints = useMemo(() => ["40%", "60%"], []);
 
   const handlePresentModalOpen = useCallback(() => {
-    SetIsButtomSheetOpen((prevState) => !prevState);
     bottomSheetModalRef.current?.present();
   }, []);
 
   const handlePresentModalClose = useCallback(() => {
-    SetIsButtomSheetOpen((prevState) => !prevState);
     bottomSheetModalRef.current?.dismiss();
   }, []);
 
@@ -176,13 +182,7 @@ function EditStudentProfileScreen() {
     <ScrollView>
       <View style={styles.container}>
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity
-            onPress={
-              isButtomSheetOpen
-                ? handlePresentModalClose
-                : handlePresentModalOpen
-            }
-          >
+          <TouchableOpacity onPress={handlePresentModalOpen}>
             <View
               style={{
                 height: 100,
@@ -350,6 +350,20 @@ function EditStudentProfileScreen() {
 
             <ImagePicker onPickImage={(image) => setAvatar(image)} />
             <TakePhoto onTakeImage={(image) => setAvatar(image)} />
+
+            <Button
+              style={styles.button}
+              textColor={
+                isDarkMode ? Color.buttomSheetDarkTheme : Color.defaultTheme
+              }
+              buttonColor={
+                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
+              }
+              mode="contained"
+              onPress={() => setAvatar(uri)}
+            >
+              מחק תמונה
+            </Button>
 
             <Button
               mode="text"

@@ -9,7 +9,8 @@ const studentSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: "default.png",
+    default:
+      "https://res.cloudinary.com/dtkpp77xw/image/upload/v1701189732/default_nk5c5h.png",
   },
   age: {
     type: String,
