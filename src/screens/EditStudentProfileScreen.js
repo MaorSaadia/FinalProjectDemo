@@ -31,15 +31,16 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 import TakePhoto from "../components/TakePhoto";
 import ImagePicker from "../components/ImagePicker";
+import NavLink from "../components/NavLink";
 
 function EditStudentProfileScreen() {
   const { isDarkMode } = useDarkMode();
-  const auth = useContext(StudentContext);
   const { context } = useStudents();
+  const auth = useContext(StudentContext);
   const navigation = useNavigation();
 
   const { token } = context;
-  const [avatar, setAvatar] = useState(context.avatar.url);
+  const [avatar, setAvatar] = useState(context.avatar?.url);
   const [name, setName] = useState(context.name);
   const [age, setAge] = useState(context.age);
   const [academic, setAcademic] = useState(context.academic);
@@ -48,7 +49,7 @@ function EditStudentProfileScreen() {
   const [checked, setChecked] = useState(context.gender);
   const [email, setEmail] = useState(context.email);
 
-  const uri =
+  const url =
     "https://res.cloudinary.com/dtkpp77xw/image/upload/v1701189732/default_nk5c5h.png";
 
   const listAcademic = academicList.map((item) => ({
@@ -66,7 +67,7 @@ function EditStudentProfileScreen() {
   ];
 
   useEffect(() => {
-    if (avatar !== context.avatar.url) {
+    if (avatar !== context.avatar?.url) {
       handlePresentModalClose();
     }
   }, [avatar]);
@@ -334,14 +335,7 @@ function EditStudentProfileScreen() {
               {isPending ? null : "עדכן"}
             </Button>
           </Spacer>
-          <Button
-            mode="text"
-            style={{ marginTop: -10 }}
-            textColor={Color.Blue800}
-            onPress={() => navigation.goBack()}
-          >
-            חזור
-          </Button>
+          <NavLink text="חזור" style={{ marginTop: -5, fontSize: 14 }} />
         </View>
 
         <BottomSheetModal
@@ -374,21 +368,19 @@ function EditStudentProfileScreen() {
                 isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
               }
               mode="contained"
-              onPress={() => setAvatar(uri)}
+              onPress={() => setAvatar(url)}
             >
               מחק תמונה
             </Button>
 
-            <Button
-              mode="text"
-              style={{ marginTop: -10 }}
-              textColor={
-                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
-              }
-              onPress={handlePresentModalClose}
-            >
-              בטל
-            </Button>
+            <NavLink
+              text="בטל"
+              style={{
+                marginTop: -10,
+                fontSize: 14,
+                color: isDarkMode ? Color.white : Color.darkTheme,
+              }}
+            />
           </View>
         </BottomSheetModal>
       </View>

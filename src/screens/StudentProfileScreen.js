@@ -1,5 +1,4 @@
 import { ADDRESS } from "@env";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Avatar, Title, Text, TouchableRipple } from "react-native-paper";
@@ -16,8 +15,6 @@ const StudentProfileScreen = () => {
   const { isDarkMode } = useDarkMode();
   const { context } = useStudents();
   const navigation = useNavigation();
-
-  console.log(context.avatar.url);
 
   const fetchStudents = async () => {
     try {
@@ -47,7 +44,7 @@ const StudentProfileScreen = () => {
 
   if (error) {
     return (
-      <View style={{ alignItems: "center" }}>
+      <View style={{ justifyContent: "center" }}>
         <ErrorMessage errorMessage={error.message} />
       </View>
     );
@@ -64,7 +61,7 @@ const StudentProfileScreen = () => {
                 : Color.defaultTheme,
             }}
             source={{
-              uri: context.avatar.url,
+              uri: context.avatar?.url,
             }}
             size={80}
           />

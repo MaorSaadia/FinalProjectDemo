@@ -11,6 +11,7 @@ import Spacer from "../components/ui/Spacer";
 import PasswordInput from "../components/PasswordInput";
 import { useStudents } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import NavLink from "../components/NavLink";
 
 function SecurityScreen() {
   const navigation = useNavigation();
@@ -123,14 +124,7 @@ function SecurityScreen() {
         </Button>
       </Spacer>
 
-      <Button
-        mode="text"
-        style={{ marginTop: -10 }}
-        textColor={Color.Blue800}
-        onPress={() => navigation.goBack()}
-      >
-        {"חזור"}
-      </Button>
+      <NavLink text="חזור" style={{ marginTop: -5, fontSize: 14 }} />
     </View>
   );
 }

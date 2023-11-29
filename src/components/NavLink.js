@@ -9,7 +9,11 @@ const NavLink = ({ text, routeName, props, style }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate(routeName, props)}>
+    <TouchableOpacity
+      onPress={() =>
+        routeName ? navigation.navigate(routeName, props) : navigation.goBack()
+      }
+    >
       <Spacer>
         <Text style={{ ...styles.link, ...style }}>{text}</Text>
       </Spacer>
@@ -19,7 +23,7 @@ const NavLink = ({ text, routeName, props, style }) => {
 
 const styles = StyleSheet.create({
   link: {
-    color: Color.Blue900,
+    color: Color.Blue800,
     fontSize: 16,
     textAlign: "center",
   },

@@ -22,7 +22,7 @@ function useStudents() {
   const [yearbook, setYearbook] = useState(null);
   const [gender, SetGender] = useState(null);
   const [email, SetEmail] = useState(null);
-  const [avatar, SetAvatar] = useState("default.png");
+  const [avatar, SetAvatar] = useState(null);
 
   const login = useCallback((data, token) => {
     const saveData = async () => {
