@@ -39,7 +39,7 @@ function EditStudentProfileScreen() {
   const navigation = useNavigation();
 
   const { token } = context;
-  const [avatar, setAvatar] = useState(context.avatar);
+  const [avatar, setAvatar] = useState(context.avatar.url);
   const [name, setName] = useState(context.name);
   const [age, setAge] = useState(context.age);
   const [academic, setAcademic] = useState(context.academic);
@@ -47,7 +47,6 @@ function EditStudentProfileScreen() {
   const [yearbook, setYearbook] = useState(context.yearbook);
   const [checked, setChecked] = useState(context.gender);
   const [email, setEmail] = useState(context.email);
-  // const [isButtomSheetOpen, SetIsButtomSheetOpen] = useState(false);
 
   const uri =
     "https://res.cloudinary.com/dtkpp77xw/image/upload/v1701189732/default_nk5c5h.png";
@@ -67,7 +66,7 @@ function EditStudentProfileScreen() {
   ];
 
   useEffect(() => {
-    if (avatar !== context.avatar) {
+    if (avatar !== context.avatar.url) {
       handlePresentModalClose();
     }
   }, [avatar]);
@@ -83,24 +82,38 @@ function EditStudentProfileScreen() {
     email,
   }) => {
     try {
+      const formData = new FormData();
+
+      formData.append("name", name);
+      formData.append("age", age);
+      formData.append("academic", academic);
+      formData.append("department", department);
+      formData.append("yearbook", yearbook);
+      formData.append("gender", gender);
+      formData.append("email", email);
+
+      if (avatar) {
+        const localUri = avatar;
+        const filename = localUri.split("/").pop();
+
+        const match = /\.(\w+)$/.exec(filename);
+        const type = match ? `image/${match[1]}` : "image";
+
+        formData.append("avatar", {
+          uri: localUri,
+          name: filename,
+          type,
+        });
+      }
+
       const response = await fetch(
         `http://${ADDRESS}:3000/api/v1/students/updateMe`,
         {
           method: "PATCH",
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({
-            avatar,
-            name,
-            age,
-            academic,
-            department,
-            yearbook,
-            gender,
-            email,
-          }),
+          body: formData,
         }
       );
       const responseData = await response.json();
@@ -198,6 +211,7 @@ function EditStudentProfileScreen() {
                   borderRadius: 50,
                   borderWidth: 2,
                   borderColor: Color.Blue600,
+                  backgroundColor: isDarkMode ? Color.darkTheme : Color.white,
                 }}
               >
                 <View
@@ -317,7 +331,7 @@ function EditStudentProfileScreen() {
               onPress={handleUpdateMe}
               loading={isPending}
             >
-              {isPending ? "" : "עדכן"}
+              {isPending ? null : "עדכן"}
             </Button>
           </Spacer>
           <Button
@@ -326,7 +340,7 @@ function EditStudentProfileScreen() {
             textColor={Color.Blue800}
             onPress={() => navigation.goBack()}
           >
-            {"חזור"}
+            חזור
           </Button>
         </View>
 
@@ -377,8 +391,6 @@ function EditStudentProfileScreen() {
             </Button>
           </View>
         </BottomSheetModal>
-
-        {/* <CustomBottomSheet ref={bottomSheetModalRef} /> */}
       </View>
     </ScrollView>
   );

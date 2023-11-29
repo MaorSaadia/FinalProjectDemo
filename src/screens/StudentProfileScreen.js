@@ -6,14 +6,18 @@ import { Avatar, Title, Text, TouchableRipple } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
 import Loader from "../components/ui/Loader";
 import ErrorMessage from "../components/ui/ErrorMessage";
 
 const StudentProfileScreen = () => {
+  const { isDarkMode } = useDarkMode();
   const { context } = useStudents();
   const navigation = useNavigation();
+
+  console.log(context.avatar.url);
 
   const fetchStudents = async () => {
     try {
@@ -54,8 +58,13 @@ const StudentProfileScreen = () => {
       <View style={styles.userInfoSection}>
         <View style={styles.avatar}>
           <Avatar.Image
+            style={{
+              backgroundColor: isDarkMode
+                ? Color.darkTheme
+                : Color.defaultTheme,
+            }}
             source={{
-              uri: context.avatar,
+              uri: context.avatar.url,
             }}
             size={80}
           />

@@ -8,10 +8,14 @@ const studentSchema = new mongoose.Schema({
     required: [true, "נא למלא שם מלא"],
   },
   avatar: {
-    type: String,
-    default:
-      "https://res.cloudinary.com/dtkpp77xw/image/upload/v1701189732/default_nk5c5h.png",
+    public_id: { type: String, default: undefined },
+    url: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dtkpp77xw/image/upload/v1701189732/default_nk5c5h.png",
+    },
   },
+
   age: {
     type: String,
     required: [true, "נא למלא גיל"],

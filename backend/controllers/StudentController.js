@@ -72,11 +72,16 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   if (req.file) {
     const file = getDataUri(req.file);
-    console.log(file);
+
+    if (req.user.avatar.public_id) {
+      await cloudinary.v2.uploader.destroy(req.user.avatar.public_id);
+    }
 
     const uploadToCloud = await cloudinary.v2.uploader.upload(file.content);
-    const image = uploadToCloud.secure_url;
-    filterdedBody.avatar = image;
+    filterdedBody.avatar = {
+      public_id: uploadToCloud.public_id,
+      url: uploadToCloud.secure_url,
+    };
   }
 
   // 3) Update student document
