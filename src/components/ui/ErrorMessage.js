@@ -16,11 +16,10 @@ function ErrorMessage({ errorMessage }) {
 
 const styles = StyleSheet.create({
   container: {
+    margin: 10,
     padding: 10,
     borderRadius: 5,
     borderWidth: 1,
-    marginTop: 10,
-    marginHorizontal: 10,
     backgroundColor: "#f8d7da",
     borderColor: "#f5c6cb",
   },

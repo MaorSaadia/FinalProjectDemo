@@ -25,50 +25,59 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  // Check if any of the required fields are empty
-  const requiredFields = [
-    "name",
-    "age",
-    "academic",
-    "department",
-    "yearbook",
-    "gender",
-    "email",
-    "password",
-    "passwordConfirm",
-  ];
+  const { userType } = req.body;
+  if (userType === "student") {
+    // Check if any of the required fields are empty
+    const requiredFields = [
+      "name",
+      "age",
+      "academic",
+      "department",
+      "yearbook",
+      "gender",
+      "email",
+      "password",
+      "passwordConfirm",
+    ];
 
-  for (const field of requiredFields) {
-    if (!req.body[field]) {
-      return next(new AppError("יש למלא את כל השדות", 400));
+    for (const field of requiredFields) {
+      if (!req.body[field]) {
+        return next(new AppError("יש למלא את כל השדות", 400));
+      }
     }
+
+    const newStudent = await Student.create({
+      name: req.body.name,
+      age: req.body.age,
+      academic: req.body.academic,
+      department: req.body.department,
+      yearbook: req.body.yearbook,
+      gender: req.body.gender,
+      email: req.body.email,
+      password: req.body.password,
+      passwordConfirm: req.body.passwordConfirm,
+    });
+
+    const token = signToken(newStudent._id);
+
+    res.status(201).json({
+      status: "success",
+      token,
+      data: {
+        user: newStudent,
+      },
+    });
   }
-
-  const newStudent = await Student.create({
-    name: req.body.name,
-    age: req.body.age,
-    academic: req.body.academic,
-    department: req.body.department,
-    yearbook: req.body.yearbook,
-    gender: req.body.gender,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-  });
-
-  const token = signToken(newStudent._id);
-
-  res.status(201).json({
-    status: "success",
-    token,
-    data: {
-      user: newStudent,
-    },
-  });
 });
 
 exports.login = catchAsync(async (req, res, next) => {
-  const { email, password } = req.body;
+  const { userType, email, password } = req.body;
+
+  let User = userType;
+
+  if (userType === "student") {
+    User = Student;
+  }
 
   // 1) Check if email and password exist
   if (!email || !password) {
@@ -76,21 +85,20 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 2) Check if student exists && password is correct
-  const student = await Student.findOne({ email }).select("+password");
+  const user = await User.findOne({ email }).select("+password");
 
-  if (
-    !student ||
-    !(await student.correctPassword(password, student.password))
-  ) {
+  if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError("אימייל או סיסמה שגויים", 401));
   }
 
   // 3) If everything ok, send token to client
-  createSendToken(student, 200, res);
+  createSendToken(user, 200, res);
 });
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
-  const { email } = req.body;
+  const { userType, email } = req.body;
+  let User = userType;
+
   const requiredFields = ["email"];
 
   for (const field of requiredFields) {
@@ -104,9 +112,13 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     return next(new AppError("אנא ספק אימייל חוקי", 400));
   }
 
-  // 1) Get student based on POSTED email
-  const student = await Student.findOne({ email: req.body.email });
-  if (!student) {
+  if (userType === "student") {
+    User = Student;
+  }
+
+  // 1) Get user based on POSTED email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
     return next(new AppError("אין משתמש עם כתובת אימייל זו", 404));
   }
 
@@ -114,28 +126,28 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const OTP = Math.floor(randomNumber);
   const otpExpire = 10 * 60 * 1000;
 
-  student.otp = OTP;
-  student.otpExpire = new Date(Date.now() + otpExpire);
+  user.otp = OTP;
+  user.otpExpire = new Date(Date.now() + otpExpire);
   console.log("OTP: ", OTP);
 
-  await student.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
 
   try {
     const resetUrl = `${req.protocol}://${req.get(
       "host"
-    )}/api/v1/students/forgotPassword`;
+    )}/api/v1/${user}s/forgotPassword`;
 
-    await new Email(student, resetUrl, OTP).sendPasswordReset();
+    await new Email(user, resetUrl, OTP).sendPasswordReset();
 
     res.status(200).json({
       status: "success",
       message: "OTP sent to email!",
     });
   } catch (err) {
-    student.otp = undefined;
-    student.otpExpire = undefined;
-    await student.save({ validateBeforeSave: false });
-    console.log(err.message);
+    user.otp = undefined;
+    user.otpExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    // console.log(err.message);
     return next(
       new AppError(
         "Theres was an error sending the email. Try again later!",
@@ -146,16 +158,22 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
-  const { otp, password } = req.body;
+  const { userType, otp, password } = req.body;
 
-  const student = await Student.findOne({
+  let User = userType;
+
+  if (userType === "student") {
+    User = Student;
+  }
+
+  const user = await User.findOne({
     otp,
     otpExpire: {
       $gt: Date.now(),
     },
   });
 
-  if (!student) {
+  if (!user) {
     return next(new AppError("קוד האימות לא תקין או לא בתוקף", 400));
   }
 
@@ -163,14 +181,14 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     return next(new AppError("יש למלא סיסמה חדשה", 400));
   }
 
-  student.password = req.body.password;
-  student.passwordConfirm = req.body.passwordConfirm;
-  student.otp = undefined;
-  student.otpExpire = undefined;
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.otp = undefined;
+  user.otpExpire = undefined;
 
-  await student.save();
+  await user.save();
 
-  createSendToken(student, 200, res);
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -207,9 +225,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // 4) Check if user changed password after the token was issued
   if (currentUser.changedPasswordAfter(decoded.iat)) {
-    return next(
-      new AppError("User recently changed password! Please log in again", 401)
-    );
+    return next(new AppError("משתמש שינה לאחרונה סיסמה! נא להיכנס שוב", 401));
   }
 
   // GRANT ACCESS TO PROTECTED ROUTE
@@ -218,22 +234,26 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log(req.body);
+  const { userType } = req.body;
+  let User = userType;
+
+  if (userType === "student") {
+    User = Student;
+  }
+
   // 1) Get student from collection
-  const student = await Student.findById(req.user.id).select("+password");
+  const user = await User.findById(req.user.id).select("+password");
 
   // 2) Check if POSTed current password is correct
-  if (
-    !(await student.correctPassword(req.body.passwordCurrent, student.password))
-  ) {
+  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
     return next(new AppError("הסיסמה הנוכחית שלך שגויה", 401));
   }
 
   // 3) if so, update password
-  student.password = req.body.password;
-  student.passwordConfirm = req.body.passwordConfirm;
-  await student.save();
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  await user.save();
 
-  // 4) Log student in, send JWT
-  createSendToken(student, 200, res);
+  // 4) Log user in, send JWT
+  createSendToken(user, 200, res);
 });

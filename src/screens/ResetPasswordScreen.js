@@ -12,6 +12,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 import NavLink from "../components/NavLink";
 import sendEmail from "../utils/sendEmail";
+import PasswordInput from "../components/PasswordInput";
 
 function ResetPasswordScreen({ route }) {
   const { isDarkMode } = useDarkMode();
@@ -19,12 +20,15 @@ function ResetPasswordScreen({ route }) {
   const [otp, setOtp] = useState();
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
-  const [isSecure1, setIsSecure1] = useState(true);
-  const [isSecure2, setIsSecure2] = useState(true);
 
   const { email, uri, userType } = route.params;
 
-  const resetPassword = async ({ otp, password, passwordConfirm }) => {
+  const resetPassword = async ({
+    userType,
+    otp,
+    password,
+    passwordConfirm,
+  }) => {
     try {
       const response = await fetch(
         `http://${ADDRESS}:3000/api/v1/students/resetPassword`,
@@ -33,7 +37,7 @@ function ResetPasswordScreen({ route }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ otp, password, passwordConfirm }),
+          body: JSON.stringify({ userType, otp, password, passwordConfirm }),
         }
       );
 
@@ -55,8 +59,8 @@ function ResetPasswordScreen({ route }) {
     error: resetPasswordError,
     isError: isResetPasswordError,
   } = useMutation({
-    mutationFn: ({ otp, password, passwordConfirm }) =>
-      resetPassword({ otp, password, passwordConfirm }),
+    mutationFn: ({ userType, otp, password, passwordConfirm }) =>
+      resetPassword({ userType, otp, password, passwordConfirm }),
     onSuccess: () => {
       Toast.show({
         type: "success",
@@ -67,7 +71,8 @@ function ResetPasswordScreen({ route }) {
 
   const { mutate: mutateSendEmail, isPending: isSendEmailPanding } =
     useMutation({
-      mutationFn: ({ uri, email }) => sendEmail({ uri, email }),
+      mutationFn: ({ userType, uri, email }) =>
+        sendEmail({ userType, uri, email }),
       onSuccess: () => {
         Toast.show({
           type: "success",
@@ -83,10 +88,10 @@ function ResetPasswordScreen({ route }) {
     });
 
   const handleResetPassword = () => {
-    mutateResetPassword({ otp, password, passwordConfirm });
+    mutateResetPassword({ userType, otp, password, passwordConfirm });
   };
   const handleSendEmail = () => {
-    mutateSendEmail({ uri, email });
+    mutateSendEmail({ userType, uri, email });
   };
 
   return (
@@ -120,69 +125,43 @@ function ResetPasswordScreen({ route }) {
         </Text>
       </View>
 
-      <View>
-        <TextInput
+      <View style={styles.textInput}>
+        <PasswordInput
+          mode="outlined"
           label="סיסמה"
-          style={
-            isDarkMode
-              ? { ...styles.textInput, backgroundColor: Color.darkTheme }
-              : { ...styles.textInput, backgroundColor: Color.defaultTheme }
-          }
-          right={
-            <TextInput.Icon
-              icon={isSecure1 ? "eye" : "eye-off"}
-              onPress={() => setIsSecure1(!isSecure1)}
-            />
-          }
-          selectionColor={Color.Blue700}
-          outlineColor={Color.Blue200}
-          activeOutlineColor={Color.Blue800}
-          mode="outlined"
-          onChangeText={(password) => setPassword(password)}
-          secureTextEntry={isSecure1}
+          onValueChange={(password) => setPassword(password)}
         />
-
-        <TextInput
-          style={
-            isDarkMode
-              ? { ...styles.textInput, backgroundColor: Color.darkTheme }
-              : { ...styles.textInput, backgroundColor: Color.defaultTheme }
-          }
-          label="אשר סיסמה"
-          right={
-            <TextInput.Icon
-              icon={isSecure2 ? "eye" : "eye-off"}
-              onPress={() => setIsSecure2(!isSecure2)}
-            />
-          }
-          selectionColor={Color.Blue700}
-          outlineColor={Color.Blue200}
-          activeOutlineColor={Color.Blue800}
+        <PasswordInput
           mode="outlined"
-          onChangeText={(passwordConfirm) =>
+          label="אשר סיסמה"
+          onValueChange={(passwordConfirm) =>
             setPasswordConfirm(passwordConfirm)
           }
-          secureTextEntry={isSecure2}
         />
-
-        {isResetPasswordError && (
-          <ErrorMessage errorMessage={resetPasswordError.message} />
-        )}
-
-        <Spacer>
-          <Button
-            style={{ marginHorizontal: 10 }}
-            buttonColor={Color.Blue800}
-            textColor={Color.defaultTheme}
-            mode="contained"
-            onPress={handleResetPassword}
-            loading={isResetPasswordPending}
-          >
-            {isResetPasswordPending ? "" : "אפס סיסמה"}
-          </Button>
-        </Spacer>
-        <NavLink text="התחבר" props={{ userType }} routeName="SignInScreen" />
       </View>
+
+      {isResetPasswordError && (
+        <ErrorMessage errorMessage={resetPasswordError.message} />
+      )}
+
+      <Spacer>
+        <Button
+          style={{ marginHorizontal: 10 }}
+          buttonColor={Color.Blue800}
+          textColor={Color.defaultTheme}
+          mode="contained"
+          onPress={handleResetPassword}
+          loading={isResetPasswordPending}
+        >
+          {isResetPasswordPending ? "" : "אפס סיסמה"}
+        </Button>
+      </Spacer>
+      <NavLink
+        text="התחבר"
+        props={{ userType }}
+        routeName="SignInScreen"
+        style={{ marginTop: -5, fontSize: 14 }}
+      />
     </View>
   );
 }

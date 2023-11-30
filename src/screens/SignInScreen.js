@@ -32,7 +32,7 @@ function SignInScreen({ route }) {
     }
   };
 
-  const login = async ({ email, password }) => {
+  const login = async ({ userType, email, password }) => {
     try {
       const response = await fetch(
         `http://${ADDRESS}:3000/api/v1/students/login`,
@@ -41,7 +41,7 @@ function SignInScreen({ route }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ userType, email, password }),
         }
       );
 
@@ -58,7 +58,8 @@ function SignInScreen({ route }) {
   };
 
   const { mutate, isPending, error, isError } = useMutation({
-    mutationFn: ({ email, password }) => login({ email, password }),
+    mutationFn: ({ userType, email, password }) =>
+      login({ userType, email, password }),
     onSuccess: (user) => {
       storeData("token", user.token);
       auth.login(user.data.user, user.token);
@@ -67,7 +68,7 @@ function SignInScreen({ route }) {
   });
 
   const handleLogin = () => {
-    mutate({ email, password });
+    mutate({ userType, email, password });
   };
 
   const getBackgroundImage = (isDarkMode) => {

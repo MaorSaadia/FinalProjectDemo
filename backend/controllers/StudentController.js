@@ -5,7 +5,7 @@ const AppError = require("../utils/appError");
 const Student = require("../models/studentModel");
 const catchAsync = require("../utils/catchAsync");
 const factory = require("./handlerFactory");
-const { getDataUri } = require("../../src/utils/features");
+const { getDataUri } = require("../utils/features");
 
 const multerStorage = multer.memoryStorage({
   destination: (req, file, cb) => {
@@ -66,7 +66,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     "academic",
     "department",
     "yearbook",
-    "gender",
     "email"
   );
 

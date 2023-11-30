@@ -18,11 +18,13 @@ function SecurityScreen() {
   const { context } = useStudents();
   const token = context.token;
 
+  const userType = "student";
   const [passwordCurrent, setPasswordCurrent] = useState();
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
 
   const changePassword = async ({
+    userType,
     passwordCurrent,
     password,
     passwordConfirm,
@@ -37,6 +39,7 @@ function SecurityScreen() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
+            userType,
             passwordCurrent,
             password,
             passwordConfirm,
@@ -57,8 +60,8 @@ function SecurityScreen() {
   };
 
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: ({ passwordCurrent, password, passwordConfirm }) =>
-      changePassword({ passwordCurrent, password, passwordConfirm }),
+    mutationFn: ({ userType, passwordCurrent, password, passwordConfirm }) =>
+      changePassword({ userType, passwordCurrent, password, passwordConfirm }),
     onSuccess: () => {
       Toast.show({
         type: "success",
@@ -68,7 +71,7 @@ function SecurityScreen() {
   });
 
   const handleChangePassword = () => {
-    mutate({ passwordCurrent, password, passwordConfirm });
+    mutate({ userType, passwordCurrent, password, passwordConfirm });
   };
 
   return (

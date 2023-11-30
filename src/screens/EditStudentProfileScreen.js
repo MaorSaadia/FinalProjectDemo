@@ -40,13 +40,13 @@ function EditStudentProfileScreen() {
   const navigation = useNavigation();
 
   const { token } = context;
+  const userType = "student";
   const [avatar, setAvatar] = useState(context.avatar?.url);
   const [name, setName] = useState(context.name);
   const [age, setAge] = useState(context.age);
   const [academic, setAcademic] = useState(context.academic);
   const [department, setDepartment] = useState(context.department);
   const [yearbook, setYearbook] = useState(context.yearbook);
-  const [checked, setChecked] = useState(context.gender);
   const [email, setEmail] = useState(context.email);
 
   const url =
@@ -73,24 +73,24 @@ function EditStudentProfileScreen() {
   }, [avatar]);
 
   const updateMe = async ({
+    userType,
     avatar,
     name,
     age,
     academic,
     department,
     yearbook,
-    gender,
     email,
   }) => {
     try {
       const formData = new FormData();
 
+      formData.append("userType", userType);
       formData.append("name", name);
       formData.append("age", age);
       formData.append("academic", academic);
       formData.append("department", department);
       formData.append("yearbook", yearbook);
-      formData.append("gender", gender);
       formData.append("email", email);
 
       if (avatar) {
@@ -131,23 +131,23 @@ function EditStudentProfileScreen() {
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: ({
+      userType,
       avatar,
       name,
       age,
       academic,
       department,
       yearbook,
-      gender,
       email,
     }) =>
       updateMe({
+        userType,
         avatar,
         name,
         age,
         academic,
         department,
         yearbook,
-        gender,
         email,
       }),
     onSuccess: (user) => {
@@ -168,13 +168,13 @@ function EditStudentProfileScreen() {
 
   const handleUpdateMe = () => {
     mutate({
+      userType,
       avatar,
       name,
       age,
       academic,
       department,
       yearbook,
-      gender: checked,
       email,
     });
   };
@@ -289,29 +289,6 @@ function EditStudentProfileScreen() {
           </View>
         </View>
 
-        <Text style={styles.title} variant="titleMedium">
-          מגדר:
-        </Text>
-
-        <View style={styles.radioButtom}>
-          <RadioButton
-            value="זכר"
-            color={Color.Blue500}
-            status={checked === "זכר" ? "checked" : "unchecked"}
-            onPress={() => setChecked("זכר")}
-          />
-          <Text style={styles.textRadio}>זכר</Text>
-        </View>
-        <View style={styles.radioButtom}>
-          <RadioButton
-            value="נקבה"
-            color={Color.Blue500}
-            status={checked === "נקבה" ? "checked" : "unchecked"}
-            onPress={() => setChecked("נקבה")}
-          />
-          <Text style={styles.textRadio}>נקבה</Text>
-        </View>
-
         <View style={styles.textInput}>
           <Input
             label={email ? "" : "אימייל"}
@@ -325,7 +302,7 @@ function EditStudentProfileScreen() {
           {isError && <ErrorMessage errorMessage={error.message} />}
           <Spacer>
             <Button
-              style={{ marginTop: 10 }}
+              style={{ marginTop: 45 }}
               textColor={Color.defaultTheme}
               buttonColor={Color.Blue800}
               mode="contained"
@@ -406,13 +383,6 @@ const styles = StyleSheet.create({
   title: {
     paddingHorizontal: 20,
     fontWeight: "bold",
-  },
-  radioButtom: {
-    paddingHorizontal: 20,
-    flexDirection: "row",
-  },
-  textRadio: {
-    paddingTop: 6,
   },
   sheetContainer: {
     flex: 1,

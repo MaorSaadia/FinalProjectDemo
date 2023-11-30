@@ -18,10 +18,12 @@ function ForgotPasswordScreen({ route }) {
 
   const [email, setEmail] = useState();
   const { userType } = route.params;
+
   const uri = "students/forgotPassword";
 
   const { mutate, isPending, error, isError } = useMutation({
-    mutationFn: ({ uri, email }) => sendEmail({ uri, email }),
+    mutationFn: ({ userType, uri, email }) =>
+      sendEmail({ userType, uri, email }),
     onSuccess: () => {
       Toast.show({
         type: "success",
@@ -38,7 +40,7 @@ function ForgotPasswordScreen({ route }) {
   });
 
   const handleSendEmail = () => {
-    mutate({ uri, email });
+    mutate({ userType, uri, email });
   };
 
   const getBackgroundImage = (isDarkMode) => {

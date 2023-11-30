@@ -58,6 +58,7 @@ function StudentsSignUpScreen({ route }) {
   };
 
   const SignUp = async ({
+    userType,
     name,
     age,
     academic,
@@ -77,6 +78,7 @@ function StudentsSignUpScreen({ route }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            userType,
             name,
             age,
             academic,
@@ -103,6 +105,7 @@ function StudentsSignUpScreen({ route }) {
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: ({
+      userType,
       name,
       age,
       academic,
@@ -114,6 +117,7 @@ function StudentsSignUpScreen({ route }) {
       passwordConfirm,
     }) =>
       SignUp({
+        userType,
         name,
         age,
         academic,
@@ -142,6 +146,7 @@ function StudentsSignUpScreen({ route }) {
 
   const handleSignUp = () => {
     mutate({
+      userType,
       name,
       age,
       academic,
