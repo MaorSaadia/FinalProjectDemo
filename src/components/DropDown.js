@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import useState from "react";
 import { View, StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
+
 import { useDarkMode } from "../context/DarkModeContext";
 
 function DropDown({ list, label, searchable, listMode, onValueChange }) {

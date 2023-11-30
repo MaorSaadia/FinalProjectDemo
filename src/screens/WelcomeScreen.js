@@ -1,4 +1,3 @@
-import * as NavigationBar from "expo-navigation-bar";
 import { ImageBackground, StyleSheet } from "react-native";
 import { View } from "react-native";
 import { Button, Text } from "react-native-paper";
@@ -6,7 +5,6 @@ import { Button, Text } from "react-native-paper";
 import { Color } from "../constants/colors";
 
 function WelcomeScreen({ navigation }) {
-  // NavigationBar.setVisibilityAsync("hidden");
 
   return (
     <ImageBackground

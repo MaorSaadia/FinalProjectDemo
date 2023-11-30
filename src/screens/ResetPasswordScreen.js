@@ -1,12 +1,11 @@
 import { ADDRESS } from "@env";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Button, Text, TextInput } from "react-native-paper";
+import { Button, Text } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import Toast from "react-native-toast-message";
 
-import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
@@ -15,8 +14,6 @@ import sendEmail from "../utils/sendEmail";
 import PasswordInput from "../components/PasswordInput";
 
 function ResetPasswordScreen({ route }) {
-  const { isDarkMode } = useDarkMode();
-
   const [otp, setOtp] = useState();
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();

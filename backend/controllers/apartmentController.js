@@ -6,6 +6,5 @@ exports.getAllApartments = (req, res) => {
 };
 
 exports.createApartment = (req, res) => {
-  //console.log(req.body);
   res.send("Done");
 };

@@ -70,30 +70,3 @@ exports.getOne = (Model, popOptions) =>
       data: doc,
     });
   });
-
-// exports.getAll = (Model) =>
-//   catchAsync(async (req, res, next) => {
-//     // console.log(req.query);
-
-//     // To allow for nested Get reviews on tour
-//     let filter = {};
-//     if (req.params.tourId) filter = { tour: req.params.tourId };
-
-//     //EXCUTE QUERY
-//     const features = new APIfeatures(Model.find(filter), req.query)
-//       .filter()
-//       .sort()
-//       .limitFields()
-//       .paginate();
-//     // const doc = await features.query.explain();
-//     const doc = await features.query;
-
-//     //SEND RESPONSE
-//     res.status(200).json({
-//       status: "success",
-//       results: doc.length,
-//       data: {
-//         data: doc,
-//       },
-//     });
-//   });

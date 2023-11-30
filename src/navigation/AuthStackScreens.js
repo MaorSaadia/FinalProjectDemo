@@ -13,6 +13,8 @@ import {
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { useDarkMode } from "../context/DarkModeContext";
+import { Color } from "../constants/colors";
 import EmptyScreen from "../screens/EmptyScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import SignInScreen from "../screens/SignInScreen";
@@ -21,8 +23,6 @@ import StudentsSignUpScreen from "../screens/StudentsSignUpScreen";
 import LandlordSignUpScreen from "../screens/LandlordSignUpScreen";
 import ResetPasswordScreen from "../screens/ResetPasswordScreen";
 import HomeDrawer from "./HomeDrawer";
-import { Color } from "../constants/colors";
-import { useDarkMode } from "../context/DarkModeContext";
 
 const AuthStack = createNativeStackNavigator();
 

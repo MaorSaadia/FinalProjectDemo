@@ -2,18 +2,18 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import HomeScreen from "../screens/HomeScreen";
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
+import HomeScreen from "../screens/HomeScreen";
 
 const HomeStack = createNativeStackNavigator();
 
 function HomeStackScreen({ navigation }) {
   const { isDarkMode } = useDarkMode();
+
   return (
     <HomeStack.Navigator
       //   initialRouteName="HomeScreen"
-
       screenOptions={{
         headerStyle: {
           backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,

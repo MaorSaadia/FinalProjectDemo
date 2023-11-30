@@ -6,12 +6,12 @@ import {
   MD3DarkTheme as DarkTheme,
   Provider as PaperProvider,
 } from "react-native-paper";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import HomeStackScreen from "./HomeStackScreen ";
 import ProfileStackScreen from "./ProfileStackScreen";
-import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 
 const Tab = createMaterialBottomTabNavigator();
 
