@@ -10,7 +10,13 @@ const globalErrorHandler = require("./controllers/errorController.js");
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    origin: [process.env.FRONTEND_URI_1, process.env.FRONTEND_URI_2],
+  })
+);
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
