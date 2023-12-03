@@ -11,15 +11,22 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.maorsa.FinalProjectDemo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -32,6 +39,11 @@
           "cameraPermission": "אפשר לאפליקציה לגשת למצלמה שלך"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "3c40626b-bb3b-42f7-bc7d-4986f1177297"
+      }
+    }
   }
 }

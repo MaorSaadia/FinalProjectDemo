@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
+import Clipboard from "@react-native-clipboard/clipboard";
 import Toast from "react-native-toast-message";
 
 import { Color } from "../constants/colors";

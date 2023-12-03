@@ -1,0 +1,40 @@
+{
+  "cli": {
+    "version": ">= 5.9.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk",
+        "env": {
+          "NODE_ENV": "production",
+          "PORT": "3000",
+          "DATABASE_PASSWORD": "Fullhouse1",
+          "DATABASE": "mongodb+srv://finalProjectDemo:<PASSWORD>@cluster0.gftyeri.mongodb.net/finalProjectDemo?retryWrites=true&w=majority",
+          "ADDRESS": "192.168.1.214",
+          "JWT_SECRET": "Final-Project-Demo",
+          "JWT_EXPIRES_IN": "30d",
+          "EMAIL_USERNAME": "44d48ca09209f7",
+          "EMAIL_PASSWORD": "a58b4cd80662f0",
+          "EMAIL_HOST": "sandbox.smtp.mailtrap.io",
+          "EMAIL_PORT": "25",
+          "EMAIL_FORM": "maorsa9@gmail.com",
+          "SENDGRID_USERNAME": "apikey",
+          "SENDGRID_PASSWORD": "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",
+          "CLOUDINARY_NAME": "dtkpp77xw",
+          "CLOUDINARY_API_KEY": "426389714329571",
+          "CLOUDINARY_API_SECRET": "aW2ymiQTLWjSbt7rmSaRIjS5Ovg"
+        }
+      },
+      "distribution": "internal"
+    },
+    "production": {}
+  },
+  "submit": {
+    "production": {}
+  }
+}
