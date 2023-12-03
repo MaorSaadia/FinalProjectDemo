@@ -298,7 +298,7 @@ export default StudentsSignUpScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 75,
+    paddingTop: 25,
   },
   image: {
     flex: 1,
