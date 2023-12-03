@@ -5,12 +5,12 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 
+import { useDarkMode } from "../context/DarkModeContext";
+import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import Spacer from "../components/ui/Spacer";
-import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import sendEmail from "../utils/sendEmail";
-import { useDarkMode } from "../context/DarkModeContext";
 
 function ForgotPasswordScreen({ route }) {
   const navigation = useNavigation();

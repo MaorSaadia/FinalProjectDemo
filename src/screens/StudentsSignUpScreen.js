@@ -25,7 +25,7 @@ function StudentsSignUpScreen({ route }) {
 
   const { userType } = route.params;
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState();
   const [age, setAge] = useState();
   const [academic, setAcademic] = useState();
   const [department, setDepartment] = useState();
