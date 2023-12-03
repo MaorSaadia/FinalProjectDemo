@@ -1,5 +1,5 @@
 import { ADDRESS } from "@env";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { Button, RadioButton, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";

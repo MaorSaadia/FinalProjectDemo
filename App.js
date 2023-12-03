@@ -4,6 +4,7 @@ import Toast from "react-native-toast-message";
 import { StudentContext, useStudents } from "./src/context/StudentContext";
 import { DarkModeProvider } from "./src/context/DarkModeContext";
 import AuthStackScreens from "./src/navigation/AuthStackScreens";
+import { StatusBar } from "expo-status-bar";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -48,6 +49,7 @@ export default function App() {
             logout,
           }}
         >
+          <StatusBar style="auto" />
           <AuthStackScreens />
           <Toast />
         </StudentContext.Provider>
