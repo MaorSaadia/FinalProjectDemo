@@ -31,7 +31,7 @@ function SecurityScreen() {
   }) => {
     try {
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/updateMyPassword`,
+        `https://finalprojectserver0-5.onrender.com/api/v1/students/updateMyPassword`,
         {
           method: "PATCH",
           headers: {

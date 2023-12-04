@@ -19,7 +19,7 @@ const StudentProfileScreen = () => {
   const fetchStudents = async () => {
     try {
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/${context.id}`
+        `https://finalprojectserver0-5.onrender.com/api/v1/students/${context.id}`
       );
       const responseData = await response.json();
 

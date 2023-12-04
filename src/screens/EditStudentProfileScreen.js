@@ -108,7 +108,7 @@ function EditStudentProfileScreen() {
       }
 
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/updateMe`,
+        `https://finalprojectserver0-5.onrender.com/api/v1/students/updateMe`,
         {
           method: "PATCH",
           headers: {
@@ -350,14 +350,16 @@ function EditStudentProfileScreen() {
               מחק תמונה
             </Button>
 
-            <NavLink
-              text="בטל"
-              style={{
-                marginTop: -10,
-                fontSize: 14,
-                color: isDarkMode ? Color.white : Color.darkTheme,
-              }}
-            />
+            <Button
+              style={{ marginTop: -15 }}
+              onPress={handlePresentModalClose}
+              mode="text"
+              textColor={
+                isDarkMode ? Color.defaultTheme : Color.buttomSheetDarkTheme
+              }
+            >
+              בטל
+            </Button>
           </View>
         </BottomSheetModal>
       </View>

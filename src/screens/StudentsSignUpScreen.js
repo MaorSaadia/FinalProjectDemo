@@ -16,6 +16,7 @@ import PasswordInput from "../components/PasswordInput";
 import DropDown from "../components/DropDown";
 import NavLink from "../components/NavLink";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import Spacer from "../components/ui/Spacer";
 
 function StudentsSignUpScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -71,7 +72,7 @@ function StudentsSignUpScreen({ route }) {
   }) => {
     try {
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/signup`,
+        `https://finalprojectserver0-5.onrender.com/api/v1/students/signup`,
         {
           method: "POST",
           headers: {
@@ -274,11 +275,14 @@ function StudentsSignUpScreen({ route }) {
 
           {isError && <ErrorMessage errorMessage={error.message} />}
 
-          <NavLink
-            text="כבר יש לך חשבון? היכנס במקום זאת"
-            routeName="SignInScreen"
-            props={{ userType: userType }}
-          />
+          <Spacer>
+            <NavLink
+              text="כבר יש לך חשבון? היכנס במקום זאת"
+              routeName="SignInScreen"
+              props={{ userType: userType }}
+            />
+          </Spacer>
+
           <Button
             buttonColor={Color.Blue800}
             textColor={Color.defaultTheme}

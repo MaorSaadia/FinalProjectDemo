@@ -35,7 +35,7 @@ function SignInScreen({ route }) {
   const login = async ({ userType, email, password }) => {
     try {
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/login`,
+        `https://finalprojectserver0-5.onrender.com/api/v1/students/login`,
         {
           method: "POST",
           headers: {

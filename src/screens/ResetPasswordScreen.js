@@ -29,7 +29,7 @@ function ResetPasswordScreen({ route }) {
   }) => {
     try {
       const response = await fetch(
-        `http://${ADDRESS}:3000/api/v1/students/resetPassword`,
+        `https://finalprojectserver0-5.onrender.com/api/v1/students/resetPassword`,
         {
           method: "PATCH",
           headers: {

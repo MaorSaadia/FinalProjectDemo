@@ -15,7 +15,6 @@ app.use(
   cors({
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE"],
-    origin: [process.env.FRONTEND_URI_1, process.env.FRONTEND_URI_2],
   })
 );
 app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
