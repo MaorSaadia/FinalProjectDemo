@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
+const favicon = require("serve-favicon");
 
 const studentRouter = require("./routes/studentRoutes.js");
 const apartmentRouter = require("./routes/apartmentRoutes.js");
@@ -17,12 +18,13 @@ app.use(
     origin: [process.env.FRONTEND_URI_1, process.env.FRONTEND_URI_2],
   })
 );
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (req, res) => {
-  res.status(200).render("resetPasswordEmail");
+  res.send("Server is Live");
 });
 
 app.use((req, res, next) => {

@@ -49,6 +49,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-toast-message": "^2.1.7",
     "react-native-vector-icons": "^10.0.1",
+    "serve-favicon": "^2.5.0",
     "validator": "^13.11.0"
   },
   "devDependencies": {
