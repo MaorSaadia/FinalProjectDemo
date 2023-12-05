@@ -303,10 +303,10 @@ function EditStudentProfileScreen() {
               onPress={handleUpdateMe}
               loading={isPending}
             >
-              {isPending ? null : "עדכן"}
+              {!isPending && "עדכן    "}
             </Button>
           </Spacer>
-          <NavLink text="חזור" style={{ marginTop: -5, fontSize: 14 }} />
+          <NavLink text="חזור    " style={{ marginTop: -5, fontSize: 14 }} />
         </View>
 
         <BottomSheetModal

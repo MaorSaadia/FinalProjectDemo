@@ -2,7 +2,6 @@ import { ADDRESS } from "@env";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
 import { useMutation } from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 
@@ -12,9 +11,9 @@ import Spacer from "../components/ui/Spacer";
 import PasswordInput from "../components/PasswordInput";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import NavLink from "../components/NavLink";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function SecurityScreen() {
-  const navigation = useNavigation();
   const { context } = useStudents();
   const token = context.token;
 
@@ -75,60 +74,57 @@ function SecurityScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title} variant="headlineSmall">
-        החלף סיסמה
-      </Text>
-
-      <View style={{ marginTop: 25 }}>
-        <Text style={styles.text} variant="titleMedium">
-          הזן סיסמה קיימת:
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <Text style={styles.title} variant="headlineSmall">
+          החלף סיסמה
         </Text>
+        <View style={{ marginTop: 25 }}>
+          <Text style={styles.text} variant="titleMedium">
+            הזן סיסמה קיימת:
+          </Text>
 
+          <PasswordInput
+            mode="outlined"
+            onValueChange={(passwordCurrent) =>
+              setPasswordCurrent(passwordCurrent)
+            }
+          />
+        </View>
+        <View style={{ marginTop: 10 }}>
+          <Text style={styles.text} variant="titleMedium">
+            מלא סיסמה חדשה:
+          </Text>
+        </View>
         <PasswordInput
           mode="outlined"
-          label="סיסמה נוכחית"
-          onValueChange={(passwordCurrent) =>
-            setPasswordCurrent(passwordCurrent)
+          onValueChange={(password) => setPassword(password)}
+        />
+        <Text style={styles.text} variant="titleMedium">
+          אשר סיסמה:
+        </Text>
+        <PasswordInput
+          mode="outlined"
+          onValueChange={(passwordConfirm) =>
+            setPasswordConfirm(passwordConfirm)
           }
         />
+        {isError && <ErrorMessage errorMessage={error.message} />}
+        <Spacer>
+          <Button
+            style={{ marginTop: 10 }}
+            buttonColor={Color.Blue800}
+            textColor={Color.defaultTheme}
+            mode="contained"
+            loading={isPending}
+            onPress={handleChangePassword}
+          >
+            {!isPending && "עדכן סיסמה    "}
+          </Button>
+        </Spacer>
+        <NavLink text="חזור    " style={{ marginTop: -5, fontSize: 14 }} />
       </View>
-
-      <View style={{ marginTop: 10 }}>
-        <Text style={styles.text} variant="titleMedium">
-          מלא סיסמה חדשה:
-        </Text>
-      </View>
-
-      <PasswordInput
-        mode="outlined"
-        label="סיסמה חדשה"
-        onValueChange={(password) => setPassword(password)}
-      />
-
-      <PasswordInput
-        mode="outlined"
-        label="אשר סיסמה"
-        onValueChange={(passwordConfirm) => setPasswordConfirm(passwordConfirm)}
-      />
-
-      {isError && <ErrorMessage errorMessage={error.message} />}
-
-      <Spacer>
-        <Button
-          style={{ marginTop: 10 }}
-          buttonColor={Color.Blue800}
-          textColor={Color.defaultTheme}
-          mode="contained"
-          loading={isPending}
-          onPress={handleChangePassword}
-        >
-          {isPending ? "" : "עדכן סיסמה"}
-        </Button>
-      </Spacer>
-
-      <NavLink text="חזור" style={{ marginTop: -5, fontSize: 14 }} />
-    </View>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -149,7 +145,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginHorizontal: 10,
-    // marginBottom: 5,
+    marginBottom: 5,
     fontWeight: "bold",
     color: Color.Blue700,
   },

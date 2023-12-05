@@ -147,7 +147,7 @@ function AuthStackScreens() {
             component={HomeDrawer}
             options={{
               title: "",
-              animation: "simple_push",
+              animation: "slide_from_bottom",
               headerShown: false,
             }}
           />

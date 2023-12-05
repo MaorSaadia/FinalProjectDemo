@@ -49,7 +49,7 @@ export default function App() {
             logout,
           }}
         >
-          <StatusBar style="auto" />
+          <StatusBar style="dark" />
           <AuthStackScreens />
           <Toast />
         </StudentContext.Provider>

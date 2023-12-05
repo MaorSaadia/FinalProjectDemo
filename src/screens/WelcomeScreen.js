@@ -7,7 +7,7 @@ import { Color } from "../constants/colors";
 function WelcomeScreen({ navigation }) {
   return (
     <>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
       <ImageBackground
         source={require("../../assets/images/home-background.jpg")}
         resizeMode="cover"

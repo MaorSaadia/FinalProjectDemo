@@ -151,11 +151,11 @@ function ResetPasswordScreen({ route }) {
           onPress={handleResetPassword}
           loading={isResetPasswordPending}
         >
-          {isResetPasswordPending ? "" : "אפס סיסמה"}
+          {!isResetPasswordPending && "אפס סיסמה    "}
         </Button>
       </Spacer>
       <NavLink
-        text="התחבר"
+        text="התחבר    "
         props={{ userType }}
         routeName="SignInScreen"
         style={{ marginTop: -5, fontSize: 14 }}
