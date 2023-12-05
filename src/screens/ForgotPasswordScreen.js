@@ -31,12 +31,6 @@ function ForgotPasswordScreen({ route }) {
       });
       navigation.navigate("ResetPasswordScreen", { email, uri, userType });
     },
-    onError: () => {
-      Toast.show({
-        type: "error",
-        text1: "שגיאה בשליחת המייל",
-      });
-    },
   });
 
   const handleSendEmail = () => {

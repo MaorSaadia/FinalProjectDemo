@@ -131,7 +131,7 @@ function StudentsSignUpScreen({ route }) {
       }),
     onSuccess: (user) => {
       storeData("token", user.token);
-      auth.login(user.data.user);
+      auth.login(user.data.user, user.token);
       Toast.show(
         {
           type: "success",

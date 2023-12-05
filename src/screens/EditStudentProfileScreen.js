@@ -158,12 +158,6 @@ function EditStudentProfileScreen() {
       });
       navigation.goBack();
     },
-    onError: (err) => {
-      Toast.show({
-        type: "error",
-        text1: err.message,
-      });
-    },
   });
 
   const handleUpdateMe = () => {

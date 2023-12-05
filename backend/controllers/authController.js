@@ -15,6 +15,20 @@ const signToken = (id) => {
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
 
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+
+  res.cookie("jwt", token, cookieOptions);
+
+  // Remove the password from the output
+  user.password = undefined;
+
   res.status(statusCode).json({
     status: "success",
     token,
@@ -58,15 +72,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       passwordConfirm: req.body.passwordConfirm,
     });
 
-    const token = signToken(newStudent._id);
-
-    res.status(201).json({
-      status: "success",
-      token,
-      data: {
-        user: newStudent,
-      },
-    });
+    createSendToken(newStudent, 200, res);
   }
 });
 
@@ -132,10 +138,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   await user.save({ validateBeforeSave: false });
   try {
-    // const resetUrl = `${req.protocol}://${req.get(
-    //   "host"
-    // )}/api/v1/${userType}s/forgotPassword`;
-
     await new Email(user, OTP).sendPasswordReset();
 
     res.status(200).json({
@@ -146,9 +148,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     user.otp = undefined;
     user.otpExpire = undefined;
     await user.save({ validateBeforeSave: false });
-    return next(
-      new AppError("הייתה שגיאה בשליחת האימייל. נסה שוב מאוחר יותר!", 500)
-    );
+    return next(new AppError(err.message, 500));
+    // return next(
+    //   new AppError("הייתה שגיאה בשליחת האימייל. נסה שוב מאוחר יותר!", 500)
+    // );
   }
 });
 
@@ -188,7 +191,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 exports.protect = catchAsync(async (req, res, next) => {
   // 1) Getting token and check if it's there
-  console.log(req.headers);
+
   let token;
   if (
     req.headers.authorization &&

@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import { Color } from "../../constants/colors";
@@ -16,7 +15,7 @@ function ErrorMessage({ errorMessage }) {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
+    marginTop: 10,
     padding: 10,
     borderRadius: 5,
     borderWidth: 1,
