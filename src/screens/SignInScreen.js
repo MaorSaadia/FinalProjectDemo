@@ -85,7 +85,10 @@ function SignInScreen({ route }) {
     >
       <View style={styles.container}>
         <View style={styles.text}>
-          <Text variant="displaySmall" style={{ color: Color.Blue800 }}>
+          <Text
+            variant="displaySmall"
+            style={{ color: Color.Blue800, fontFamily: "italic" }}
+          >
             ─── התחברות ───
           </Text>
         </View>

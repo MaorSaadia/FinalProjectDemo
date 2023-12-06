@@ -14,10 +14,7 @@ function WelcomeScreen({ navigation }) {
         style={styles.image}
       >
         <View style={styles.text}>
-          <Text
-            variant="displaySmall"
-            style={{ color: Color.Blue700, marginTop: 15 }}
-          >
+          <Text variant="displaySmall" style={styles.title}>
             ── ברוכים הבאים ──
           </Text>
         </View>
@@ -47,15 +44,6 @@ function WelcomeScreen({ navigation }) {
           >
             משכיר
           </Button>
-          <Button
-            style={styles.button}
-            buttonColor={Color.Brown600}
-            textColor={Color.white}
-            onPress={() => navigation.navigate("HomeDrawer")}
-            mode="elevated"
-          >
-            עמוד הבית
-          </Button>
         </View>
       </ImageBackground>
     </>
@@ -78,6 +66,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 30,
   },
+  title: {
+    color: Color.Blue700,
+    marginTop: 15,
+    fontFamily: "mediumItalic",
+  },
+
   button: {
     margin: 10,
   },

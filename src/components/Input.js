@@ -29,6 +29,7 @@ function Input({
   return (
     <View style={style}>
       <TextInput
+        autoCapitalize="none"
         maxLength={maxLength ? maxLength : null}
         label={label}
         placeholder={placeholder}

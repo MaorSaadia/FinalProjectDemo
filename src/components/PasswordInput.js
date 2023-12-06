@@ -17,6 +17,7 @@ function PasswordInput({ mode, onValueChange, label }) {
 
   return (
     <TextInput
+      autoCapitalize="none"
       label={label}
       style={
         isDarkMode

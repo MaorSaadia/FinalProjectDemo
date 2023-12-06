@@ -48,6 +48,7 @@ function EditStudentProfileScreen() {
   const [department, setDepartment] = useState(context.department);
   const [yearbook, setYearbook] = useState(context.yearbook);
   const [email, setEmail] = useState(context.email);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const url =
     "https://res.cloudinary.com/dtkpp77xw/image/upload/v1701189732/default_nk5c5h.png";
@@ -180,17 +181,31 @@ function EditStudentProfileScreen() {
 
   const handlePresentModalOpen = useCallback(() => {
     bottomSheetModalRef.current?.present();
+    setIsBottomSheetOpen(true);
   }, []);
 
   const handlePresentModalClose = useCallback(() => {
     bottomSheetModalRef.current?.dismiss();
+    setIsBottomSheetOpen(false);
   }, []);
 
   return (
     <ScrollView>
-      <View style={styles.container}>
+      <View
+        style={
+          isBottomSheetOpen
+            ? { ...styles.container, opacity: 0.3 }
+            : styles.container
+        }
+      >
         <View style={{ alignItems: "center" }}>
-          <TouchableOpacity onPress={handlePresentModalOpen}>
+          <TouchableOpacity
+            onPress={
+              isBottomSheetOpen
+                ? handlePresentModalClose
+                : handlePresentModalOpen
+            }
+          >
             <View
               style={{
                 height: 100,
@@ -322,6 +337,7 @@ function EditStudentProfileScreen() {
               ? Color.defaultTheme
               : Color.buttomSheetDarkTheme,
           }}
+          onDismiss={() => setIsBottomSheetOpen(false)}
         >
           <View style={styles.sheetContainer}>
             <Text style={styles.panelTitle}>עדכן תמונה</Text>
