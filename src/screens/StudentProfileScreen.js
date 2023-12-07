@@ -1,18 +1,21 @@
 import { ADDRESS } from "@env";
+import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Avatar, Title, Text, TouchableRipple } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
-import { useStudents } from "../context/StudentContext";
+import { StudentContext, useStudents } from "../context/StudentContext";
 import Loader from "../components/ui/Loader";
 import ErrorMessage from "../components/ui/ErrorMessage";
 
 const StudentProfileScreen = () => {
   const { isDarkMode } = useDarkMode();
+  const auth = useContext(StudentContext);
   const { context } = useStudents();
   const navigation = useNavigation();
 
@@ -48,6 +51,16 @@ const StudentProfileScreen = () => {
         <ErrorMessage errorMessage={error.message} />
       </View>
     );
+  }
+
+  async function logoutHandler(auth, navigation) {
+    try {
+      await AsyncStorage.removeItem("token");
+      auth.logout();
+      navigation.navigate("WelcomeScreen");
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -115,6 +128,13 @@ const StudentProfileScreen = () => {
             <Text style={styles.menuItemText}>אבטחה</Text>
           </View>
         </TouchableRipple>
+
+        <TouchableRipple onPress={() => logoutHandler(auth, navigation)}>
+          <View style={styles.menuItem}>
+            <Icon name="logout-variant" color={Color.icon} size={25} />
+            <Text style={styles.menuItemText}>התנתק</Text>
+          </View>
+        </TouchableRipple>
       </View>
     </SafeAreaView>
   );
@@ -155,12 +175,9 @@ const styles = StyleSheet.create({
   text: {
     color: Color.icon,
     marginLeft: 20,
+    fontFamily: "varelaRound",
   },
-  caption: {
-    fontSize: 14,
-    lineHeight: 14,
-    fontWeight: "500",
-  },
+
   row: {
     flexDirection: "row",
     marginBottom: 10,
@@ -178,7 +195,7 @@ const styles = StyleSheet.create({
   menuItemText: {
     color: Color.icon,
     marginLeft: 10,
-    fontWeight: "600",
     fontSize: 16,
+    fontFamily: "varelaRound",
   },
 });

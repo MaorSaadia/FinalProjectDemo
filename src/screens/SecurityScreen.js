@@ -3,6 +3,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { useMutation } from "@tanstack/react-query";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
 
 import { useStudents } from "../context/StudentContext";
@@ -11,7 +12,6 @@ import Spacer from "../components/ui/Spacer";
 import PasswordInput from "../components/PasswordInput";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import NavLink from "../components/NavLink";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 function SecurityScreen() {
   const { context } = useStudents();

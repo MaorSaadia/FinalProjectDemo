@@ -298,7 +298,7 @@ function EditStudentProfileScreen() {
           </View>
         </View>
 
-        <View style={styles.textInput}>
+        <View style={{ ...styles.textInput, marginHorizontal: 12 }}>
           <Input
             label={email ? "" : "אימייל"}
             value={email}

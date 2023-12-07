@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -26,6 +25,7 @@ const styles = StyleSheet.create({
     color: Color.Blue800,
     fontSize: 16,
     textAlign: "center",
+    fontFamily: "varelaRound",
   },
 });
 
