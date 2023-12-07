@@ -4,6 +4,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
+import ChatListScreen from "../screens/ChatListScreen";
 import ChatScreen from "../screens/ChatScreen";
 
 const ChatStack = createNativeStackNavigator();
@@ -12,7 +13,7 @@ function ChatStackScreen({ navigation }) {
   const { isDarkMode } = useDarkMode();
   return (
     <ChatStack.Navigator
-      initialRouteName="ChatScreen"
+      initialRouteName="ChatListScreen"
       screenOptions={{
         headerStyle: {
           backgroundColor: isDarkMode ? Color.Brown700 : Color.Brown100,
@@ -35,8 +36,8 @@ function ChatStackScreen({ navigation }) {
       }}
     >
       <ChatStack.Screen
-        name="chat"
-        component={ChatScreen}
+        name="ChatListScreen"
+        component={ChatListScreen}
         options={{
           title: "",
           headerRight: () => (
@@ -50,6 +51,28 @@ function ChatStackScreen({ navigation }) {
               />
             </View>
           ),
+        }}
+      />
+      <ChatStack.Screen
+        name="ChatScreen"
+        component={ChatScreen}
+        options={{
+          title: "ChatScreen",
+          headerRight: () => (
+            <View style={{ marginLeft: -10 }}>
+              <Ionicons.Button
+                name="arrow-forward"
+                size={24}
+                color={Color.darkTheme}
+                backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
+                onPress={() => navigation.navigate("ChatListScreen")}
+              />
+            </View>
+          ),
+          headerTintColor: Color.darkTheme,
+          headerTitle: "שם",
+          headerTitleAlign: "center",
+          headerBackVisible: false,
         }}
       />
     </ChatStack.Navigator>
