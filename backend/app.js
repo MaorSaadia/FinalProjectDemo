@@ -6,6 +6,7 @@ const favicon = require("serve-favicon");
 const studentRouter = require("./routes/studentRoutes.js");
 const apartmentRouter = require("./routes/apartmentRoutes.js");
 const chatRouter = require("./routes/chatRoutes.js");
+const messageRouter = require("./routes/messageRoutes.js");
 const AppError = require("./utils/appError.js");
 const globalErrorHandler = require("./controllers/errorController.js");
 
@@ -34,7 +35,8 @@ app.use((req, res, next) => {
 
 app.use("/api/v1/students", studentRouter);
 app.use("/api/v1/apartments", apartmentRouter);
-app.use("/api/v1/chat", chatRouter);
+app.use("/api/v1/chats", chatRouter);
+app.use("/api/v1/messages", messageRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
