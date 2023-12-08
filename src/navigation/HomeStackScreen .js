@@ -35,6 +35,7 @@ function HomeStackScreen({ navigation }) {
                 size={25}
                 color={Color.darkTheme}
                 backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
+                // underlayColor="transparent"
                 onPress={() => navigation.openDrawer()}
               />
             </View>

@@ -13,10 +13,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
+import PageContainer from "../components/PageContainer";
+import Bubble from "../components/Bubble";
 
-function ChatScreen() {
+function ChatScreen({ route }) {
   const { isDarkMode } = useDarkMode();
   const [messageText, setMessageText] = useState("");
+  const [chatId, setChatId] = useState(route?.params?.chatId);
 
   const sendMessage = useCallback(() => {
     setMessageText("");
@@ -38,7 +41,12 @@ function ChatScreen() {
         <ImageBackground
           source={getBackgroundImage(isDarkMode)}
           style={styles.backgroundImage}
-        ></ImageBackground>
+        >
+          <PageContainer style={{ backgroundColor: "transparent" }}>
+            {!chatId && <Bubble text="שלח הודעה לתחילת שיחה" type="system" />}
+          </PageContainer>
+        </ImageBackground>
+
         <View style={styles.inputContainer}>
           <TouchableOpacity
             style={styles.mediaButton}
@@ -95,7 +103,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    opacity: 0.7,
+    // opacity: 0.3,
   },
   inputContainer: {
     flexDirection: "row-reverse",

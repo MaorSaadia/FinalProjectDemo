@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { Color } from "../constants/colors";
@@ -47,6 +47,7 @@ function ChatStackScreen({ navigation }) {
                 size={25}
                 color={Color.darkTheme}
                 backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
+                underlayColor="transparent"
                 onPress={() => navigation.openDrawer()}
               />
             </View>
@@ -65,6 +66,7 @@ function ChatStackScreen({ navigation }) {
                 size={24}
                 color={Color.darkTheme}
                 backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
+                underlayColor="transparent"
                 onPress={() => navigation.navigate("ChatListScreen")}
               />
             </View>

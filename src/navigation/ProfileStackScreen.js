@@ -50,6 +50,7 @@ function ProfileStackScreen({ navigation }) {
                 color={Color.darkTheme}
                 backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
                 onPress={() => navigation.openDrawer()}
+                // underlayColor="transparent"
               />
             </View>
           ),
@@ -60,6 +61,7 @@ function ProfileStackScreen({ navigation }) {
                 size={25}
                 color={Color.darkTheme}
                 backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
+                underlayColor="transparent"
                 onPress={() => navigation.navigate("EditStudentProfileScreen")}
               />
             </View>
