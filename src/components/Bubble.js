@@ -10,7 +10,7 @@ function Bubble({ text, type }) {
 
   switch (type) {
     case "system":
-      textStyle.color = isDarkMode ? Color.white : Color.darkTheme;
+      textStyle.color = isDarkMode ? Color.white : Color.black;
       bubbleStyle.backgroundColor = Color.Brown300;
       bubbleStyle.alignItems = "center";
       bubbleStyle.marginTop = 12;
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   wrapperStyle: {
     flexDirection: "row",
     justifyContent: "center",
+    opacity: 0.6,
   },
   container: {
     backgroundColor: "white",
