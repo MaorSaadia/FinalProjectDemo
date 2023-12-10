@@ -15,8 +15,8 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 
 const StudentProfileScreen = () => {
   const { isDarkMode } = useDarkMode();
-  const auth = useContext(StudentContext);
   const { context } = useStudents();
+  const auth = useContext(StudentContext);
   const navigation = useNavigation();
 
   const fetchStudents = async () => {
@@ -46,11 +46,7 @@ const StudentProfileScreen = () => {
   }
 
   if (error) {
-    return (
-      <View style={{ justifyContent: "center" }}>
-        <ErrorMessage errorMessage={error.message} />
-      </View>
-    );
+    return <ErrorMessage errorMessage={error.message} />;
   }
 
   async function logoutHandler(auth, navigation) {

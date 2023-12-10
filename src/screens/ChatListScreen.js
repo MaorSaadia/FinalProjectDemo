@@ -8,6 +8,7 @@ import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Loader from "../components/ui/Loader";
+import ChatList from "../components/Chats/ChatList";
 
 function ChatListScreen({ navigation }) {
   const { context } = useStudents();
@@ -36,8 +37,6 @@ function ChatListScreen({ navigation }) {
     queryFn: fetchChatsList,
   });
 
-  console.log(data);
-
   if (isLoading) {
     return <Loader color={Color.Brown500} />;
   }
@@ -55,7 +54,9 @@ function ChatListScreen({ navigation }) {
           const otherUserId = chatData.members.find(
             (uid) => uid !== context.id
           );
-          return <Text>{otherUserId}</Text>;
+          // console.log("Key:", otherUserId);
+
+          return <ChatList ouid={otherUserId} />;
         }}
       />
 
@@ -76,7 +77,6 @@ export default ChatListScreen;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    alignItems: "center",
+    margin: 10,
   },
 });

@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Color } from "../constants/colors";
 import { useDarkMode } from "../context/DarkModeContext";
 import PageContainer from "../components/PageContainer";
-import Bubble from "../components/Bubble";
+import Bubble from "../components/Chats/Bubble";
 
 function ChatScreen({ route }) {
   const { isDarkMode } = useDarkMode();

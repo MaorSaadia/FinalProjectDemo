@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { Color } from "../constants/colors";
-import { useDarkMode } from "../context/DarkModeContext";
+import { Color } from "../../constants/colors";
+import { useDarkMode } from "../../context/DarkModeContext";
 
 function Bubble({ text, type }) {
   const { isDarkMode } = useDarkMode();
