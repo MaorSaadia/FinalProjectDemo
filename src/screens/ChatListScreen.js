@@ -13,8 +13,6 @@ import ChatList from "../components/Chats/ChatList";
 function ChatListScreen({ navigation }) {
   const { context } = useStudents();
 
-  // const [chatsList, setChatsList] = useState([]);
-
   const fetchChatsList = async () => {
     try {
       const response = await fetch(
@@ -48,15 +46,22 @@ function ChatListScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={data?.chat}
+        keyExtractor={(item) => item._id}
         renderItem={(itemData) => {
           const chatData = itemData.item;
+          const chatId = chatData._id;
+
           const otherUserId = chatData.members.find(
             (uid) => uid !== context.id
           );
-          // console.log("Key:", otherUserId);
 
-          return <ChatList ouid={otherUserId} />;
+          return (
+            <ChatList
+              ouid={otherUserId}
+              onPress={() => navigation.navigate("ChatScreen", { chatId })}
+            />
+          );
         }}
       />
 

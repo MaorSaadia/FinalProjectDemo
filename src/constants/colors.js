@@ -6,6 +6,7 @@ export const Color = {
   defaultTheme: "#faf7f7",
   errorText: "#721c24",
   icon: "#777777",
+  gray: "#bdc3c7",
 
   Blue50: "#f1f5f7",
   Blue100: "#e3ebee",
