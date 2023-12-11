@@ -6,8 +6,9 @@ function PageContainer({ style, children }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
     flex: 1,
+    paddingHorizontal: 10,
+    paddingTop: 10,
     backgroundColor: "white",
   },
 });

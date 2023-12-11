@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import { name as app_name, version as app_version } from "../../package.json";
 import { Color } from "../constants/colors";
 import { StudentContext, useStudents } from "../context/StudentContext";
 import { useDarkMode } from "../context/DarkModeContext";

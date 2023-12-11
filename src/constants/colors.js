@@ -4,6 +4,7 @@ export const Color = {
   darkTheme: "#333333",
   buttomSheetDarkTheme: "#444444",
   defaultTheme: "#faf7f7",
+  error: "#f8d7da",
   errorText: "#721c24",
   icon: "#777777",
   gray: "#bdc3c7",

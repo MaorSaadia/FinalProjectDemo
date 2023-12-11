@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import {
+  FlatList,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -9,14 +10,18 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useQuery } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Color } from "../constants/colors";
+import { useStudents } from "../context/StudentContext";
 import { useDarkMode } from "../context/DarkModeContext";
 import PageContainer from "../components/PageContainer";
 import Bubble from "../components/chats/Bubble";
+import getMessages from "../api/chats/getMessages";
 
 function ChatScreen({ navigation, route }) {
+  const { context } = useStudents();
   const { isDarkMode } = useDarkMode();
   const [messageText, setMessageText] = useState("");
   const [chatId, setChatId] = useState(route?.params?.chatId);
@@ -32,6 +37,11 @@ function ChatScreen({ navigation, route }) {
   const sendMessage = useCallback(() => {
     setMessageText("");
   }, [messageText]);
+
+  const { data } = useQuery({
+    queryKey: ["messages", chatId],
+    queryFn: () => getMessages(chatId),
+  });
 
   const getBackgroundImage = (isDarkMode) => {
     return isDarkMode
@@ -52,6 +62,20 @@ function ChatScreen({ navigation, route }) {
         >
           <PageContainer style={{ backgroundColor: "transparent" }}>
             {!chatId && <Bubble text="שלח הודעה לתחילת שיחה" type="system" />}
+            {chatId && (
+              <FlatList
+                data={data}
+                renderItem={(itemData) => {
+                  const message = itemData.item;
+                  const isOwnMessage = message.senderId === context.id;
+                  const messageType = isOwnMessage
+                    ? "myMessage"
+                    : "theirMessage";
+
+                  return <Bubble type={messageType} text={message.text} />;
+                }}
+              />
+            )}
           </PageContainer>
         </ImageBackground>
 
