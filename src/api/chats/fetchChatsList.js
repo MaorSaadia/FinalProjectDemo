@@ -1,7 +1,7 @@
-export async function fetchChats(ouid) {
+async function fetchChatsList(id) {
   try {
     const response = await fetch(
-      `https://finalprojectserver0-5.onrender.com/api/v1/students/${ouid}`
+      `https://finalprojectserver0-5.onrender.com/api/v1/chats/${id}`
     );
     const responseData = await response.json();
 
@@ -14,3 +14,5 @@ export async function fetchChats(ouid) {
     throw new Error(err);
   }
 }
+
+export default fetchChatsList;

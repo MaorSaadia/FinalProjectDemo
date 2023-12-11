@@ -1,4 +1,3 @@
-import { ADDRESS } from "@env";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
@@ -12,6 +11,7 @@ import Spacer from "../components/ui/Spacer";
 import PasswordInput from "../components/PasswordInput";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import NavLink from "../components/NavLink";
+import changePassword from "../api/authentication/changePassword";
 
 function SecurityScreen() {
   const { context } = useStudents();
@@ -22,45 +22,21 @@ function SecurityScreen() {
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
 
-  const changePassword = async ({
-    userType,
-    passwordCurrent,
-    password,
-    passwordConfirm,
-  }) => {
-    try {
-      const response = await fetch(
-        `https://finalprojectserver0-5.onrender.com/api/v1/students/updateMyPassword`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            userType,
-            passwordCurrent,
-            password,
-            passwordConfirm,
-          }),
-        }
-      );
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: ({ userType, passwordCurrent, password, passwordConfirm }) =>
-      changePassword({ userType, passwordCurrent, password, passwordConfirm }),
+    mutationFn: ({
+      userType,
+      passwordCurrent,
+      password,
+      passwordConfirm,
+      token,
+    }) =>
+      changePassword({
+        userType,
+        passwordCurrent,
+        password,
+        passwordConfirm,
+        token,
+      }),
     onSuccess: () => {
       Toast.show({
         type: "success",
@@ -70,7 +46,7 @@ function SecurityScreen() {
   });
 
   const handleChangePassword = () => {
-    mutate({ userType, passwordCurrent, password, passwordConfirm });
+    mutate({ userType, passwordCurrent, password, passwordConfirm, token });
   };
 
   return (
@@ -81,7 +57,7 @@ function SecurityScreen() {
         </Text>
         <View style={{ marginTop: 25 }}>
           <Text style={styles.text} variant="titleMedium">
-            הזן סיסמה קיימת:
+            הזן סיסמה נוכחית:
           </Text>
 
           <PasswordInput

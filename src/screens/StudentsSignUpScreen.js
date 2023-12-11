@@ -1,4 +1,3 @@
-import { ADDRESS } from "@env";
 import React, { useContext, useState } from "react";
 import { ImageBackground, ScrollView, StyleSheet, View } from "react-native";
 import { Button, RadioButton, Text } from "react-native-paper";
@@ -17,15 +16,14 @@ import DropDown from "../components/DropDown";
 import NavLink from "../components/NavLink";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
+import signUp from "../api/authentication/signUp";
 
 function StudentsSignUpScreen({ route }) {
   const auth = useContext(StudentContext);
   const { isDarkMode } = useDarkMode();
-
   const navigation = useNavigation();
 
   const { userType } = route.params;
-
   const [name, setName] = useState();
   const [age, setAge] = useState();
   const [academic, setAcademic] = useState();
@@ -58,52 +56,6 @@ function StudentsSignUpScreen({ route }) {
     }
   };
 
-  const SignUp = async ({
-    userType,
-    name,
-    age,
-    academic,
-    department,
-    yearbook,
-    gender,
-    email,
-    password,
-    passwordConfirm,
-  }) => {
-    try {
-      const response = await fetch(
-        `https://finalprojectserver0-5.onrender.com/api/v1/students/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            userType,
-            name,
-            age,
-            academic,
-            department,
-            yearbook,
-            gender,
-            email,
-            password,
-            passwordConfirm,
-          }),
-        }
-      );
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: ({
       userType,
@@ -117,7 +69,7 @@ function StudentsSignUpScreen({ route }) {
       password,
       passwordConfirm,
     }) =>
-      SignUp({
+      signUp({
         userType,
         name,
         age,

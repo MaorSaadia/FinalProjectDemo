@@ -1,15 +1,13 @@
-import { ADDRESS } from "@env";
-
-async function sendEmail({ userType, uri, email }) {
+async function login({ userType, email, password }) {
   try {
     const response = await fetch(
-      `https://finalprojectserver0-5.onrender.com/api/v1/${uri}`,
+      `https://finalprojectserver0-5.onrender.com/api/v1/students/login`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userType, email }),
+        body: JSON.stringify({ userType, email, password }),
       }
     );
 
@@ -25,4 +23,4 @@ async function sendEmail({ userType, uri, email }) {
   }
 }
 
-export default sendEmail;
+export default login;

@@ -1,36 +1,19 @@
-import { ADDRESS } from "@env";
-import { useQuery } from "@tanstack/react-query";
 import { FlatList, StyleSheet, View } from "react-native";
+import { useQuery } from "@tanstack/react-query";
 
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Loader from "../components/ui/Loader";
 import ChatList from "../components/chats/ChatList";
+import fetchChatsList from "../api/chats/fetchChatsList";
 
-function ChatListScreen({ navigation }) {
+function ChatListScreen() {
   const { context } = useStudents();
 
-  const fetchChatsList = async () => {
-    try {
-      const response = await fetch(
-        `https://finalprojectserver0-5.onrender.com/api/v1/chats/${context.id}`
-      );
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
   const { data, error, isLoading } = useQuery({
-    queryKey: ["chatList"],
-    queryFn: fetchChatsList,
+    queryKey: ["chatList", context.id],
+    queryFn: () => fetchChatsList(context.id),
   });
 
   if (isLoading) {

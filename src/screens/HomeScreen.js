@@ -25,7 +25,6 @@ const HomeScreen = () => {
   }, []);
 
   const isFirstScreen = () => {
-    // Check if the current route name is 'HomeScreen'
     return navigation.isFocused() && route.name === "בית";
   };
 

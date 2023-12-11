@@ -6,16 +6,14 @@ import {
 } from "react-native";
 import { Text } from "react-native-paper";
 import { useQuery } from "@tanstack/react-query";
-
-import { useDarkMode } from "../../context/DarkModeContext";
-import { Color } from "../../constants/colors";
-import { fetchChats } from "../../api/fetchChats";
-import ErrorMessage from "../ui/ErrorMessage";
 import { useNavigation } from "@react-navigation/native";
+
+import { Color } from "../../constants/colors";
+import ErrorMessage from "../ui/ErrorMessage";
+import fetchChats from "../../api/chats/fetchChats";
 
 function ChatList({ onPress, ouid, chatId }) {
   const navigation = useNavigation();
-  const { isDarkMode } = useDarkMode();
 
   const { data, error } = useQuery({
     queryKey: ["chats", ouid],

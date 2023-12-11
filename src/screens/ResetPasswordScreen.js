@@ -1,4 +1,3 @@
-import { ADDRESS } from "@env";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
@@ -13,6 +12,7 @@ import Spacer from "../components/ui/Spacer";
 import NavLink from "../components/NavLink";
 import PasswordInput from "../components/PasswordInput";
 import sendEmail from "../api/sendEmail";
+import resetPassword from "../api/authentication/resetPassword";
 
 function ResetPasswordScreen({ route }) {
   const [otp, setOtp] = useState();
@@ -20,36 +20,6 @@ function ResetPasswordScreen({ route }) {
   const [passwordConfirm, setPasswordConfirm] = useState();
 
   const { email, uri, userType } = route.params;
-
-  const resetPassword = async ({
-    userType,
-    otp,
-    password,
-    passwordConfirm,
-  }) => {
-    try {
-      const response = await fetch(
-        `https://finalprojectserver0-5.onrender.com/api/v1/students/resetPassword`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userType, otp, password, passwordConfirm }),
-        }
-      );
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
 
   const {
     mutate: mutateResetPassword,

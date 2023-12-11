@@ -1,4 +1,3 @@
-import { ADDRESS } from "@env";
 import {
   useCallback,
   useContext,
@@ -32,6 +31,7 @@ import Spacer from "../components/ui/Spacer";
 import TakePhoto from "../components/TakePhoto";
 import ImagePicker from "../components/ImagePicker";
 import NavLink from "../components/NavLink";
+import updateStudent from "../api/updateStudent";
 
 function EditStudentProfileScreen() {
   const { isDarkMode } = useDarkMode();
@@ -73,63 +73,6 @@ function EditStudentProfileScreen() {
     }
   }, [avatar]);
 
-  const updateMe = async ({
-    userType,
-    avatar,
-    name,
-    age,
-    academic,
-    department,
-    yearbook,
-    email,
-  }) => {
-    try {
-      const formData = new FormData();
-
-      formData.append("userType", userType);
-      formData.append("name", name);
-      formData.append("age", age);
-      formData.append("academic", academic);
-      formData.append("department", department);
-      formData.append("yearbook", yearbook);
-      formData.append("email", email);
-
-      if (avatar) {
-        const localUri = avatar;
-        const filename = localUri.split("/").pop();
-
-        const match = /\.(\w+)$/.exec(filename);
-        const type = match ? `image/${match[1]}` : "image";
-
-        formData.append("avatar", {
-          uri: localUri,
-          name: filename,
-          type,
-        });
-      }
-
-      const response = await fetch(
-        `https://finalprojectserver0-5.onrender.com/api/v1/students/updateMe`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: ({
       userType,
@@ -140,8 +83,9 @@ function EditStudentProfileScreen() {
       department,
       yearbook,
       email,
+      token,
     }) =>
-      updateMe({
+      updateStudent({
         userType,
         avatar,
         name,
@@ -150,6 +94,7 @@ function EditStudentProfileScreen() {
         department,
         yearbook,
         email,
+        token,
       }),
     onSuccess: (user) => {
       auth.login(user.data.updatedStudent, token);
@@ -161,7 +106,7 @@ function EditStudentProfileScreen() {
     },
   });
 
-  const handleUpdateMe = () => {
+  const handleUpdateStudent = () => {
     mutate({
       userType,
       avatar,
@@ -171,6 +116,7 @@ function EditStudentProfileScreen() {
       department,
       yearbook,
       email,
+      token,
     });
   };
 
@@ -315,7 +261,7 @@ function EditStudentProfileScreen() {
               textColor={Color.defaultTheme}
               buttonColor={Color.Blue800}
               mode="contained"
-              onPress={handleUpdateMe}
+              onPress={handleUpdateStudent}
               loading={isPending}
             >
               {!isPending && "עדכן    "}

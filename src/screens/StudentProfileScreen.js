@@ -1,6 +1,4 @@
-import { ADDRESS } from "@env";
 import { useContext } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { Avatar, Title, Text, TouchableRipple } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
@@ -10,44 +8,12 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDarkMode } from "../context/DarkModeContext";
 import { Color } from "../constants/colors";
 import { StudentContext, useStudents } from "../context/StudentContext";
-import Loader from "../components/ui/Loader";
-import ErrorMessage from "../components/ui/ErrorMessage";
 
 const StudentProfileScreen = () => {
   const { isDarkMode } = useDarkMode();
   const { context } = useStudents();
   const auth = useContext(StudentContext);
   const navigation = useNavigation();
-
-  const fetchStudents = async () => {
-    try {
-      const response = await fetch(
-        `https://finalprojectserver0-5.onrender.com/api/v1/students/${context.id}`
-      );
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
-    }
-  };
-
-  const { error, isLoading } = useQuery({
-    queryKey: ["student"],
-    queryFn: fetchStudents,
-  });
-
-  if (isLoading) {
-    return <Loader color={Color.Brown500} />;
-  }
-
-  if (error) {
-    return <ErrorMessage errorMessage={error.message} />;
-  }
 
   async function logoutHandler(auth, navigation) {
     try {

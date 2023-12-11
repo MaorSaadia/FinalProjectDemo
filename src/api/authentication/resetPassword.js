@@ -1,15 +1,13 @@
-import { ADDRESS } from "@env";
-
-async function sendEmail({ userType, uri, email }) {
+async function resetPassword({ userType, otp, password, passwordConfirm }) {
   try {
     const response = await fetch(
-      `https://finalprojectserver0-5.onrender.com/api/v1/${uri}`,
+      `https://finalprojectserver0-5.onrender.com/api/v1/students/resetPassword`,
       {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userType, email }),
+        body: JSON.stringify({ userType, otp, password, passwordConfirm }),
       }
     );
 
@@ -25,4 +23,4 @@ async function sendEmail({ userType, uri, email }) {
   }
 }
 
-export default sendEmail;
+export default resetPassword;

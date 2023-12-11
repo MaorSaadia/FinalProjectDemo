@@ -1,4 +1,3 @@
-import { ADDRESS } from "@env";
 import { useContext, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +12,7 @@ import Input from "../components/Input";
 import PasswordInput from "../components/PasswordInput";
 import NavLink from "../components/NavLink";
 import ErrorMessage from "../components/ui/ErrorMessage";
+import login from "../api/authentication/login";
 
 function SignInScreen({ route }) {
   const auth = useContext(StudentContext);
@@ -29,31 +29,6 @@ function SignInScreen({ route }) {
       await AsyncStorage.setItem(key, value);
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const login = async ({ userType, email, password }) => {
-    try {
-      const response = await fetch(
-        `https://finalprojectserver0-5.onrender.com/api/v1/students/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userType, email, password }),
-        }
-      );
-
-      const responseData = await response.json();
-
-      if (!response.ok) {
-        throw new Error(responseData.message);
-      }
-
-      return responseData;
-    } catch (err) {
-      throw new Error(err);
     }
   };
 
