@@ -11,8 +11,8 @@ import { Color } from "../constants/colors";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Spacer from "../components/ui/Spacer";
 import NavLink from "../components/NavLink";
-import sendEmail from "../utils/sendEmail";
 import PasswordInput from "../components/PasswordInput";
+import sendEmail from "../api/sendEmail";
 
 function ResetPasswordScreen({ route }) {
   const [otp, setOtp] = useState();

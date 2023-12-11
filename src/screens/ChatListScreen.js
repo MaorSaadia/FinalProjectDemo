@@ -1,14 +1,12 @@
 import { ADDRESS } from "@env";
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { FlatList, StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
 
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
 import ErrorMessage from "../components/ui/ErrorMessage";
 import Loader from "../components/ui/Loader";
-import ChatList from "../components/Chats/ChatList";
+import ChatList from "../components/chats/ChatList";
 
 function ChatListScreen({ navigation }) {
   const { context } = useStudents();
@@ -44,7 +42,7 @@ function ChatListScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View>
       <FlatList
         data={data?.chat}
         keyExtractor={(item) => item._id}
@@ -64,16 +62,7 @@ function ChatListScreen({ navigation }) {
           );
         }}
       />
-
-      <Button
-        style={{ marginTop: 10 }}
-        buttonColor={Color.Brown500}
-        textColor={Color.white}
-        mode="elevated"
-        onPress={() => navigation.navigate("ChatScreen")}
-      >
-        עבור לצאט
-      </Button>
+      <View style={styles.line}></View>
     </View>
   );
 }
@@ -81,7 +70,9 @@ function ChatListScreen({ navigation }) {
 export default ChatListScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  line: {
     margin: 10,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Color.Blue400,
   },
 });

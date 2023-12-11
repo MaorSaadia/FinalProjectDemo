@@ -1,11 +1,10 @@
 import {
+  ImageBackground,
   StyleSheet,
   TouchableNativeFeedback,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Avatar, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { useQuery } from "@tanstack/react-query";
 
 import { useDarkMode } from "../../context/DarkModeContext";
@@ -28,14 +27,16 @@ function ChatList({ onPress, ouid }) {
   return (
     <TouchableNativeFeedback onPress={onPress}>
       <View style={styles.container}>
-        <Avatar.Image
-          style={{
-            backgroundColor: isDarkMode ? Color.darkTheme : Color.defaultTheme,
+        <ImageBackground
+          style={{ height: 50, width: 50 }}
+          imageStyle={{
+            borderRadius: 50,
+            borderWidth: 0.5,
+            borderColor: Color.gray,
           }}
           source={{
             uri: data?.data?.avatar.url,
           }}
-          size={50}
         />
         <View style={styles.textContainer}>
           <Text numberOfLines={1} style={styles.title}>
@@ -55,13 +56,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 9,
-    // borderBottomWidth: 1,
-    // borderBottomColor: Color.Blue100,
-    minHeight: 50,
+    marginTop: 8,
+    padding: 8,
   },
   textContainer: {
-    marginLeft: 14,
+    marginLeft: 10,
   },
   title: {
     fontWeight: "600",

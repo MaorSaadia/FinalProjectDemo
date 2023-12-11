@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 import { Color } from "../constants/colors";
@@ -39,7 +39,10 @@ function ChatStackScreen({ navigation }) {
         name="ChatListScreen"
         component={ChatListScreen}
         options={{
-          title: "",
+          headerTitle: "צ'אטים",
+          headerTitleAlign: "center",
+          headerTintColor: Color.darkTheme,
+          headerTitleStyle: { fontFamily: "varelaRound" },
           headerRight: () => (
             <View style={{ marginLeft: -10 }}>
               <Ionicons.Button
@@ -58,7 +61,11 @@ function ChatStackScreen({ navigation }) {
         name="ChatScreen"
         component={ChatScreen}
         options={{
-          title: "ChatScreen",
+          headerTintColor: Color.darkTheme,
+          headerTitle: "שם",
+          headerTitleAlign: "center",
+          headerTitleStyle: { fontFamily: "varelaRound" },
+          headerBackVisible: false,
           headerRight: () => (
             <View style={{ marginLeft: -10 }}>
               <Ionicons.Button
@@ -71,10 +78,6 @@ function ChatStackScreen({ navigation }) {
               />
             </View>
           ),
-          headerTintColor: Color.darkTheme,
-          headerTitle: "שם",
-          headerTitleAlign: "center",
-          headerBackVisible: false,
         }}
       />
     </ChatStack.Navigator>

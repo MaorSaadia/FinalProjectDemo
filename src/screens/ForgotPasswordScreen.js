@@ -10,7 +10,7 @@ import { Color } from "../constants/colors";
 import Input from "../components/Input";
 import Spacer from "../components/ui/Spacer";
 import ErrorMessage from "../components/ui/ErrorMessage";
-import sendEmail from "../utils/sendEmail";
+import sendEmail from "../api/sendEmail";
 
 function ForgotPasswordScreen({ route }) {
   const navigation = useNavigation();

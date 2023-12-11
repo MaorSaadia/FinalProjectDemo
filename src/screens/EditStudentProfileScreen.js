@@ -177,7 +177,7 @@ function EditStudentProfileScreen() {
   const bottomSheetModalRef = useRef(null);
 
   // const snapPoints = useMemo(() => ["20%", "40%", "60%", "80%"], []);
-  const snapPoints = useMemo(() => ["40%", "60%"], []);
+  const snapPoints = useMemo(() => ["40%"], []);
 
   const handlePresentModalOpen = useCallback(() => {
     bottomSheetModalRef.current?.present();

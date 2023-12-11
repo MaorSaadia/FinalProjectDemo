@@ -1,16 +1,19 @@
 import { useEffect } from "react";
 import { BackHandler, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+
   useEffect(() => {
     const handleBackPress = () => {
-      // Check if it's the first screen, and if so, exit the app
       if (isFirstScreen()) {
         BackHandler.exitApp();
-        return true; // Prevents further back actions
+        return true;
       }
-      return false; // Allow default back behavior
+      return false;
     };
 
     const backHandler = BackHandler.addEventListener(
@@ -22,7 +25,8 @@ const HomeScreen = () => {
   }, []);
 
   const isFirstScreen = () => {
-    return true;
+    // Check if the current route name is 'HomeScreen'
+    return navigation.isFocused() && route.name === "בית";
   };
 
   return (

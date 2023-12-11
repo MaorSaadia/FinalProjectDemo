@@ -1,4 +1,4 @@
-export const fetchChats = async (ouid) => {
+export async function fetchChats(ouid) {
   try {
     const response = await fetch(
       `https://finalprojectserver0-5.onrender.com/api/v1/students/${ouid}`
@@ -13,4 +13,4 @@ export const fetchChats = async (ouid) => {
   } catch (err) {
     throw new Error(err);
   }
-};
+}

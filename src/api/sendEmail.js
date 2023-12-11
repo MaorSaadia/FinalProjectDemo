@@ -1,6 +1,6 @@
 import { ADDRESS } from "@env";
 
-async function sendEmail({ userType, uri, email }) {
+export async function sendEmail({ userType, uri, email }) {
   try {
     const response = await fetch(
       `https://finalprojectserver0-5.onrender.com/api/v1/${uri}`,
@@ -25,4 +25,4 @@ async function sendEmail({ userType, uri, email }) {
   }
 }
 
-export default sendEmail;
+// export default sendEmail;
