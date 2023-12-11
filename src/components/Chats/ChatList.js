@@ -11,8 +11,10 @@ import { useDarkMode } from "../../context/DarkModeContext";
 import { Color } from "../../constants/colors";
 import { fetchChats } from "../../api/fetchChats";
 import ErrorMessage from "../ui/ErrorMessage";
+import { useNavigation } from "@react-navigation/native";
 
-function ChatList({ onPress, ouid }) {
+function ChatList({ onPress, ouid, chatId }) {
+  const navigation = useNavigation();
   const { isDarkMode } = useDarkMode();
 
   const { data, error } = useQuery({
@@ -25,7 +27,11 @@ function ChatList({ onPress, ouid }) {
   }
 
   return (
-    <TouchableNativeFeedback onPress={onPress}>
+    <TouchableNativeFeedback
+      onPress={() =>
+        navigation.navigate("ChatScreen", { chatId, title: data?.data?.name })
+      }
+    >
       <View style={styles.container}>
         <ImageBackground
           style={{ height: 50, width: 50 }}

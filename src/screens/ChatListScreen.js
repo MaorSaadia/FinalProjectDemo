@@ -57,7 +57,8 @@ function ChatListScreen({ navigation }) {
           return (
             <ChatList
               ouid={otherUserId}
-              onPress={() => navigation.navigate("ChatScreen", { chatId })}
+              chatId={chatId}
+              // onPress={() => navigation.navigate("ChatScreen", { chatId })}
             />
           );
         }}

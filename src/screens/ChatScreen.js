@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -16,10 +16,18 @@ import { useDarkMode } from "../context/DarkModeContext";
 import PageContainer from "../components/PageContainer";
 import Bubble from "../components/chats/Bubble";
 
-function ChatScreen({ route }) {
+function ChatScreen({ navigation, route }) {
   const { isDarkMode } = useDarkMode();
   const [messageText, setMessageText] = useState("");
   const [chatId, setChatId] = useState(route?.params?.chatId);
+
+  const { title } = route.params;
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: title,
+    });
+  }, []);
 
   const sendMessage = useCallback(() => {
     setMessageText("");
@@ -103,7 +111,6 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    // opacity: 0.3,
   },
   inputContainer: {
     flexDirection: "row-reverse",
@@ -118,9 +125,9 @@ const styles = StyleSheet.create({
     textAlign: "right",
     borderWidth: 1,
     borderRadius: 50,
-    borderColor: Color.Blue500,
     marginHorizontal: 5,
     paddingHorizontal: 15,
+    borderColor: Color.Blue500,
   },
   mediaButton: {
     alignItems: "center",
