@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 7,
     marginBottom: 10,
-    borderWidth: 0.2,
-    borderColor: Color.Blue700,
   },
   text: {
     fontWeight: "600",

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FlatList,
   ImageBackground,
@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Color } from "../constants/colors";
@@ -19,14 +19,16 @@ import { useDarkMode } from "../context/DarkModeContext";
 import PageContainer from "../components/PageContainer";
 import Bubble from "../components/chats/Bubble";
 import getMessages from "../api/chats/getMessages";
+import addMessages from "../api/chats/addMessages";
 
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
   const { isDarkMode } = useDarkMode();
   const [messageText, setMessageText] = useState("");
   const [chatId, setChatId] = useState(route?.params?.chatId);
-
   const { title } = route.params;
+
+  const senderId = context.id.toString();
 
   useEffect(() => {
     navigation.setOptions({
@@ -34,8 +36,15 @@ function ChatScreen({ navigation, route }) {
     });
   }, []);
 
-  const sendMessage = useCallback(() => {
-    setMessageText("");
+  const { mutate } = useMutation({
+    mutationFn: ({ senderId, messageText, chatId }) =>
+      addMessages({ senderId, messageText, chatId }),
+    onSuccess: () => setMessageText(""),
+    onError: () => console.log("error"),
+  });
+
+  const handelSendMessage = useCallback(() => {
+    mutate({ senderId, messageText, chatId });
   }, [messageText]);
 
   const { data } = useQuery({
@@ -72,7 +81,9 @@ function ChatScreen({ navigation, route }) {
                     ? "myMessage"
                     : "theirMessage";
 
-                  return <Bubble type={messageType} text={message.text} />;
+                  return (
+                    <Bubble type={messageType} text={message.messageText} />
+                  );
                 }}
               />
             )}
@@ -88,6 +99,7 @@ function ChatScreen({ navigation, route }) {
           </TouchableOpacity>
 
           <TextInput
+            autoCapitalize="none"
             style={
               isDarkMode
                 ? { ...styles.textbox, color: Color.white }
@@ -100,7 +112,7 @@ function ChatScreen({ navigation, route }) {
             }
             value={messageText}
             onChangeText={(text) => setMessageText(text)}
-            onSubmitEditing={sendMessage}
+            onSubmitEditing={handelSendMessage}
           />
 
           {messageText === "" && (
@@ -113,7 +125,10 @@ function ChatScreen({ navigation, route }) {
           )}
 
           {messageText !== "" && (
-            <TouchableOpacity style={styles.mediaButton} onPress={sendMessage}>
+            <TouchableOpacity
+              style={styles.mediaButton}
+              onPress={handelSendMessage}
+            >
               <Ionicons name="send" size={24} color={Color.Blue500} />
             </TouchableOpacity>
           )}

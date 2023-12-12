@@ -1,5 +1,7 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { io } from "socket.io-client";
 
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
@@ -10,11 +12,21 @@ import fetchChatsList from "../api/chats/fetchChatsList";
 
 function ChatListScreen() {
   const { context } = useStudents();
+  const [onlineUsers, setOnilneUsers] = useState([]);
+  const socket = useRef();
 
   const { data, error, isLoading } = useQuery({
     queryKey: ["chatList", context.id],
     queryFn: () => fetchChatsList(context.id),
   });
+
+  useEffect(() => {
+    socket.current = io("http://192.168.1.214:8800");
+    socket.current.emit("new-user-add", context.id);
+    socket.current.on("get-users", (users) => {
+      setOnilneUsers(users);
+    });
+  }, [data]);
 
   if (isLoading) {
     return <Loader color={Color.Brown500} />;

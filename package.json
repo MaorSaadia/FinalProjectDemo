@@ -5,6 +5,7 @@
   "scripts": {
     "start": "expo start",
     "server": "nodemon server.js",
+    "socket": "nodemon index.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
@@ -50,6 +51,8 @@
     "react-native-toast-message": "^2.1.7",
     "react-native-vector-icons": "^10.0.1",
     "serve-favicon": "^2.5.0",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.7.2",
     "validator": "^13.11.0"
   },
   "devDependencies": {

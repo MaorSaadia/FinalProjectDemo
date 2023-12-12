@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { ImageBackground, StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 
+import { name as app_name, version as app_version } from "../../package.json";
 import { Color } from "../constants/colors";
 
 function WelcomeScreen({ navigation }) {
@@ -45,6 +46,10 @@ function WelcomeScreen({ navigation }) {
             משכיר
           </Button>
         </View>
+        <View style={styles.footer}>
+          <Text style={styles.name}>{app_name}</Text>
+          <Text style={styles.version}> גרסה: {app_version}</Text>
+        </View>
       </ImageBackground>
     </>
   );
@@ -71,7 +76,19 @@ const styles = StyleSheet.create({
     marginTop: 15,
     fontFamily: "mediumItalic",
   },
-
+  footer: {
+    alignItems: "center",
+  },
+  name: {
+    fontFamily: "varelaRound",
+    color: Color.Blue800,
+    letterSpacing: 0.1,
+  },
+  version: {
+    fontFamily: "varelaRound",
+    color: Color.darkTheme,
+    fontSize: 11,
+  },
   button: {
     margin: 10,
   },
