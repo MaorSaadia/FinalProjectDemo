@@ -13,6 +13,8 @@ import fetchChatsList from "../api/chats/fetchChatsList";
 function ChatListScreen() {
   const { context } = useStudents();
   const [onlineUsers, setOnilneUsers] = useState([]);
+  const [sendMessage, setSendMessage] = useState(null);
+  const [receiveMessage, setReceiveMessage] = useState(null);
   const socket = useRef();
 
   const { data, error, isLoading } = useQuery({
@@ -27,6 +29,20 @@ function ChatListScreen() {
       setOnilneUsers(users);
     });
   }, [data]);
+
+  // sending message to socket server
+  useEffect(() => {
+    if (sendMessage !== null) {
+      socket.current.emit("send-message", sendMessage);
+    }
+  }, [sendMessage]);
+
+  // receive message from socket server
+  useEffect(() => {
+    socket.current.on("receive-message", (data) => {
+      setReceiveMessage(data);
+    });
+  }, []);
 
   if (isLoading) {
     return <Loader color={Color.Brown500} />;
@@ -53,7 +69,8 @@ function ChatListScreen() {
             <ChatList
               ouid={otherUserId}
               chatId={chatId}
-              // onPress={() => navigation.navigate("ChatScreen", { chatId })}
+              setSendMessage={setSendMessage}
+              receiveMessage={receiveMessage}
             />
           );
         }}

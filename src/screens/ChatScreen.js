@@ -24,22 +24,21 @@ import addMessages from "../api/chats/addMessages";
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
   const { isDarkMode } = useDarkMode();
+  const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [chatId, setChatId] = useState(route?.params?.chatId);
-  const { title } = route.params;
 
-  const senderId = context.id.toString();
+  const { title, ouid, setSendMessage, receiveMessage } = route.params;
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: title,
-    });
-  }, []);
+  const senderId = context.id;
 
   const { mutate } = useMutation({
     mutationFn: ({ senderId, messageText, chatId }) =>
       addMessages({ senderId, messageText, chatId }),
-    onSuccess: () => setMessageText(""),
+    onSuccess: (data) => {
+      setMessages([...messages, data]);
+      setMessageText("");
+    },
     onError: () => console.log("error"),
   });
 
@@ -51,6 +50,22 @@ function ChatScreen({ navigation, route }) {
     queryKey: ["messages", chatId],
     queryFn: () => getMessages(chatId),
   });
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: title,
+    });
+  }, []);
+
+  useEffect(() => {
+    console.log("Message Arrived: ", receiveMessage);
+    if (receiveMessage !== null && receiveMessage.chatId === chatId) {
+      setMessages([...messages, receiveMessage]);
+    }
+  }, [receiveMessage]);
+
+  // send message to socket server
+  setSendMessage({ ...messages, ouid });
 
   const getBackgroundImage = (isDarkMode) => {
     return isDarkMode

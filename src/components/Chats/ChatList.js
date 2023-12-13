@@ -12,7 +12,7 @@ import { Color } from "../../constants/colors";
 import ErrorMessage from "../ui/ErrorMessage";
 import fetchChats from "../../api/chats/fetchChats";
 
-function ChatList({ onPress, ouid, chatId }) {
+function ChatList({ setSendMessage, receiveMessage, ouid, chatId }) {
   const navigation = useNavigation();
 
   const { data, error } = useQuery({
@@ -27,7 +27,13 @@ function ChatList({ onPress, ouid, chatId }) {
   return (
     <TouchableNativeFeedback
       onPress={() =>
-        navigation.navigate("ChatScreen", { chatId, title: data?.data?.name })
+        navigation.navigate("ChatScreen", {
+          chatId,
+          ouid,
+          setSendMessage,
+          receiveMessage,
+          title: data?.data?.name,
+        })
       }
     >
       <View style={styles.container}>
