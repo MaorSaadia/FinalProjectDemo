@@ -1,4 +1,4 @@
-async function addMessages({ senderId, messageText, chatId }) {
+async function addMessages(message) {
   try {
     const response = await fetch(
       `https://finalprojectserver0-5.onrender.com/api/v1/messages`,
@@ -7,7 +7,7 @@ async function addMessages({ senderId, messageText, chatId }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ senderId, messageText, chatId }),
+        body: JSON.stringify(message),
       }
     );
 

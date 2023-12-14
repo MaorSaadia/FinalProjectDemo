@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
+import { io } from "socket.io-client";
 
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
@@ -24,32 +25,22 @@ import addMessages from "../api/chats/addMessages";
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
   const { isDarkMode } = useDarkMode();
+  const { title, ouid } = route.params;
+  const socket = useRef();
+
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [chatId, setChatId] = useState(route?.params?.chatId);
-
-  const { title, ouid, setSendMessage, receiveMessage } = route.params;
-
+  const [onlineUsers, setOnilneUsers] = useState([]);
+  const [sendMessage, setSendMessage] = useState(null);
+  const [receiveMessage, setReceiveMessage] = useState(null);
   const senderId = context.id;
 
-  const { mutate } = useMutation({
-    mutationFn: ({ senderId, messageText, chatId }) =>
-      addMessages({ senderId, messageText, chatId }),
-    onSuccess: (data) => {
-      setMessages([...messages, data]);
-      setMessageText("");
-    },
-    onError: () => console.log("error"),
-  });
-
-  const handelSendMessage = useCallback(() => {
-    mutate({ senderId, messageText, chatId });
-  }, [messageText]);
-
-  const { data } = useQuery({
-    queryKey: ["messages", chatId],
-    queryFn: () => getMessages(chatId),
-  });
+  const message = {
+    senderId,
+    messageText,
+    chatId,
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -58,14 +49,54 @@ function ChatScreen({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    console.log("Message Arrived: ", receiveMessage);
+    socket.current = io("http://192.168.1.214:8800");
+    socket.current.emit("new-user-add", senderId);
+    socket.current.on("get-users", (users) => {
+      setOnilneUsers(users);
+    });
+
+    // sending message to socket server
+    if (sendMessage !== null) {
+      socket.current.emit("send-message", sendMessage);
+    }
+  }, [chatId, sendMessage]);
+
+  useEffect(() => {
+    // recieve message from socket server
+    socket.current.on("receive-message", (data) => {
+      setReceiveMessage(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    const refetchData = async () => {
+      await refetch();
+    };
     if (receiveMessage !== null && receiveMessage.chatId === chatId) {
       setMessages([...messages, receiveMessage]);
     }
+    refetchData();
   }, [receiveMessage]);
 
-  // send message to socket server
-  setSendMessage({ ...messages, ouid });
+  const { data, refetch } = useQuery({
+    queryKey: ["messages", chatId],
+    queryFn: () => getMessages(chatId),
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: (message) => addMessages(message),
+    onSuccess: async (data) => {
+      setSendMessage({ ...message, ouid });
+      await refetch();
+      setMessages([...messages, data]);
+      setMessageText("");
+    },
+    onError: (err) => console.log(err.message),
+  });
+
+  const handelSendMessage = useCallback(() => {
+    mutate(message);
+  }, [messageText]);
 
   const getBackgroundImage = (isDarkMode) => {
     return isDarkMode

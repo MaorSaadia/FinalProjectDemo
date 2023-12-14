@@ -13,8 +13,8 @@ import fetchChatsList from "../api/chats/fetchChatsList";
 function ChatListScreen() {
   const { context } = useStudents();
   const [onlineUsers, setOnilneUsers] = useState([]);
-  const [sendMessage, setSendMessage] = useState(null);
-  const [receiveMessage, setReceiveMessage] = useState(null);
+  // const [sendMessage, setSendMessage] = useState(null);
+  // const [receiveMessage, setReceiveMessage] = useState(null);
   const socket = useRef();
 
   const { data, error, isLoading } = useQuery({
@@ -31,18 +31,18 @@ function ChatListScreen() {
   }, [data]);
 
   // sending message to socket server
-  useEffect(() => {
-    if (sendMessage !== null) {
-      socket.current.emit("send-message", sendMessage);
-    }
-  }, [sendMessage]);
+  // useEffect(() => {
+  //   if (sendMessage !== null) {
+  //     socket.current.emit("send-message", sendMessage);
+  //   }
+  // }, [sendMessage]);
 
-  // receive message from socket server
-  useEffect(() => {
-    socket.current.on("receive-message", (data) => {
-      setReceiveMessage(data);
-    });
-  }, []);
+  // // receive message from socket server
+  // useEffect(() => {
+  //   socket.current.on("receive-message", (data) => {
+  //     setReceiveMessage(data);
+  //   });
+  // }, []);
 
   if (isLoading) {
     return <Loader color={Color.Brown500} />;
@@ -65,14 +65,7 @@ function ChatListScreen() {
             (uid) => uid !== context.id
           );
 
-          return (
-            <ChatList
-              ouid={otherUserId}
-              chatId={chatId}
-              setSendMessage={setSendMessage}
-              receiveMessage={receiveMessage}
-            />
-          );
+          return <ChatList ouid={otherUserId} chatId={chatId} />;
         }}
       />
       <View style={styles.line}></View>

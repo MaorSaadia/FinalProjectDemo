@@ -24,9 +24,10 @@ io.on("connection", (socket) => {
   socket.on("send-message", (data) => {
     const { ouid } = data;
     const user = activeUsers.find((user) => user.userId === ouid);
-    console.log("Data", data);
+    // console.log("Data", data);
+    console.log(user);
     if (user) {
-      console.log("yes");
+      console.log("Received message:", data);
       io.to(user.socketId).emit("receive-message", data);
     }
   });

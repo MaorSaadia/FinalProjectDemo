@@ -12,7 +12,7 @@ import { Color } from "../../constants/colors";
 import ErrorMessage from "../ui/ErrorMessage";
 import fetchChats from "../../api/chats/fetchChats";
 
-function ChatList({ setSendMessage, receiveMessage, ouid, chatId }) {
+function ChatList({ ouid, chatId }) {
   const navigation = useNavigation();
 
   const { data, error } = useQuery({
@@ -30,8 +30,6 @@ function ChatList({ setSendMessage, receiveMessage, ouid, chatId }) {
         navigation.navigate("ChatScreen", {
           chatId,
           ouid,
-          setSendMessage,
-          receiveMessage,
           title: data?.data?.name,
         })
       }
