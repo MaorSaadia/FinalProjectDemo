@@ -54,19 +54,25 @@ function ChatScreen({ navigation, route }) {
     socket.current.on("get-users", (users) => {
       setOnilneUsers(users);
     });
+    return () => {
+      socket.current.disconnect();
+      // console.log("user disconnect");
+    };
+  }, [senderId]);
 
+  useEffect(() => {
     // sending message to socket server
     if (sendMessage !== null) {
       socket.current.emit("send-message", sendMessage);
     }
-  }, [chatId, sendMessage]);
+  }, [sendMessage]);
 
   useEffect(() => {
     // recieve message from socket server
     socket.current.on("receive-message", (data) => {
       setReceiveMessage(data);
     });
-  }, []);
+  }, [sendMessage]);
 
   useEffect(() => {
     const refetchData = async () => {

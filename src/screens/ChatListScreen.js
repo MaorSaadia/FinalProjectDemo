@@ -22,13 +22,13 @@ function ChatListScreen() {
     queryFn: () => fetchChatsList(context.id),
   });
 
-  useEffect(() => {
-    socket.current = io("http://192.168.1.214:8800");
-    socket.current.emit("new-user-add", context.id);
-    socket.current.on("get-users", (users) => {
-      setOnilneUsers(users);
-    });
-  }, [data]);
+  // useEffect(() => {
+  //   socket.current = io("http://192.168.1.214:8800");
+  //   socket.current.emit("new-user-add", context.id);
+  //   socket.current.on("get-users", (users) => {
+  //     setOnilneUsers(users);
+  //   });
+  // }, [data]);
 
   // sending message to socket server
   // useEffect(() => {
