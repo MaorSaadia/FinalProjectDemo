@@ -3,6 +3,7 @@ import * as Font from "expo-font";
 import { useCallback, useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { MenuProvider } from "react-native-popup-menu";
 import Toast from "react-native-toast-message";
 
 import { StudentContext, useStudents } from "./src/context/StudentContext";
@@ -97,7 +98,9 @@ export default function App() {
             }}
           >
             <StatusBar style="dark" />
-            <AuthStackScreens />
+            <MenuProvider>
+              <AuthStackScreens />
+            </MenuProvider>
             <Toast />
           </StudentContext.Provider>
         </QueryClientProvider>

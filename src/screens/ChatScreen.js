@@ -21,6 +21,8 @@ import PageContainer from "../components/PageContainer";
 import Bubble from "../components/chats/Bubble";
 import getMessages from "../api/chats/getMessages";
 import addMessages from "../api/chats/addMessages";
+import moment from "moment";
+import "moment/locale/he";
 
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
@@ -46,6 +48,7 @@ function ChatScreen({ navigation, route }) {
     navigation.setOptions({
       headerTitle: title,
     });
+    moment.locale("he");
   }, []);
 
   useEffect(() => {
@@ -89,7 +92,7 @@ function ChatScreen({ navigation, route }) {
     queryFn: () => getMessages(chatId),
   });
 
-  const { mutate } = useMutation({
+  const { mutate, isError } = useMutation({
     mutationFn: (message) => addMessages(message),
     onSuccess: async (data) => {
       setSendMessage({ ...message, ouid });
@@ -123,18 +126,26 @@ function ChatScreen({ navigation, route }) {
         >
           <PageContainer style={{ backgroundColor: "transparent" }}>
             {!chatId && <Bubble text="שלח הודעה לתחילת שיחה" type="system" />}
+            {isError && (
+              <Bubble text="שגיאה בשליחת ההודעה נסה שוב" type="error" />
+            )}
             {chatId && (
               <FlatList
                 data={data}
                 renderItem={(itemData) => {
                   const message = itemData.item;
                   const isOwnMessage = message.senderId === context.id;
+                  const time = moment(message.createdAt).fromNow();
                   const messageType = isOwnMessage
                     ? "myMessage"
                     : "theirMessage";
 
                   return (
-                    <Bubble type={messageType} text={message.messageText} />
+                    <Bubble
+                      type={messageType}
+                      text={message.messageText}
+                      time={time}
+                    />
                   );
                 }}
               />
