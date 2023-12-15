@@ -13,6 +13,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
 import { io } from "socket.io-client";
+import moment from "moment";
+import "moment/locale/he";
 
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
@@ -21,14 +23,15 @@ import PageContainer from "../components/PageContainer";
 import Bubble from "../components/chats/Bubble";
 import getMessages from "../api/chats/getMessages";
 import addMessages from "../api/chats/addMessages";
-import moment from "moment";
-import "moment/locale/he";
+import { Text } from "react-native-paper";
+import ReplyTo from "../components/chats/ReplyTo";
 
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
   const { isDarkMode } = useDarkMode();
   const { title, ouid } = route.params;
   const socket = useRef();
+  const flatList = useRef();
 
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
@@ -36,6 +39,8 @@ function ChatScreen({ navigation, route }) {
   const [onlineUsers, setOnilneUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
+  const [replyingTo, setReplyingTo] = useState();
+
   const senderId = context.id;
 
   const message = {
@@ -62,6 +67,8 @@ function ChatScreen({ navigation, route }) {
       // console.log("user disconnect");
     };
   }, [senderId]);
+
+  // const isUserOnline = onlineUsers.some((user) => user.userId === ouid);
 
   useEffect(() => {
     // sending message to socket server
@@ -126,11 +133,16 @@ function ChatScreen({ navigation, route }) {
         >
           <PageContainer style={{ backgroundColor: "transparent" }}>
             {!chatId && <Bubble text="שלח הודעה לתחילת שיחה" type="system" />}
-            {isError && (
-              <Bubble text="שגיאה בשליחת ההודעה נסה שוב" type="error" />
-            )}
+
             {chatId && (
               <FlatList
+                ref={(ref) => (flatList.current = ref)}
+                onContentSizeChange={() =>
+                  flatList.current.scrollToEnd({ animated: false })
+                }
+                onLayout={() =>
+                  flatList.current.scrollToEnd({ animated: false })
+                }
                 data={data}
                 renderItem={(itemData) => {
                   const message = itemData.item;
@@ -145,12 +157,24 @@ function ChatScreen({ navigation, route }) {
                       type={messageType}
                       text={message.messageText}
                       time={time}
+                      setReply={() => setReplyingTo(message)}
                     />
                   );
                 }}
               />
             )}
+            {isError && (
+              <Bubble text="שגיאה בשליחת ההודעה נסה שוב" type="error" />
+            )}
           </PageContainer>
+
+          {replyingTo && (
+            <ReplyTo
+              name={title}
+              text={replyingTo.messageText}
+              onCancel={() => setReplyingTo(null)}
+            />
+          )}
         </ImageBackground>
 
         <View style={styles.inputContainer}>

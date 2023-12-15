@@ -9,7 +9,7 @@ import { Color } from "../../constants/colors";
 import { useDarkMode } from "../../context/DarkModeContext";
 import MenuItem from "./MenuItem";
 
-function Bubble({ text, type, time }) {
+function Bubble({ text, type, time, setReply }) {
   const { isDarkMode } = useDarkMode();
 
   const bubbleStyle = { ...styles.container };
@@ -77,7 +77,7 @@ function Bubble({ text, type, time }) {
           <Menu name={id.current} ref={menuRef}>
             <MenuTrigger />
             <MenuOptions
-              customStyles={{ optionsContainer: { width: 130 } }}
+              customStyles={{ optionsContainer: { width: 130, margin: 10 } }}
               optionsContainerStyle={{
                 backgroundColor: isDarkMode ? Color.darkTheme : Color.white,
               }}
@@ -86,6 +86,11 @@ function Bubble({ text, type, time }) {
                 text="העתק ללוח"
                 icon={"copy"}
                 onSelect={() => copyToClipboard(text)}
+              />
+              <MenuItem
+                text="הגב"
+                icon="arrow-left-circle"
+                onSelect={setReply}
               />
             </MenuOptions>
           </Menu>
