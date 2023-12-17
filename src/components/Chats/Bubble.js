@@ -9,7 +9,16 @@ import { Color } from "../../constants/colors";
 import { useDarkMode } from "../../context/DarkModeContext";
 import MenuItem from "./MenuItem";
 
-function Bubble({ text, type, time, setReply }) {
+function Bubble({
+  senderId,
+  title,
+  name,
+  text,
+  type,
+  time,
+  setReply,
+  replyingTo,
+}) {
   const { isDarkMode } = useDarkMode();
 
   const bubbleStyle = { ...styles.container };
@@ -57,6 +66,11 @@ function Bubble({ text, type, time, setReply }) {
       timeStyle.color = isDarkMode ? Color.Blue100 : Color.Brown900;
       Container = TouchableWithoutFeedback;
       break;
+    case "reply":
+      bubbleStyle.backgroundColor = isDarkMode
+        ? Color.buttomSheetDarkTheme
+        : Color.defaultTheme;
+      break;
     default:
       break;
   }
@@ -70,6 +84,15 @@ function Bubble({ text, type, time, setReply }) {
         style={{ width: "100%" }}
       >
         <View style={bubbleStyle}>
+          {name && <Text style={styles.name}>{name}</Text>}
+
+          {replyingTo && (
+            <Bubble
+              type="reply"
+              text={replyingTo?.messageText}
+              name={replyingTo.senderId === senderId ? "את/ה" : title}
+            />
+          )}
           <Text style={textStyle}>{text}</Text>
           <View style={styles.timeContainer}>
             <Text style={timeStyle}>{time}</Text>
@@ -77,7 +100,12 @@ function Bubble({ text, type, time, setReply }) {
           <Menu name={id.current} ref={menuRef}>
             <MenuTrigger />
             <MenuOptions
-              customStyles={{ optionsContainer: { width: 130, margin: 10 } }}
+              customStyles={{
+                optionsContainer: {
+                  width: 130,
+                  margin: 10,
+                },
+              }}
               optionsContainerStyle={{
                 backgroundColor: isDarkMode ? Color.darkTheme : Color.white,
               }}
@@ -108,7 +136,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
     borderRadius: 6,
-    padding: 7,
+    paddingTop: 5,
+    paddingHorizontal: 7,
     marginBottom: 10,
   },
   text: {
@@ -125,6 +154,11 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
     fontSize: 9,
     color: Color.Brown100,
+  },
+  name: {
+    color: Color.Blue800,
+    fontFamily: "medium",
+    letterSpacing: 0.3,
   },
 });
 

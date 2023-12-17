@@ -23,7 +23,6 @@ import PageContainer from "../components/PageContainer";
 import Bubble from "../components/chats/Bubble";
 import getMessages from "../api/chats/getMessages";
 import addMessages from "../api/chats/addMessages";
-import { Text } from "react-native-paper";
 import ReplyTo from "../components/chats/ReplyTo";
 
 function ChatScreen({ navigation, route }) {
@@ -36,7 +35,6 @@ function ChatScreen({ navigation, route }) {
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [chatId, setChatId] = useState(route?.params?.chatId);
-  const [onlineUsers, setOnilneUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [replyingTo, setReplyingTo] = useState();
@@ -47,6 +45,7 @@ function ChatScreen({ navigation, route }) {
     senderId,
     messageText,
     chatId,
+    replyingTo,
   };
 
   useEffect(() => {
@@ -59,16 +58,11 @@ function ChatScreen({ navigation, route }) {
   useEffect(() => {
     socket.current = io("http://192.168.1.214:8800");
     socket.current.emit("new-user-add", senderId);
-    socket.current.on("get-users", (users) => {
-      setOnilneUsers(users);
-    });
     return () => {
       socket.current.disconnect();
       // console.log("user disconnect");
     };
   }, [senderId]);
-
-  // const isUserOnline = onlineUsers.some((user) => user.userId === ouid);
 
   useEffect(() => {
     // sending message to socket server
@@ -103,9 +97,10 @@ function ChatScreen({ navigation, route }) {
     mutationFn: (message) => addMessages(message),
     onSuccess: async (data) => {
       setSendMessage({ ...message, ouid });
+      setMessageText("");
+      setReplyingTo(null);
       await refetch();
       setMessages([...messages, data]);
-      setMessageText("");
     },
     onError: (err) => console.log(err.message),
   });
@@ -136,28 +131,34 @@ function ChatScreen({ navigation, route }) {
 
             {chatId && (
               <FlatList
-                ref={(ref) => (flatList.current = ref)}
-                onContentSizeChange={() =>
-                  flatList.current.scrollToEnd({ animated: false })
-                }
-                onLayout={() =>
-                  flatList.current.scrollToEnd({ animated: false })
-                }
-                data={data}
+                inverted
+                // ref={(ref) => (flatList.current = ref)}
+                // onContentSizeChange={() =>
+                //   flatList.current.scrollToEnd({ animated: false })
+                // }
+                // onLayout={() =>
+                //   flatList.current.scrollToEnd({ animated: false })
+                // }
+                data={data && [...data].reverse()}
                 renderItem={(itemData) => {
                   const message = itemData.item;
                   const isOwnMessage = message.senderId === context.id;
-                  const time = moment(message.createdAt).fromNow();
+                  let time = moment(message.createdAt).fromNow();
                   const messageType = isOwnMessage
                     ? "myMessage"
                     : "theirMessage";
-
+                  if (time.includes("בעוד")) {
+                    time = time.replace("בעוד", "לפני");
+                  }
                   return (
                     <Bubble
+                      senderId={senderId}
+                      title={title}
                       type={messageType}
                       text={message.messageText}
                       time={time}
                       setReply={() => setReplyingTo(message)}
+                      replyingTo={message.replyingTo}
                     />
                   );
                 }}
@@ -170,7 +171,7 @@ function ChatScreen({ navigation, route }) {
 
           {replyingTo && (
             <ReplyTo
-              name={title}
+              name={replyingTo.senderId === senderId ? "את/ה" : title}
               text={replyingTo.messageText}
               onCancel={() => setReplyingTo(null)}
             />
