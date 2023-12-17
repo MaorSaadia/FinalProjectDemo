@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -7,21 +8,42 @@ import {
 import { Text } from "react-native-paper";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
+import moment from "moment";
+import "moment/locale/he";
 
 import { Color } from "../../constants/colors";
 import ErrorMessage from "../ui/ErrorMessage";
 import fetchChats from "../../api/chats/fetchChats";
+import getMessages from "../../api/chats/getMessages";
+import Loader from "../ui/Loader";
 
 function ChatList({ ouid, chatId }) {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    moment.locale("he");
+  }, []);
 
   const { data, error } = useQuery({
     queryKey: ["chats", ouid],
     queryFn: () => fetchChats(ouid),
   });
 
+  const { data: messages, isLoading } = useQuery({
+    queryKey: ["messages", chatId],
+    queryFn: () => getMessages(chatId),
+  });
+
+  const subTitle = messages[messages?.length - 1]?.messageText;
+  const updatedAt = messages[messages?.length - 1]?.updatedAt;
+  const time = moment(updatedAt).fromNow();
+
   if (error) {
     return <ErrorMessage errorMessage={error.message} />;
+  }
+
+  if (isLoading) {
+    return <Loader color={Color.Brown500} />;
   }
 
   return (
@@ -51,9 +73,15 @@ function ChatList({ ouid, chatId }) {
             {data?.data?.name}
           </Text>
 
-          <Text numberOfLines={1} style={styles.subTitle}>
-            {data?.data?._id}
-          </Text>
+          <View style={styles.subTitle}>
+            <Text numberOfLines={1} style={styles.lastMessage}>
+              {subTitle ? subTitle : "צא'ט חדש"}
+            </Text>
+
+            <Text numberOfLines={1} style={styles.time}>
+              {time}
+            </Text>
+          </View>
         </View>
       </View>
     </TouchableNativeFeedback>
@@ -76,8 +104,15 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
   subTitle: {
+    // flexDirection: "row",
+  },
+  lastMessage: {
     color: Color.gray,
     letterSpacing: 0.3,
+  },
+  time: {
+    fontSize: 10,
+    color: Color.Brown500,
   },
 });
 

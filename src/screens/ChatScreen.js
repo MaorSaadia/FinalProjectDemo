@@ -30,7 +30,6 @@ function ChatScreen({ navigation, route }) {
   const { isDarkMode } = useDarkMode();
   const { title, ouid } = route.params;
   const socket = useRef();
-  const flatList = useRef();
 
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
@@ -143,6 +142,7 @@ function ChatScreen({ navigation, route }) {
                   if (time.includes("בעוד")) {
                     time = time.replace("בעוד", "לפני");
                   }
+
                   return (
                     <Bubble
                       senderId={senderId}
@@ -157,6 +157,7 @@ function ChatScreen({ navigation, route }) {
                 }}
               />
             )}
+
             {isError && (
               <Bubble text="שגיאה בשליחת ההודעה נסה שוב" type="error" />
             )}

@@ -1,5 +1,6 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
@@ -7,6 +8,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Loader from "../components/ui/Loader";
 import ChatList from "../components/chats/ChatList";
 import fetchChatsList from "../api/chats/fetchChatsList";
+import { Text } from "react-native-paper";
 
 function ChatListScreen() {
   const { context } = useStudents();
@@ -22,6 +24,20 @@ function ChatListScreen() {
 
   if (error) {
     return <ErrorMessage errorMessage={error.message} />;
+  }
+
+  if (data.results == 0) {
+    return (
+      <View style={styles.container}>
+        <FontAwesome5
+          name="users"
+          size={60}
+          color={Color.Brown400}
+          style={styles.noResultsIcon}
+        />
+        <Text style={styles.noResultsText}>עדיין אין צאטי'ם</Text>
+      </View>
+    );
   }
 
   return (
@@ -48,6 +64,20 @@ function ChatListScreen() {
 export default ChatListScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noResultsIcon: {
+    marginBottom: 10,
+  },
+  noResultsText: {
+    color: Color.Brown500,
+    fontFamily: "varelaRound",
+    fontSize: 15,
+    letterSpacing: 0.3,
+  },
   line: {
     margin: 10,
     borderBottomWidth: 0.5,

@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
   timeContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
+    paddingRight: 5,
   },
   timeStyle: {
     fontFamily: "varelaRound",
