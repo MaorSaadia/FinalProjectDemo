@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ImageBackground } from "react-native";
 import {
   DrawerContentScrollView,
   DrawerItemList,
@@ -46,13 +46,28 @@ function CustomDrawer(props) {
       >
         <View
           style={{
-            padding: 20,
+            paddingBottom: 15,
+            paddingHorizontal: 15,
+            flexDirection: "row",
+            alignItems: "center",
             backgroundColor: isDarkMode ? Color.Blue800 : Color.Blue200,
           }}
         >
+          <ImageBackground
+            style={{ height: 50, width: 50 }}
+            imageStyle={{
+              borderRadius: 50,
+              borderWidth: 0.5,
+              borderColor: Color.gray,
+            }}
+            source={{
+              uri: context.avatar.url,
+            }}
+          />
           <Text
             style={{
               color: !isDarkMode ? Color.darkTheme : Color.defaultTheme,
+              marginHorizontal: 10,
               fontSize: 18,
             }}
           >
