@@ -5,6 +5,7 @@ export const Color = {
   buttomSheetDarkTheme: "#444444",
   defaultTheme: "#faf7f7",
   error: "#f8d7da",
+  error100: "#e07a82",
   errorText: "#721c24",
   icon: "#777777",
   gray: "#bdc3c7",

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   FlatList,
+  Image,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -15,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { io } from "socket.io-client";
 import moment from "moment";
 import "moment/locale/he";
+import * as ImagePickerFromGallery from "expo-image-picker";
 
 import { Color } from "../constants/colors";
 import { useStudents } from "../context/StudentContext";
@@ -25,6 +27,7 @@ import ReplyTo from "../components/chats/ReplyTo";
 import getMessages from "../api/chats/getMessages";
 import addMessages from "../api/chats/addMessages";
 import updateChat from "../api/chats/updateChat";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
@@ -38,14 +41,29 @@ function ChatScreen({ navigation, route }) {
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [replyingTo, setReplyingTo] = useState();
+  const [tempImageUri, setTempImageUri] = useState("");
 
   const senderId = context.id;
+
+  async function pickedImageHandler() {
+    const image = await ImagePickerFromGallery.launchImageLibraryAsync({
+      mediaTypes: ImagePickerFromGallery.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.5,
+    });
+
+    if (!image.canceled) {
+      setTempImageUri(image.assets[0].uri);
+    }
+  }
 
   const message = {
     senderId,
     messageText,
     chatId,
     replyingTo,
+    tempImageUri,
   };
 
   useEffect(() => {
@@ -182,7 +200,7 @@ function ChatScreen({ navigation, route }) {
         <View style={styles.inputContainer}>
           <TouchableOpacity
             style={styles.mediaButton}
-            onPress={() => console.log("Pressed!")}
+            onPress={pickedImageHandler}
           >
             <Ionicons name="add" size={24} color={Color.Blue500} />
           </TouchableOpacity>
@@ -221,6 +239,39 @@ function ChatScreen({ navigation, route }) {
               <Ionicons name="send" size={24} color={Color.Blue500} />
             </TouchableOpacity>
           )}
+
+          <AwesomeAlert
+            show={tempImageUri !== ""}
+            contentContainerStyle={
+              isDarkMode
+                ? { backgroundColor: Color.darkTheme }
+                : { backgroundColor: Color.defaultTheme }
+            }
+            title="שלח תמונה"
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={false}
+            showCancelButton={true}
+            showConfirmButton={true}
+            confirmText="שלח"
+            cancelText="בטל"
+            confirmButtonColor={Color.Blue700}
+            cancelButtonColor={
+              isDarkMode ? Color.darkTheme : Color.defaultTheme
+            }
+            cancelButtonTextStyle={{ color: Color.Blue500 }}
+            titleStyle={styles.popupTitleStyle}
+            onCancelPressed={() => setTempImageUri("")}
+            onConfirmPressed={() => console.log("upload!")}
+            onDismiss={() => setTempImageUri("")}
+            customView={
+              <View>
+                <Image
+                  source={{ uri: tempImageUri }}
+                  style={{ width: 250, height: 200, borderRadius: 10 }}
+                />
+              </View>
+            }
+          />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -261,5 +312,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 35,
+  },
+  popupTitleStyle: {
+    fontFamily: "varelaRound",
+    letterSpacing: 0.3,
+    color: Color.Blue700,
   },
 });

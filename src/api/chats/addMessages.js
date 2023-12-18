@@ -1,4 +1,5 @@
 async function addMessages(message) {
+  console.log(message.tempImageUri);
   try {
     const response = await fetch(
       `https://finalprojectserver0-5.onrender.com/api/v1/messages`,

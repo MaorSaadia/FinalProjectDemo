@@ -25,7 +25,7 @@ function ChatList({ ouid, chatId, lastMessage, time }) {
   });
 
   if (isLoading) {
-    return <Loader color={isDarkMode ? Color.white : Color.darkTheme} />;
+    return <Loader color={isDarkMode ? Color.darkTheme : Color.white} />;
   }
 
   if (error) {
