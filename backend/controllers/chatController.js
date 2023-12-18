@@ -1,6 +1,7 @@
 const Chat = require("../models/chatModal");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const factory = require("./handlerFactory");
 
 exports.createChat = catchAsync(async (req, res, next) => {
   const newChat = new Chat({
@@ -36,4 +37,20 @@ exports.findChat = catchAsync(async (req, res, next) => {
     members: { $all: [req.params.firstId, req.params.secondId] },
   });
   res.status(200).json(chat);
+});
+
+exports.updateChat = catchAsync(async (req, res, next) => {
+  const { chatId } = req.params;
+  const { lastMessage } = req.body;
+
+  const chat = await Chat.findOne({ _id: chatId });
+  chat.lastMessage = lastMessage;
+
+  const updateChat = await chat.save();
+
+  if (!chat) {
+    return next(new AppError("No document found with that ID", 404));
+  }
+
+  res.status(200).json(updateChat);
 });

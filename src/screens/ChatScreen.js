@@ -21,9 +21,10 @@ import { useStudents } from "../context/StudentContext";
 import { useDarkMode } from "../context/DarkModeContext";
 import PageContainer from "../components/PageContainer";
 import Bubble from "../components/chats/Bubble";
+import ReplyTo from "../components/chats/ReplyTo";
 import getMessages from "../api/chats/getMessages";
 import addMessages from "../api/chats/addMessages";
-import ReplyTo from "../components/chats/ReplyTo";
+import updateChat from "../api/chats/updateChat";
 
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
@@ -92,20 +93,26 @@ function ChatScreen({ navigation, route }) {
     queryFn: () => getMessages(chatId),
   });
 
-  const { mutate, isError } = useMutation({
+  const { mutate: handleAddMessages, isError } = useMutation({
     mutationFn: (message) => addMessages(message),
     onSuccess: async (data) => {
       setSendMessage({ ...message, ouid });
-      setMessageText("");
       setReplyingTo(null);
+      setMessageText("");
       await refetch();
       setMessages([...messages, data]);
     },
     onError: (err) => console.log(err.message),
   });
+  const { mutate: handleUpdateChat } = useMutation({
+    mutationFn: ({ messageText: lastMessage, chatId }) =>
+      updateChat({ messageText: lastMessage, chatId }),
+    onError: (err) => console.log(err.message),
+  });
 
   const handelSendMessage = useCallback(() => {
-    mutate(message);
+    handleUpdateChat({ messageText, chatId });
+    handleAddMessages(message);
   }, [messageText]);
 
   const getBackgroundImage = (isDarkMode) => {
@@ -130,8 +137,8 @@ function ChatScreen({ navigation, route }) {
 
             {chatId && (
               <FlatList
-                inverted
-                data={data && [...data].reverse()}
+                inverted={data?.length > 11 ? true : false}
+                data={data?.length > 11 ? data && [...data].reverse() : data}
                 renderItem={(itemData) => {
                   const message = itemData.item;
                   const isOwnMessage = message.senderId === context.id;

@@ -8,42 +8,28 @@ import {
 import { Text } from "react-native-paper";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
-import moment from "moment";
-import "moment/locale/he";
 
 import { Color } from "../../constants/colors";
+import { useDarkMode } from "../../context/DarkModeContext";
 import ErrorMessage from "../ui/ErrorMessage";
 import fetchChats from "../../api/chats/fetchChats";
-import getMessages from "../../api/chats/getMessages";
 import Loader from "../ui/Loader";
 
-function ChatList({ ouid, chatId }) {
+function ChatList({ ouid, chatId, lastMessage, time }) {
+  const isDarkMode = useDarkMode();
   const navigation = useNavigation();
 
-  useEffect(() => {
-    moment.locale("he");
-  }, []);
-
-  const { data, error } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["chats", ouid],
     queryFn: () => fetchChats(ouid),
   });
 
-  const { data: messages, isLoading } = useQuery({
-    queryKey: ["messages", chatId],
-    queryFn: () => getMessages(chatId),
-  });
-
-  const subTitle = messages[messages?.length - 1]?.messageText;
-  const updatedAt = messages[messages?.length - 1]?.updatedAt;
-  const time = moment(updatedAt).fromNow();
+  if (isLoading) {
+    return <Loader color={isDarkMode ? Color.white : Color.darkTheme} />;
+  }
 
   if (error) {
     return <ErrorMessage errorMessage={error.message} />;
-  }
-
-  if (isLoading) {
-    return <Loader color={Color.Brown500} />;
   }
 
   return (
@@ -75,7 +61,7 @@ function ChatList({ ouid, chatId }) {
 
           <View style={styles.subTitle}>
             <Text numberOfLines={1} style={styles.lastMessage}>
-              {subTitle ? subTitle : "צא'ט חדש"}
+              {lastMessage}
             </Text>
 
             <Text numberOfLines={1} style={styles.time}>

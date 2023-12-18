@@ -17,6 +17,8 @@ exports.deleteOne = (Model) =>
 
 exports.UpdateOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    console.log(req.params);
+    console.log(req.body);
     try {
       const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -34,7 +36,7 @@ exports.UpdateOne = (Model) =>
         },
       });
     } catch (err) {
-      res.status(404)({
+      res.status(404).json({
         status: "fail",
         message: err,
       });
