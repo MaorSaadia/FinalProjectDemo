@@ -74,16 +74,13 @@ function Bubble({
       Container = TouchableWithoutFeedback;
       break;
     case "reply":
-      if (imageUrl) {
-        bubbleStyle.backgroundColor = Color.Blue700;
-      } else {
-        bubbleStyle.backgroundColor = isDarkMode
-          ? Color.buttomSheetDarkTheme
-          : Color.defaultTheme;
-      }
+      bubbleStyle.backgroundColor = isDarkMode
+        ? Color.buttomSheetDarkTheme
+        : Color.defaultTheme;
       image.height = 125;
-      image.width = 250;
-      image.marginBottom = -15;
+      image.width = 270;
+      // image.marginBottom = -15;
+      image.margin = 10;
 
       break;
     default:
@@ -175,7 +172,7 @@ const styles = StyleSheet.create({
     color: Color.Brown100,
   },
   name: {
-    color: Color.Brown800,
+    color: Color.Brown700,
     fontFamily: "medium",
     letterSpacing: 0.3,
   },

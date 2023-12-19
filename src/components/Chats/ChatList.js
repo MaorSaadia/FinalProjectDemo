@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -10,13 +9,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigation } from "@react-navigation/native";
 
 import { Color } from "../../constants/colors";
-import { useDarkMode } from "../../context/DarkModeContext";
 import ErrorMessage from "../ui/ErrorMessage";
 import fetchChats from "../../api/chats/fetchChats";
-import Loader from "../ui/Loader";
 
 function ChatList({ ouid, chatId, lastMessage, time }) {
-  const isDarkMode = useDarkMode();
   const navigation = useNavigation();
 
   const { data, error, isLoading } = useQuery({
@@ -25,19 +21,19 @@ function ChatList({ ouid, chatId, lastMessage, time }) {
   });
 
   if (isLoading) {
-    return <Loader color={isDarkMode ? Color.darkTheme : Color.white} />;
+    return null;
   }
 
   if (error) {
     return <ErrorMessage errorMessage={error.message} />;
   }
-
   return (
     <TouchableNativeFeedback
       onPress={() =>
         navigation.navigate("ChatScreen", {
           chatId,
           ouid,
+          image: data?.data?.avatar?.url,
           title: data?.data?.name,
         })
       }

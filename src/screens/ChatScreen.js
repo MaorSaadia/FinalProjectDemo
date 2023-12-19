@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
@@ -34,7 +35,7 @@ import AwesomeAlert from "react-native-awesome-alerts";
 function ChatScreen({ navigation, route }) {
   const { context } = useStudents();
   const { isDarkMode } = useDarkMode();
-  const { title, ouid } = route.params;
+  const { image, title, ouid } = route.params;
   const socket = useRef();
 
   const [messages, setMessages] = useState([]);
@@ -79,8 +80,36 @@ function ChatScreen({ navigation, route }) {
   };
 
   useEffect(() => {
+    const CustomHeader = () => (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <ImageBackground
+          style={{ height: 40, width: 40 }}
+          imageStyle={{
+            borderRadius: 50,
+            borderWidth: 0.5,
+            borderColor: Color.gray,
+          }}
+          source={{
+            uri: image,
+          }}
+        />
+        <Text
+          style={{
+            marginHorizontal: 5,
+            fontSize: 18,
+          }}
+        >
+          {title}
+        </Text>
+      </View>
+    );
     navigation.setOptions({
-      headerTitle: title,
+      headerTitle: () => <CustomHeader />,
     });
     moment.locale("he");
   }, []);
@@ -172,8 +201,8 @@ function ChatScreen({ navigation, route }) {
 
             {chatId && (
               <FlatList
-                inverted={data?.length > 11 ? true : false}
-                data={data?.length > 11 ? data && [...data].reverse() : data}
+                inverted={data?.length > 10 ? true : false}
+                data={data?.length > 10 ? data && [...data].reverse() : data}
                 renderItem={(itemData) => {
                   const message = itemData.item;
                   const isOwnMessage = message.senderId === context.id;
