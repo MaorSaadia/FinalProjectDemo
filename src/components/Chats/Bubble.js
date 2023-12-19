@@ -1,5 +1,10 @@
 import { useRef } from "react";
-import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { Text } from "react-native-paper";
 import { Menu, MenuTrigger, MenuOptions } from "react-native-popup-menu";
 import uuid from "react-native-uuid";
@@ -18,6 +23,7 @@ function Bubble({
   time,
   setReply,
   replyingTo,
+  imageUrl,
 }) {
   const { isDarkMode } = useDarkMode();
 
@@ -25,6 +31,7 @@ function Bubble({
   const textStyle = { ...styles.text };
   const wrapperStyle = { ...styles.wrapperStyle };
   const timeStyle = { ...styles.timeStyle };
+  const image = { ...styles.image };
 
   const menuRef = useRef(null);
   const id = useRef(uuid.v4());
@@ -55,21 +62,29 @@ function Bubble({
       wrapperStyle.justifyContent = "flex-end";
       bubbleStyle.backgroundColor = Color.Blue700;
       bubbleStyle.borderBottomRightRadius = 15;
-      bubbleStyle.maxWidth = "90%";
+      bubbleStyle.maxWidth = "80%";
       Container = TouchableWithoutFeedback;
       break;
     case "theirMessage":
       wrapperStyle.justifyContent = "flex-start";
       bubbleStyle.backgroundColor = isDarkMode ? Color.darkTheme : Color.white;
       bubbleStyle.borderBottomLeftRadius = 15;
-      bubbleStyle.maxWidth = "90%";
+      bubbleStyle.maxWidth = "80%";
       timeStyle.color = isDarkMode ? Color.Blue100 : Color.Brown900;
       Container = TouchableWithoutFeedback;
       break;
     case "reply":
-      bubbleStyle.backgroundColor = isDarkMode
-        ? Color.buttomSheetDarkTheme
-        : Color.defaultTheme;
+      if (imageUrl) {
+        bubbleStyle.backgroundColor = Color.Blue700;
+      } else {
+        bubbleStyle.backgroundColor = isDarkMode
+          ? Color.buttomSheetDarkTheme
+          : Color.defaultTheme;
+      }
+      image.height = 125;
+      image.width = 250;
+      image.marginBottom = -15;
+
       break;
     default:
       break;
@@ -89,11 +104,14 @@ function Bubble({
           {replyingTo && (
             <Bubble
               type="reply"
-              text={replyingTo?.messageText}
+              text={replyingTo.messageText}
+              imageUrl={replyingTo?.image?.url}
               name={replyingTo.senderId === senderId ? "את/ה" : title}
             />
           )}
-          <Text style={textStyle}>{text}</Text>
+
+          {!imageUrl && <Text style={textStyle}>{text}</Text>}
+          {imageUrl && <Image source={{ uri: imageUrl }} style={image} />}
           <View style={styles.timeContainer}>
             <Text style={timeStyle}>{time}</Text>
           </View>
@@ -157,9 +175,17 @@ const styles = StyleSheet.create({
     color: Color.Brown100,
   },
   name: {
-    color: Color.Blue800,
+    color: Color.Brown800,
     fontFamily: "medium",
     letterSpacing: 0.3,
+  },
+  image: {
+    width: 250,
+    height: 200,
+    marginBottom: 5,
+    borderRadius: 10,
+    borderWidth: 0.5,
+    borderColor: Color.Blue500,
   },
 });
 

@@ -1,4 +1,8 @@
 async function updateChat({ messageText: lastMessage, chatId }) {
+  if (!lastMessage) {
+    lastMessage = "תמונה";
+  }
+
   try {
     const response = await fetch(
       `https://finalprojectserver0-5.onrender.com/api/v1/chats/update/${chatId}`,

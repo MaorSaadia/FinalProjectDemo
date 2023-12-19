@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ImageBackground,
@@ -16,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { io } from "socket.io-client";
 import moment from "moment";
 import "moment/locale/he";
+import { launchCameraAsync } from "expo-image-picker";
 import * as ImagePickerFromGallery from "expo-image-picker";
 
 import { Color } from "../constants/colors";
@@ -49,7 +51,17 @@ function ChatScreen({ navigation, route }) {
     const image = await ImagePickerFromGallery.launchImageLibraryAsync({
       mediaTypes: ImagePickerFromGallery.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      quality: 0.5,
+    });
+
+    if (!image.canceled) {
+      setTempImageUri(image.assets[0].uri);
+    }
+  }
+
+  async function takeImageHandler() {
+    const image = await launchCameraAsync({
+      allowsEditing: true,
       quality: 0.5,
     });
 
@@ -111,13 +123,18 @@ function ChatScreen({ navigation, route }) {
     queryFn: () => getMessages(chatId),
   });
 
-  const { mutate: handleAddMessages, isError } = useMutation({
+  const {
+    mutate: handleAddMessages,
+    isError,
+    isPending,
+  } = useMutation({
     mutationFn: (message) => addMessages(message),
     onSuccess: async (data) => {
       setSendMessage({ ...message, ouid });
       setReplyingTo(null);
       setMessageText("");
       await refetch();
+      setTempImageUri("");
       setMessages([...messages, data]);
     },
     onError: (err) => console.log(err.message),
@@ -131,7 +148,7 @@ function ChatScreen({ navigation, route }) {
   const handelSendMessage = useCallback(() => {
     handleUpdateChat({ messageText, chatId });
     handleAddMessages(message);
-  }, [messageText]);
+  }, [messageText, tempImageUri]);
 
   const getBackgroundImage = (isDarkMode) => {
     return isDarkMode
@@ -177,6 +194,7 @@ function ChatScreen({ navigation, route }) {
                       time={time}
                       setReply={() => setReplyingTo(message)}
                       replyingTo={message.replyingTo}
+                      imageUrl={message?.image?.url}
                     />
                   );
                 }}
@@ -225,7 +243,7 @@ function ChatScreen({ navigation, route }) {
           {messageText === "" && (
             <TouchableOpacity
               style={styles.mediaButton}
-              onPress={() => console.log("Pressed!")}
+              onPress={takeImageHandler}
             >
               <Ionicons name="camera" size={24} color={Color.Blue500} />
             </TouchableOpacity>
@@ -261,14 +279,22 @@ function ChatScreen({ navigation, route }) {
             cancelButtonTextStyle={{ color: Color.Blue500 }}
             titleStyle={styles.popupTitleStyle}
             onCancelPressed={() => setTempImageUri("")}
-            onConfirmPressed={() => console.log("upload!")}
+            onConfirmPressed={handelSendMessage}
             onDismiss={() => setTempImageUri("")}
             customView={
               <View>
-                <Image
-                  source={{ uri: tempImageUri }}
-                  style={{ width: 250, height: 200, borderRadius: 10 }}
-                />
+                {tempImageUri !== "" && (
+                  <Image
+                    source={{ uri: tempImageUri }}
+                    style={{ width: 250, height: 200, borderRadius: 10 }}
+                  />
+                )}
+                {isPending && (
+                  <ActivityIndicator
+                    style={{ marginTop: 10 }}
+                    color={Color.Blue400}
+                  />
+                )}
               </View>
             }
           />
