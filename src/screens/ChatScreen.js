@@ -52,6 +52,7 @@ function ChatScreen({ navigation, route }) {
   async function pickedImageHandler() {
     const image = await ImagePickerFromGallery.launchImageLibraryAsync({
       mediaTypes: ImagePickerFromGallery.MediaTypeOptions.Images,
+      aspect: [4, 3],
       allowsEditing: true,
       quality: 0.5,
     });
@@ -63,6 +64,7 @@ function ChatScreen({ navigation, route }) {
 
   async function takeImageHandler() {
     const image = await launchCameraAsync({
+      aspect: [4, 3],
       allowsEditing: true,
       quality: 0.5,
     });

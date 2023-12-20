@@ -13,6 +13,7 @@ import ErrorMessage from "../components/ui/ErrorMessage";
 import Loader from "../components/ui/Loader";
 import ChatList from "../components/chats/ChatList";
 import fetchChatsList from "../api/chats/fetchChatsList";
+import LoadingIndicator from "../components/ui/LoadingIndicator";
 
 function ChatListScreen() {
   const { context } = useStudents();
@@ -33,7 +34,7 @@ function ChatListScreen() {
   );
 
   if (isLoading) {
-    return <Loader color={Color.Brown500} />;
+    return <LoadingIndicator size={50} />;
   }
 
   if (error) {
