@@ -41,6 +41,7 @@ function ChatScreen({ navigation, route }) {
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [chatId, setChatId] = useState(route?.params?.chatId);
+  const [onlineUsers, setOnlineUsers] = useState([]);
   const [sendMessage, setSendMessage] = useState(null);
   const [receiveMessage, setReceiveMessage] = useState(null);
   const [replyingTo, setReplyingTo] = useState();
@@ -115,8 +116,14 @@ function ChatScreen({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    socket.current = io("http://192.168.1.214:8800");
+    socket.current = io("https://finalprojectserver0-5.onrender.com", {
+      withCredentials: true,
+    });
     socket.current.emit("new-user-add", senderId);
+    socket.current.on("get-users", (users) => {
+      setOnlineUsers(users);
+      // console.log(onlineUsers);
+    });
     return () => {
       socket.current.disconnect();
       // console.log("user disconnect");
@@ -201,8 +208,8 @@ function ChatScreen({ navigation, route }) {
 
             {chatId && (
               <FlatList
-                inverted={data?.length > 10 ? true : false}
-                data={data?.length > 10 ? data && [...data].reverse() : data}
+                inverted={data?.length > 8 ? true : false}
+                data={data?.length > 8 ? data && [...data].reverse() : data}
                 renderItem={(itemData) => {
                   const message = itemData.item;
                   const isOwnMessage = message.senderId === context.id;

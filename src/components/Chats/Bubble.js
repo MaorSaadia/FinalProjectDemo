@@ -78,10 +78,8 @@ function Bubble({
         ? Color.buttomSheetDarkTheme
         : Color.defaultTheme;
       image.height = 125;
-      image.width = 270;
-      // image.marginBottom = -15;
+      image.width = "95%";
       image.margin = 10;
-
       break;
     default:
       break;
@@ -178,8 +176,9 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 250,
-    height: 200,
+    height: 180,
     marginBottom: 5,
+    marginLeft: 5,
     borderRadius: 10,
     borderWidth: 0.5,
     borderColor: Color.Blue500,
