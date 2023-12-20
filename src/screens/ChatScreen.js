@@ -122,7 +122,6 @@ function ChatScreen({ navigation, route }) {
     socket.current.emit("new-user-add", senderId);
     socket.current.on("get-users", (users) => {
       setOnlineUsers(users);
-      // console.log(onlineUsers);
     });
     return () => {
       socket.current.disconnect();
