@@ -1,29 +1,30 @@
+import axios from "axios";
+
 async function updateChat({ messageText: lastMessage, chatId }) {
   if (!lastMessage) {
     lastMessage = "תמונה";
   }
 
   try {
-    const response = await fetch(
+    const response = await axios.patch(
       `https://finalprojectserver0-5.onrender.com/api/v1/chats/update/${chatId}`,
+      { lastMessage },
       {
-        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ lastMessage }),
       }
     );
 
-    const responseData = await response.json();
+    const responseData = response.data;
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error(responseData.message);
     }
+
     return responseData;
   } catch (err) {
-    console.log(err.message);
-    throw new Error(err);
+    throw new Error(err.response?.data?.message);
   }
 }
 

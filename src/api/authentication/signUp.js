@@ -1,3 +1,5 @@
+import axios from "axios";
+
 async function signUp({
   userType,
   name,
@@ -11,36 +13,36 @@ async function signUp({
   passwordConfirm,
 }) {
   try {
-    const response = await fetch(
-      `https://finalprojectserver0-5.onrender.com/api/v1/students/signup`,
+    const response = await axios.post(
+      "https://finalprojectserver0-5.onrender.com/api/v1/students/signup",
       {
-        method: "POST",
+        userType,
+        name,
+        age,
+        academic,
+        department,
+        yearbook,
+        gender,
+        email,
+        password,
+        passwordConfirm,
+      },
+      {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          userType,
-          name,
-          age,
-          academic,
-          department,
-          yearbook,
-          gender,
-          email,
-          password,
-          passwordConfirm,
-        }),
       }
     );
-    const responseData = await response.json();
 
-    if (!response.ok) {
+    const responseData = response.data;
+
+    if (response.status !== 200) {
       throw new Error(responseData.message);
     }
 
     return responseData;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data.message);
   }
 }
 

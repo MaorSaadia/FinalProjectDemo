@@ -1,11 +1,14 @@
+import axios from "axios";
+
 async function fetchChatsList(id) {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `https://finalprojectserver0-5.onrender.com/api/v1/chats/${id}`
     );
-    const responseData = await response.json();
 
-    if (!response.ok) {
+    const responseData = response.data;
+
+    if (response.status !== 200) {
       throw new Error(responseData.message);
     }
 

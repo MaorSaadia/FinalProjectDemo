@@ -62,22 +62,9 @@ function ChatStackScreen({ navigation }) {
         component={ChatScreen}
         options={{
           headerTintColor: Color.darkTheme,
-          headerTitle: "שם",
-          headerTitleAlign: "center",
+          headerTitle: "",
           headerTitleStyle: { fontFamily: "varelaRound" },
           headerBackVisible: false,
-          headerRight: () => (
-            <View style={{ marginLeft: -10 }}>
-              <Ionicons.Button
-                name="arrow-forward"
-                size={24}
-                color={Color.darkTheme}
-                backgroundColor={isDarkMode ? Color.Brown700 : Color.Brown100}
-                underlayColor="transparent"
-                onPress={() => navigation.navigate("ChatListScreen")}
-              />
-            </View>
-          ),
         }}
       />
     </ChatStack.Navigator>

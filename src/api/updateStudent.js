@@ -1,3 +1,5 @@
+import axios from "axios";
+
 async function updateStudent({
   userType,
   avatar,
@@ -34,25 +36,26 @@ async function updateStudent({
       });
     }
 
-    const response = await fetch(
-      `https://finalprojectserver0-5.onrender.com/api/v1/students/updateMe`,
+    const response = await axios.patch(
+      "https://finalprojectserver0-5.onrender.com/api/v1/students/updateMe",
+      formData,
       {
-        method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
-        body: formData,
       }
     );
-    const responseData = await response.json();
 
-    if (!response.ok) {
+    const responseData = response.data;
+
+    if (response.status !== 200) {
       throw new Error(responseData.message);
     }
 
     return responseData;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data.message);
   }
 }
 

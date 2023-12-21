@@ -1,17 +1,20 @@
-async function fetchStudents() {
+import axios from "axios";
+
+async function fetchStudents(context) {
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `https://finalprojectserver0-5.onrender.com/api/v1/students/${context.id}`
     );
-    const responseData = await response.json();
 
-    if (!response.ok) {
+    const responseData = response.data;
+
+    if (response.status !== 200) {
       throw new Error(responseData.message);
     }
 
     return responseData;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data.message);
   }
 }
 

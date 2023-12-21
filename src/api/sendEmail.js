@@ -1,27 +1,26 @@
-import { ADDRESS } from "@env";
+import axios from "axios";
 
 async function sendEmail({ userType, uri, email }) {
   try {
-    const response = await fetch(
+    const response = await axios.post(
       `https://finalprojectserver0-5.onrender.com/api/v1/${uri}`,
+      { userType, email },
       {
-        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userType, email }),
       }
     );
 
-    const responseData = await response.json();
+    const responseData = response.data;
 
-    if (!response.ok) {
+    if (response.status !== 200) {
       throw new Error(responseData.message);
     }
 
     return responseData;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data.message);
   }
 }
 

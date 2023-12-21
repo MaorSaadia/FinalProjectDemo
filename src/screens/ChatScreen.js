@@ -90,6 +90,16 @@ function ChatScreen({ navigation, route }) {
           alignItems: "center",
         }}
       >
+        <View>
+          <TouchableOpacity
+            style={{
+              paddingRight: 5,
+            }}
+            onPress={() => navigation.navigate("ChatListScreen")}
+          >
+            <Ionicons name="arrow-forward" size={24} color={Color.darkTheme} />
+          </TouchableOpacity>
+        </View>
         <ImageBackground
           style={{ height: 40, width: 40 }}
           imageStyle={{
@@ -112,10 +122,10 @@ function ChatScreen({ navigation, route }) {
       </View>
     );
     navigation.setOptions({
-      headerTitle: () => <CustomHeader />,
+      headerRight: () => <CustomHeader />,
     });
     moment.locale("he");
-  }, []);
+  }, [isDarkMode]);
 
   useEffect(() => {
     socket.current = io("https://finalprojectserver0-5.onrender.com", {

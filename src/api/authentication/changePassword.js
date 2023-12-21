@@ -1,3 +1,5 @@
+import axios from "axios";
+
 async function changePassword({
   token,
   userType,
@@ -6,32 +8,31 @@ async function changePassword({
   passwordConfirm,
 }) {
   try {
-    const response = await fetch(
-      `https://finalprojectserver0-5.onrender.com/api/v1/students/updateMyPassword`,
+    const response = await axios.patch(
+      "https://finalprojectserver0-5.onrender.com/api/v1/students/updateMyPassword",
       {
-        method: "PATCH",
+        userType,
+        passwordCurrent,
+        password,
+        passwordConfirm,
+      },
+      {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          userType,
-          passwordCurrent,
-          password,
-          passwordConfirm,
-        }),
       }
     );
 
-    const responseData = await response.json();
+    const responseData = response.data;
 
-    if (!response.ok) {
+    if (!response.status === 200) {
       throw new Error(responseData.message);
     }
 
     return responseData;
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.data.message);
   }
 }
 
